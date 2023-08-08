@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CryptoClient.Helper
+namespace CryptoServer.Helper
 {
-    internal class FileExtend
+    public class FileExtend
     {
         public string FileName { get; set; }
         public string FilePath { get; set; }

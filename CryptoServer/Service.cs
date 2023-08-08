@@ -1,11 +1,11 @@
 ﻿using CryptoServer.Algorithms;
+using CryptoServer.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
-
 namespace CryptoServer
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
@@ -14,6 +14,12 @@ namespace CryptoServer
         RC6 rc6 = new RC6();
         AES aes = new AES();
         XXTEA xxtea = new XXTEA();
+
+        public void AesEncrypt(List<FileExtend> list)
+        {
+            aes.Encrypt(list);
+        }
+
         public string GetData(string value)
         {
             return string.Format("You entered: {0}", value);

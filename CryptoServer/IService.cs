@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using CryptoServer.Algorithms;
+using CryptoServer.Helper;
 
 namespace CryptoServer
 {
@@ -19,6 +20,11 @@ namespace CryptoServer
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
         // TODO: Add your service operations here
+
+        [OperationContract]
+
+        void AesEncrypt(List<FileExtend> list);
+
     }
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.

@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CryptoServer.Helper;
 
 namespace CryptoClient.Helper
 {
     internal class FilesAndFolders
     {
+        
         public static string OpenFolder()
         {
             using (FolderBrowserDialog fbd = new FolderBrowserDialog())
@@ -25,11 +27,14 @@ namespace CryptoClient.Helper
             return null;
         }
 
+        public static T[] FromListToArray<T>(List<T> list)
+        {
+            return list.ToArray();
+        }
+
         public static List<FileExtend> ReadAllFiles(string folderPath)
         {
-            List<FileExtend> files = ReadFilesRecursively(folderPath);
-
-            return files;
+            return ReadFilesRecursively(folderPath);
         }
 
         public static List<FileExtend> ReadFilesRecursively(string folderPath)

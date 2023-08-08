@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CryptoClient.Helper;
+using CryptoServer.Helper;
 using CryptoClient.ServiceReference;
 
 namespace CryptoClient
 {
     public partial class MainForm : Form
     {
+
         private readonly IService service;
         public MainForm()
         {
@@ -23,7 +25,7 @@ namespace CryptoClient
 
         private void btnChooseFolder_Click(object sender, EventArgs e)
         {
-            FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder());
+            service.AesEncrypt(FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder())));
         }
     }
 }

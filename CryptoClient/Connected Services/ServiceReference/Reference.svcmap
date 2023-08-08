@@ -26,6 +26,7 @@
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="44b2b24e-7135-426c-a99b-990cea2cbd41" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/CryptoServer/Service1/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="f405a997-c25e-4e07-97b4-20af572046ca" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/CryptoServer/Service1/mex" />
     <MetadataFile FileName="CryptoServer.xsd" MetadataType="Schema" ID="43927541-8c28-4b59-806a-e6333eabdc63" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/CryptoServer/Service1/mex" />
+    <MetadataFile FileName="CryptoServer.Helper.xsd" MetadataType="Schema" ID="fd859695-d46a-4282-9598-ccbaeda828e6" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/CryptoServer/Service1/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

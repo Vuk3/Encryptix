@@ -49,6 +49,7 @@
     <Compile Include="Algorithms\RC6.cs" />
     <Compile Include="Algorithms\XXTEA.cs" />
     <Compile Include="IService.cs" />
+    <Compile Include="Helper\FileExtend.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
   </ItemGroup>

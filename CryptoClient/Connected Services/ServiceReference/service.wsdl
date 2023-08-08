@@ -5,6 +5,7 @@
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/CryptoServer" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IService_GetData_InputMessage">
@@ -19,11 +20,11 @@
   <wsdl:message name="IService_GetDataUsingDataContract_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetDataUsingDataContractResponse" />
   </wsdl:message>
-  <wsdl:message name="IService_OpenFolder_InputMessage">
-    <wsdl:part name="parameters" element="tns:OpenFolder" />
+  <wsdl:message name="IService_AesEncrypt_InputMessage">
+    <wsdl:part name="parameters" element="tns:AesEncrypt" />
   </wsdl:message>
-  <wsdl:message name="IService_OpenFolder_OutputMessage">
-    <wsdl:part name="parameters" element="tns:OpenFolderResponse" />
+  <wsdl:message name="IService_AesEncrypt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AesEncryptResponse" />
   </wsdl:message>
   <wsdl:portType name="IService">
     <wsdl:operation name="GetData">
@@ -34,9 +35,9 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IService/GetDataUsingDataContract" message="tns:IService_GetDataUsingDataContract_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService/GetDataUsingDataContractResponse" message="tns:IService_GetDataUsingDataContract_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="OpenFolder">
-      <wsdl:input wsaw:Action="http://tempuri.org/IService/OpenFolder" message="tns:IService_OpenFolder_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IService/OpenFolderResponse" message="tns:IService_OpenFolder_OutputMessage" />
+    <wsdl:operation name="AesEncrypt">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/AesEncrypt" message="tns:IService_AesEncrypt_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/AesEncryptResponse" message="tns:IService_AesEncrypt_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService" type="tns:IService">
@@ -59,8 +60,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="OpenFolder">
-      <soap:operation soapAction="http://tempuri.org/IService/OpenFolder" style="document" />
+    <wsdl:operation name="AesEncrypt">
+      <soap:operation soapAction="http://tempuri.org/IService/AesEncrypt" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
