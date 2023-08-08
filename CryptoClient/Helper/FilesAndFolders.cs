@@ -29,12 +29,15 @@ namespace CryptoClient.Helper
 
         public static T[] FromListToArray<T>(List<T> list)
         {
+            if (list == null || list.Count == 0) return null;
             return list.ToArray();
         }
 
         public static List<FileExtend> ReadAllFiles(string folderPath)
         {
-            return ReadFilesRecursively(folderPath);
+            if(folderPath != null)
+                return ReadFilesRecursively(folderPath);
+            else return null;
         }
 
         public static List<FileExtend> ReadFilesRecursively(string folderPath)
@@ -53,7 +56,7 @@ namespace CryptoClient.Helper
                 FileExtend fileInfo = new FileExtend
                 {
                     FileName = Path.GetFileName(filePath),
-                    FilePath = filePath,
+                    FilePath = Path.GetDirectoryName(filePath),
                     FileBytes = fileBytes
                 };
                 filesInfo.Add(fileInfo);
