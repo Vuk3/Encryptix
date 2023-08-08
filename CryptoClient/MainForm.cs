@@ -31,6 +31,7 @@ namespace CryptoClient
         private void btnChooseFolder_Click(object sender, EventArgs e)
         {
             listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder()));
+            if(listRawFiles == null)
             lblTotalFiles.Text += listRawFiles.Length + " files";
 
             lblTotalFiles.Visible = true;
