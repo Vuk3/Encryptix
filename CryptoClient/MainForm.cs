@@ -31,13 +31,16 @@ namespace CryptoClient
         private void btnChooseFolder_Click(object sender, EventArgs e)
         {
             listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder()));
-            if(listRawFiles == null)
-            lblTotalFiles.Text += listRawFiles.Length + " files";
+            if(listRawFiles != null)
+            {
+                lblTotalFiles.Text += listRawFiles.Length + " files";
 
-            lblTotalFiles.Visible = true;
-            btnAes.Visible = true;
-            btnRC6.Visible = true;
-            btnXXTEA.Visible = true;
+                lblTotalFiles.Visible = true;
+                btnAes.Visible = true;
+                btnRC6.Visible = true;
+                btnXXTEA.Visible = true;
+            }
+
         }
 
         private void label1_Click(object sender, EventArgs e)
