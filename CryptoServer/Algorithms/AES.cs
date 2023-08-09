@@ -11,41 +11,13 @@ namespace CryptoServer.Algorithms
 {
     internal class AES
     {
-        //public void Encrypt(List<FileExtend> list)
-        //{
-        //    using (Aes myAes = Aes.Create())
-        //    {
 
-        //        // Create an encryptor to perform the stream transform.
-        //        ICryptoTransform encryptor = myAes.CreateEncryptor(myAes.Key, myAes.IV);
-
-        //        using (MemoryStream msEncrypt = new MemoryStream())
-        //        {
-        //            using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-        //            {
-        //                foreach (FileExtend file in list)
-        //                {
-        //                    string outputPath = Path.Combine(file.FilePath, "enc_" + file.FileName);
-
-        //                    csEncrypt.Write(file.FileBytes, 0, file.FileBytes.Length);
-
-        //                }
-        //            }
-
-        //            // Now msEncryptedData contains the encrypted data
-        //            byte[] encryptedData = msEncrypt.ToArray();
-
-        //            // You can save the encrypted data to a file or do further processing
-        //            // For example:
-        //            File.WriteAllBytes("encryptedOutput.dat", encryptedData);
-        //        }
-        //    }
-        //}
-
-        public void Encrypt(List<FileExtend> list)
+        public void Encrypt(List<FileExtend> list, byte[] key, byte[] IV)
         {
             using (Aes myAes = Aes.Create())
             {
+                myAes.Key = key;
+                myAes.IV = IV;
                 // Create an encryptor to perform the stream transform.
                 ICryptoTransform encryptor = myAes.CreateEncryptor(myAes.Key, myAes.IV);
 
@@ -64,6 +36,39 @@ namespace CryptoServer.Algorithms
                     }
                 }
             }
+        }
+
+        public void Decrypt(List<FileExtend> list, byte[] key, byte[] IV)
+        {
+            using (Aes myAes = Aes.Create())
+            {
+                myAes.Key = key;
+                myAes.IV = IV;
+
+                // Create a decryptor to perform the stream transform.
+                ICryptoTransform decryptor = myAes.CreateDecryptor(myAes.Key, myAes.IV);
+
+                foreach (FileExtend file in list)
+                {
+                    // Construct the output file path for decrypted files
+                    string outputPath = Path.Combine(file.FilePath, "dec_" + file.FileName);
+
+                    using (FileStream fsEncryptedInput = new FileStream(file.FilePath, FileMode.Open))
+                    using (CryptoStream csDecrypt = new CryptoStream(fsEncryptedInput, decryptor, CryptoStreamMode.Read))
+                    using (FileStream fsDecryptedOutput = new FileStream(outputPath, FileMode.Create))
+                    {
+                        int bytesRead;
+                        byte[] buffer = new byte[1024]; // You can adjust the buffer size
+
+                        while ((bytesRead = csDecrypt.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            fsDecryptedOutput.Write(buffer, 0, bytesRead);
+                        }
+                    }
+                }
+            }
+
+
         }
 
     }

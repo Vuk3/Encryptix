@@ -26,6 +26,12 @@
   <wsdl:message name="IService_AesEncrypt_OutputMessage">
     <wsdl:part name="parameters" element="tns:AesEncryptResponse" />
   </wsdl:message>
+  <wsdl:message name="IService_AesDecrypt_InputMessage">
+    <wsdl:part name="parameters" element="tns:AesDecrypt" />
+  </wsdl:message>
+  <wsdl:message name="IService_AesDecrypt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AesDecryptResponse" />
+  </wsdl:message>
   <wsdl:portType name="IService">
     <wsdl:operation name="GetData">
       <wsdl:input wsaw:Action="http://tempuri.org/IService/GetData" message="tns:IService_GetData_InputMessage" />
@@ -38,6 +44,10 @@
     <wsdl:operation name="AesEncrypt">
       <wsdl:input wsaw:Action="http://tempuri.org/IService/AesEncrypt" message="tns:IService_AesEncrypt_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService/AesEncryptResponse" message="tns:IService_AesEncrypt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AesDecrypt">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/AesDecrypt" message="tns:IService_AesDecrypt_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/AesDecryptResponse" message="tns:IService_AesDecrypt_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService" type="tns:IService">
@@ -62,6 +72,15 @@
     </wsdl:operation>
     <wsdl:operation name="AesEncrypt">
       <soap:operation soapAction="http://tempuri.org/IService/AesEncrypt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AesDecrypt">
+      <soap:operation soapAction="http://tempuri.org/IService/AesDecrypt" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

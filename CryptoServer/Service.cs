@@ -15,9 +15,14 @@ namespace CryptoServer
         AES aes = new AES();
         XXTEA xxtea = new XXTEA();
 
-        public void AesEncrypt(List<FileExtend> list)
+        public void AesDecrypt(List<FileExtend> list, byte[] key, byte[] IV)
         {
-            aes.Encrypt(list);
+            aes.Decrypt(list, key, IV);
+        }
+
+        public void AesEncrypt(List<FileExtend> list, byte[] key, byte[] IV)
+        {
+            aes.Encrypt(list, key, IV);
         }
 
         public string GetData(string value)

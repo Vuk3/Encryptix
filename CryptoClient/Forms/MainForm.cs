@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using CryptoClient.Helper;
 using CryptoServer.Helper;
 using CryptoClient.ServiceReference;
+using CryptoClient.Forms;
 
 namespace CryptoClient
 {
@@ -50,7 +51,11 @@ namespace CryptoClient
 
         private void btnAes_Click(object sender, EventArgs e)
         {
-            service.AesEncrypt(listRawFiles);
+            //service.AesEncrypt(listRawFiles);
+
+            AESForm a = new AESForm(listRawFiles);
+            a.ShowDialog();
+
         }
     }
 }

@@ -28,10 +28,16 @@ namespace CryptoClient.ServiceReference {
         System.Threading.Tasks.Task<CryptoServer.CompositeType> GetDataUsingDataContractAsync(CryptoServer.CompositeType composite);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AesEncrypt", ReplyAction="http://tempuri.org/IService/AesEncryptResponse")]
-        void AesEncrypt(CryptoServer.Helper.FileExtend[] list);
+        void AesEncrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AesEncrypt", ReplyAction="http://tempuri.org/IService/AesEncryptResponse")]
-        System.Threading.Tasks.Task AesEncryptAsync(CryptoServer.Helper.FileExtend[] list);
+        System.Threading.Tasks.Task AesEncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AesDecrypt", ReplyAction="http://tempuri.org/IService/AesDecryptResponse")]
+        void AesDecrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AesDecrypt", ReplyAction="http://tempuri.org/IService/AesDecryptResponse")]
+        System.Threading.Tasks.Task AesDecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -77,12 +83,20 @@ namespace CryptoClient.ServiceReference {
             return base.Channel.GetDataUsingDataContractAsync(composite);
         }
         
-        public void AesEncrypt(CryptoServer.Helper.FileExtend[] list) {
-            base.Channel.AesEncrypt(list);
+        public void AesEncrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV) {
+            base.Channel.AesEncrypt(list, key, IV);
         }
         
-        public System.Threading.Tasks.Task AesEncryptAsync(CryptoServer.Helper.FileExtend[] list) {
-            return base.Channel.AesEncryptAsync(list);
+        public System.Threading.Tasks.Task AesEncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV) {
+            return base.Channel.AesEncryptAsync(list, key, IV);
+        }
+        
+        public void AesDecrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV) {
+            base.Channel.AesDecrypt(list, key, IV);
+        }
+        
+        public System.Threading.Tasks.Task AesDecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV) {
+            return base.Channel.AesDecryptAsync(list, key, IV);
         }
     }
 }
