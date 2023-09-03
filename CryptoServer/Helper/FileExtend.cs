@@ -9,6 +9,8 @@ namespace CryptoServer.Helper
     public class FileExtend
     {
         public string FileName { get; set; }
+
+        public string FileExtension { get; set; }
         public string FilePath { get; set; }
         public byte[] FileBytes { get; set; }
     }

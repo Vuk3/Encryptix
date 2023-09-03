@@ -12,19 +12,28 @@ namespace CryptoClient.Helper
     internal class FilesAndFolders
     {
         
-        public static string OpenFolder()
+        public static string OpenFolder(string rootFolder)
         {
-            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            if(rootFolder == null)
             {
-                fbd.Description = "Select a Folder";
-
-                if (fbd.ShowDialog() == DialogResult.OK)
+                using (FolderBrowserDialog fbd = new FolderBrowserDialog())
                 {
-                    return fbd.SelectedPath;
+                    fbd.Description = "Select a Folder";
+
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        return fbd.SelectedPath;
+                    }
                 }
+
+                return null;
             }
 
-            return null;
+            else
+            {
+                return rootFolder;
+            }
+
         }
 
         public static T[] FromListToArray<T>(List<T> list)
@@ -55,7 +64,8 @@ namespace CryptoClient.Helper
                 byte[] fileBytes = File.ReadAllBytes(filePath);
                 FileExtend fileInfo = new FileExtend
                 {
-                    FileName = Path.GetFileName(filePath),
+                    FileName = Path.GetFileNameWithoutExtension(filePath),
+                    FileExtension = Path.GetExtension(filePath),
                     FilePath = Path.GetDirectoryName(filePath),
                     FileBytes = fileBytes
                 };

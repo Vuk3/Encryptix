@@ -12,5 +12,10 @@ namespace CryptoClient.Helper
         {
             return Encoding.UTF8.GetBytes(txt);
         }
+
+        public static string BytesToString(byte[] byteArray)
+        {
+            return Encoding.UTF8.GetString(byteArray);
+        }
     }
 }

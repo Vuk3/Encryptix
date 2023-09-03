@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CryptoClient.Forms;
 
 namespace CryptoClient.Forms
 {
@@ -23,6 +24,8 @@ namespace CryptoClient.Forms
 
         private byte[] aesIVbytes;
         private byte[] aesKeybytes;
+
+        private string rootFolder;
         public AESForm()
         {
             InitializeComponent();
@@ -30,13 +33,14 @@ namespace CryptoClient.Forms
 
         }
 
-        public AESForm(FileExtend[] listRawFiles)
+        public AESForm(FileExtend[] listRawFiles, string rootFolder)
         {
             InitializeComponent();
             Initialize();
 
             service = new ServiceClient();
             this.listRawFiles = listRawFiles;
+            this.rootFolder = rootFolder;
         }
 
         private void Initialize()
@@ -54,6 +58,9 @@ namespace CryptoClient.Forms
             aesKeybytes = Types.StringToBytes(aesKeytxt);
 
             service.AesEncrypt(listRawFiles, aesKeybytes, aesIVbytes);
+
+            listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder)));
+
         }
 
         private void btnAesDec_Click(object sender, EventArgs e)
@@ -65,6 +72,8 @@ namespace CryptoClient.Forms
             aesKeybytes = Types.StringToBytes(aesKeytxt);
 
             service.AesDecrypt(listRawFiles, aesKeybytes, aesIVbytes);
+            listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder(rootFolder)));
+
         }
     }
 }

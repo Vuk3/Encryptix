@@ -18,6 +18,7 @@ namespace CryptoClient
     {
         private FileExtend[] listRawFiles;
         private readonly IService service;
+        public string rootFolder;
         public MainForm()
         {
             InitializeComponent();
@@ -31,7 +32,7 @@ namespace CryptoClient
 
         private void btnChooseFolder_Click(object sender, EventArgs e)
         {
-            listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder()));
+            listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(null)));
             if(listRawFiles != null)
             {
                 lblTotalFiles.Text += listRawFiles.Length + " files";
@@ -53,7 +54,7 @@ namespace CryptoClient
         {
             //service.AesEncrypt(listRawFiles);
 
-            AESForm a = new AESForm(listRawFiles);
+            AESForm a = new AESForm(listRawFiles, rootFolder);
             a.ShowDialog();
 
         }
