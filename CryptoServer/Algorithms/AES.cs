@@ -22,6 +22,7 @@ namespace CryptoServer.Algorithms
             {
                 myAes.Key = key;
                 myAes.IV = IV;
+
                 // Create an encryptor to perform the stream transform.
                 ICryptoTransform encryptor = myAes.CreateEncryptor(myAes.Key, myAes.IV);
 
@@ -36,7 +37,7 @@ namespace CryptoServer.Algorithms
 
                     string valueHashBeforeEnc = shaM.GetString(shaM.GetBytes(file.FileBytes));
 
-                    File.AppendAllText(Path.Combine(file.FilePath, file.FileName + "_hash.txt"), valueHashBeforeEnc + Environment.NewLine);
+                    File.AppendAllText(Path.Combine(file.FilePath, file.FileName + "_hash.txt"), valueHashBeforeEnc + Environment.NewLine + Environment.NewLine);
 
                     using (FileStream fsEncryptedOutput = new FileStream(outputPath, FileMode.Create))
                     {
@@ -55,7 +56,7 @@ namespace CryptoServer.Algorithms
 
                     string valueHashAfterEnc = shaM.GetString(shaM.GetBytes(encryptedBytes));
 
-                    File.AppendAllText(Path.Combine(file.FilePath, file.FileName + "_hash.txt"), valueHashAfterEnc + Environment.NewLine);
+                    File.AppendAllText(Path.Combine(file.FilePath, file.FileName + "_hash.txt"), valueHashAfterEnc + Environment.NewLine + Environment.NewLine);
 
                 }
             }
@@ -118,7 +119,7 @@ namespace CryptoServer.Algorithms
 
                         string valueHashBeforeDec = shaM.GetString(shaM.GetBytes(file.FileBytes));
 
-                        File.AppendAllText(Path.Combine(file.FilePath, file.FileName.Substring(0, file.FileName.Length - 4) + "_hash.txt"), valueHashBeforeDec + Environment.NewLine);
+                        File.AppendAllText(Path.Combine(file.FilePath, file.FileName.Substring(0, file.FileName.Length - 4) + "_hash.txt"), valueHashBeforeDec + Environment.NewLine + Environment.NewLine);
 
                         using (FileStream fsEncryptedInput = new FileStream(inputPath, FileMode.Open))
                         {
@@ -147,7 +148,7 @@ namespace CryptoServer.Algorithms
 
                         string valueHashAfterDec = shaM.GetString(shaM.GetBytes(decryptedBytes));
 
-                        File.AppendAllText(Path.Combine(file.FilePath, file.FileName.Substring(0, file.FileName.Length - 4) + "_hash.txt"), valueHashAfterDec + Environment.NewLine);
+                        File.AppendAllText(Path.Combine(file.FilePath, file.FileName.Substring(0, file.FileName.Length - 4) + "_hash.txt"), valueHashAfterDec + Environment.NewLine + Environment.NewLine + "--------------------------------" + Environment.NewLine + Environment.NewLine);
 
                     }
 

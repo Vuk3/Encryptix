@@ -43,7 +43,7 @@
             this.lblAesKey.Name = "lblAesKey";
             this.lblAesKey.Size = new System.Drawing.Size(99, 13);
             this.lblAesKey.TabIndex = 0;
-            this.lblAesKey.Text = "Key (64 characters)";
+            this.lblAesKey.Text = "Key (32 characters)";
             // 
             // lblAesIV
             // 
