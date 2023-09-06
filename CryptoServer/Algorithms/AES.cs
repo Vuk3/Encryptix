@@ -22,6 +22,7 @@ namespace CryptoServer.Algorithms
             {
                 myAes.Key = key;
                 myAes.IV = IV;
+                myAes.Mode = CipherMode.CBC;
 
                 // Create an encryptor to perform the stream transform.
                 ICryptoTransform encryptor = myAes.CreateEncryptor(myAes.Key, myAes.IV);
@@ -101,6 +102,7 @@ namespace CryptoServer.Algorithms
             {
                 myAes.Key = key;
                 myAes.IV = IV;
+                myAes.Mode = CipherMode.CBC;
 
                 // Create a decryptor to perform the stream transform.
                 ICryptoTransform decryptor = myAes.CreateDecryptor(myAes.Key, myAes.IV);
