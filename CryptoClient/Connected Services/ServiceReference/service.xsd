@@ -58,4 +58,30 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="XXTEAEncrypt">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q5:ArrayOfFileExtend" />
+        <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="XXTEAEncryptResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="XXTEADecrypt">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q6:ArrayOfFileExtend" />
+        <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="XXTEADecryptResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

@@ -32,6 +32,18 @@
   <wsdl:message name="IService_AesDecrypt_OutputMessage">
     <wsdl:part name="parameters" element="tns:AesDecryptResponse" />
   </wsdl:message>
+  <wsdl:message name="IService_XXTEAEncrypt_InputMessage">
+    <wsdl:part name="parameters" element="tns:XXTEAEncrypt" />
+  </wsdl:message>
+  <wsdl:message name="IService_XXTEAEncrypt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:XXTEAEncryptResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_XXTEADecrypt_InputMessage">
+    <wsdl:part name="parameters" element="tns:XXTEADecrypt" />
+  </wsdl:message>
+  <wsdl:message name="IService_XXTEADecrypt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:XXTEADecryptResponse" />
+  </wsdl:message>
   <wsdl:portType name="IService">
     <wsdl:operation name="GetData">
       <wsdl:input wsaw:Action="http://tempuri.org/IService/GetData" message="tns:IService_GetData_InputMessage" />
@@ -48,6 +60,14 @@
     <wsdl:operation name="AesDecrypt">
       <wsdl:input wsaw:Action="http://tempuri.org/IService/AesDecrypt" message="tns:IService_AesDecrypt_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService/AesDecryptResponse" message="tns:IService_AesDecrypt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="XXTEAEncrypt">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/XXTEAEncrypt" message="tns:IService_XXTEAEncrypt_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/XXTEAEncryptResponse" message="tns:IService_XXTEAEncrypt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="XXTEADecrypt">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/XXTEADecrypt" message="tns:IService_XXTEADecrypt_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/XXTEADecryptResponse" message="tns:IService_XXTEADecrypt_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService" type="tns:IService">
@@ -81,6 +101,24 @@
     </wsdl:operation>
     <wsdl:operation name="AesDecrypt">
       <soap:operation soapAction="http://tempuri.org/IService/AesDecrypt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XXTEAEncrypt">
+      <soap:operation soapAction="http://tempuri.org/IService/XXTEAEncrypt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XXTEADecrypt">
+      <soap:operation soapAction="http://tempuri.org/IService/XXTEADecrypt" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

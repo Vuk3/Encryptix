@@ -10,7 +10,7 @@ namespace CryptoServer.Helper
     public class HashMD5
     {
 
-        public SHA512 shaM;
+        private SHA512 shaM;
         public HashMD5()
         {
             shaM = new SHA512Managed();

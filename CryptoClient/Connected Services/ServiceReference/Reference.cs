@@ -38,6 +38,18 @@ namespace CryptoClient.ServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AesDecrypt", ReplyAction="http://tempuri.org/IService/AesDecryptResponse")]
         System.Threading.Tasks.Task AesDecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/XXTEAEncrypt", ReplyAction="http://tempuri.org/IService/XXTEAEncryptResponse")]
+        void XXTEAEncrypt(CryptoServer.Helper.FileExtend[] list, byte[] key);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/XXTEAEncrypt", ReplyAction="http://tempuri.org/IService/XXTEAEncryptResponse")]
+        System.Threading.Tasks.Task XXTEAEncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/XXTEADecrypt", ReplyAction="http://tempuri.org/IService/XXTEADecryptResponse")]
+        void XXTEADecrypt(CryptoServer.Helper.FileExtend[] list, byte[] key);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/XXTEADecrypt", ReplyAction="http://tempuri.org/IService/XXTEADecryptResponse")]
+        System.Threading.Tasks.Task XXTEADecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -97,6 +109,22 @@ namespace CryptoClient.ServiceReference {
         
         public System.Threading.Tasks.Task AesDecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV) {
             return base.Channel.AesDecryptAsync(list, key, IV);
+        }
+        
+        public void XXTEAEncrypt(CryptoServer.Helper.FileExtend[] list, byte[] key) {
+            base.Channel.XXTEAEncrypt(list, key);
+        }
+        
+        public System.Threading.Tasks.Task XXTEAEncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key) {
+            return base.Channel.XXTEAEncryptAsync(list, key);
+        }
+        
+        public void XXTEADecrypt(CryptoServer.Helper.FileExtend[] list, byte[] key) {
+            base.Channel.XXTEADecrypt(list, key);
+        }
+        
+        public System.Threading.Tasks.Task XXTEADecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key) {
+            return base.Channel.XXTEADecryptAsync(list, key);
         }
     }
 }

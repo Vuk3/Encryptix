@@ -27,6 +27,14 @@ namespace CryptoServer
         [OperationContract]
         void AesDecrypt(List<FileExtend> list, byte[] key, byte[] IV);
 
+
+        [OperationContract]
+        void XXTEAEncrypt(List<FileExtend> list, byte[] key);
+
+
+        [OperationContract]
+        void XXTEADecrypt(List<FileExtend> list, byte[] key);
+
     }
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.

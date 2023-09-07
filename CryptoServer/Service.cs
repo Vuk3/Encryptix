@@ -15,16 +15,6 @@ namespace CryptoServer
         AES aes = new AES();
         XXTEA xxtea = new XXTEA();
 
-        public void AesDecrypt(List<FileExtend> list, byte[] key, byte[] IV)
-        {
-            aes.Decrypt(list, key, IV);
-        }
-
-        public void AesEncrypt(List<FileExtend> list, byte[] key, byte[] IV)
-        {
-            aes.Encrypt(list, key, IV);
-        }
-
         public string GetData(string value)
         {
             return string.Format("You entered: {0}", value);
@@ -41,6 +31,26 @@ namespace CryptoServer
                 composite.StringValue += "Suffix";
             }
             return composite;
+        }
+
+        public void AesDecrypt(List<FileExtend> list, byte[] key, byte[] IV)
+        {
+            aes.Decrypt(list, key, IV);
+        }
+
+        public void AesEncrypt(List<FileExtend> list, byte[] key, byte[] IV)
+        {
+            aes.Encrypt(list, key, IV);
+        }
+
+        public void XXTEADecrypt(List<FileExtend> list, byte[] key)
+        {
+            xxtea.Decrypt(list, key);
+        }
+
+        public void XXTEAEncrypt(List<FileExtend> list, byte[] key)
+        {
+            xxtea.Encrypt(list, key);
         }
     }
 }

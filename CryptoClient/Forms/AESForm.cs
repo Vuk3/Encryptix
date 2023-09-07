@@ -36,17 +36,19 @@ namespace CryptoClient.Forms
         public AESForm(FileExtend[] listRawFiles, string rootFolder)
         {
             InitializeComponent();
-            Initialize();
+            Initialize(listRawFiles, rootFolder);
 
             service = new ServiceClient();
-            this.listRawFiles = listRawFiles;
-            this.rootFolder = rootFolder;
+
         }
 
-        private void Initialize()
+        private void Initialize(FileExtend[] listRawFiles, string rootFolder)
         {
             this.inputAesIV.MaxLength = 16;
             this.inputAesKey.MaxLength = 32;
+
+            this.listRawFiles = listRawFiles;
+            this.rootFolder = rootFolder;
         }
 
         private void btnAesEnc_Click(object sender, EventArgs e)
