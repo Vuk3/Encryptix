@@ -33,24 +33,34 @@ namespace CryptoServer
             return composite;
         }
 
-        public void AesDecrypt(List<FileExtend> list, byte[] key, byte[] IV)
+        public void AesDecrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder)
         {
-            aes.Decrypt(list, key, IV);
+            aes.Decrypt(list, key, IV, rootFolder);
         }
 
-        public void AesEncrypt(List<FileExtend> list, byte[] key, byte[] IV)
+        public void AesEncrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder)
         {
-            aes.Encrypt(list, key, IV);
+            aes.Encrypt(list, key, IV, rootFolder);
         }
 
-        public void XXTEADecrypt(List<FileExtend> list, byte[] key)
+        public void RC6Encrypt(List<FileExtend> list, byte[] key, string rootFolder)
         {
-            xxtea.Decrypt(list, key);
+            rc6.Encrypt(list, key, rootFolder);
         }
 
-        public void XXTEAEncrypt(List<FileExtend> list, byte[] key)
+        public void RC6Decrypt(List<FileExtend> list, byte[] key, string rootFolder)
         {
-            xxtea.Encrypt(list, key);
+            rc6.Decrypt(list, key, rootFolder);
+        }
+
+        public void XXTEADecrypt(List<FileExtend> list, byte[] key, string rootFolder)
+        {
+            xxtea.Decrypt(list, key, rootFolder);
+        }
+
+        public void XXTEAEncrypt(List<FileExtend> list, byte[] key, string rootFolder)
+        {
+            xxtea.Encrypt(list, key, rootFolder);
         }
     }
 }

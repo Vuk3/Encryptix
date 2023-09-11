@@ -22,18 +22,25 @@ namespace CryptoServer
         // TODO: Add your service operations here
 
         [OperationContract]
-        void AesEncrypt(List<FileExtend> list, byte[] key, byte[] IV);
+        void AesEncrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder);
 
         [OperationContract]
-        void AesDecrypt(List<FileExtend> list, byte[] key, byte[] IV);
-
-
-        [OperationContract]
-        void XXTEAEncrypt(List<FileExtend> list, byte[] key);
+        void AesDecrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder);
 
 
         [OperationContract]
-        void XXTEADecrypt(List<FileExtend> list, byte[] key);
+        void XXTEAEncrypt(List<FileExtend> list, byte[] key, string rootFolder);
+
+
+        [OperationContract]
+        void XXTEADecrypt(List<FileExtend> list, byte[] key, string rootFolder);
+
+        [OperationContract]
+        void RC6Encrypt(List<FileExtend> list, byte[] key, string rootFolder);
+
+        [OperationContract]
+        void RC6Decrypt(List<FileExtend> list, byte[] key, string rootFolder);
+
 
     }
 

@@ -58,5 +58,17 @@ namespace CryptoClient
             a.ShowDialog();
 
         }
+
+        private void btnRC6_Click(object sender, EventArgs e)
+        {
+            RC6Form r = new RC6Form(listRawFiles, rootFolder);
+            r.ShowDialog();
+        }
+
+        private void btnXXTEA_Click(object sender, EventArgs e)
+        {
+            XXTEAForm x = new XXTEAForm(listRawFiles, rootFolder);
+            x.ShowDialog();
+        }
     }
 }

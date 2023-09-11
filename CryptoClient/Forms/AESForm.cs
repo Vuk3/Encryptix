@@ -59,9 +59,9 @@ namespace CryptoClient.Forms
             aesIVbytes = Types.StringToBytes(aesIVtxt);
             aesKeybytes = Types.StringToBytes(aesKeytxt);
 
-            service.AesEncrypt(listRawFiles, aesKeybytes, aesIVbytes);
+            service.AesEncrypt(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
 
-            listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder)));
+            listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder) + "_encAES"));
 
         }
 
@@ -73,7 +73,7 @@ namespace CryptoClient.Forms
             aesIVbytes = Types.StringToBytes(aesIVtxt);
             aesKeybytes = Types.StringToBytes(aesKeytxt);
 
-            service.AesDecrypt(listRawFiles, aesKeybytes, aesIVbytes);
+            service.AesDecrypt(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
             listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder(rootFolder)));
 
         }

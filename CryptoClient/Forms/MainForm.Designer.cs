@@ -37,9 +37,10 @@
             // 
             // btnChooseFolder
             // 
-            this.btnChooseFolder.Location = new System.Drawing.Point(140, 45);
+            this.btnChooseFolder.Location = new System.Drawing.Point(187, 55);
+            this.btnChooseFolder.Margin = new System.Windows.Forms.Padding(4);
             this.btnChooseFolder.Name = "btnChooseFolder";
-            this.btnChooseFolder.Size = new System.Drawing.Size(92, 43);
+            this.btnChooseFolder.Size = new System.Drawing.Size(123, 53);
             this.btnChooseFolder.TabIndex = 0;
             this.btnChooseFolder.Text = "Choose folder";
             this.btnChooseFolder.UseVisualStyleBackColor = true;
@@ -49,18 +50,20 @@
             // 
             this.lblTotalFiles.AutoSize = true;
             this.lblTotalFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalFiles.Location = new System.Drawing.Point(39, 101);
+            this.lblTotalFiles.Location = new System.Drawing.Point(52, 124);
+            this.lblTotalFiles.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotalFiles.Name = "lblTotalFiles";
-            this.lblTotalFiles.Size = new System.Drawing.Size(271, 20);
+            this.lblTotalFiles.Size = new System.Drawing.Size(333, 25);
             this.lblTotalFiles.TabIndex = 1;
             this.lblTotalFiles.Text = "You have successfully read a total of ";
             this.lblTotalFiles.Click += new System.EventHandler(this.label1_Click);
             // 
             // btnAes
             // 
-            this.btnAes.Location = new System.Drawing.Point(34, 180);
+            this.btnAes.Location = new System.Drawing.Point(45, 222);
+            this.btnAes.Margin = new System.Windows.Forms.Padding(4);
             this.btnAes.Name = "btnAes";
-            this.btnAes.Size = new System.Drawing.Size(75, 23);
+            this.btnAes.Size = new System.Drawing.Size(100, 28);
             this.btnAes.TabIndex = 2;
             this.btnAes.Text = "AES";
             this.btnAes.UseVisualStyleBackColor = true;
@@ -68,32 +71,37 @@
             // 
             // btnRC6
             // 
-            this.btnRC6.Location = new System.Drawing.Point(157, 180);
+            this.btnRC6.Location = new System.Drawing.Point(209, 222);
+            this.btnRC6.Margin = new System.Windows.Forms.Padding(4);
             this.btnRC6.Name = "btnRC6";
-            this.btnRC6.Size = new System.Drawing.Size(75, 23);
+            this.btnRC6.Size = new System.Drawing.Size(100, 28);
             this.btnRC6.TabIndex = 3;
             this.btnRC6.Text = "RC6";
             this.btnRC6.UseVisualStyleBackColor = true;
+            this.btnRC6.Click += new System.EventHandler(this.btnRC6_Click);
             // 
             // btnXXTEA
             // 
-            this.btnXXTEA.Location = new System.Drawing.Point(281, 180);
+            this.btnXXTEA.Location = new System.Drawing.Point(375, 222);
+            this.btnXXTEA.Margin = new System.Windows.Forms.Padding(4);
             this.btnXXTEA.Name = "btnXXTEA";
-            this.btnXXTEA.Size = new System.Drawing.Size(75, 23);
+            this.btnXXTEA.Size = new System.Drawing.Size(100, 28);
             this.btnXXTEA.TabIndex = 4;
             this.btnXXTEA.Text = "XXTEA";
             this.btnXXTEA.UseVisualStyleBackColor = true;
+            this.btnXXTEA.Click += new System.EventHandler(this.btnXXTEA_Click);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(376, 247);
+            this.ClientSize = new System.Drawing.Size(501, 304);
             this.Controls.Add(this.btnXXTEA);
             this.Controls.Add(this.btnRC6);
             this.Controls.Add(this.btnAes);
             this.Controls.Add(this.lblTotalFiles);
             this.Controls.Add(this.btnChooseFolder);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.Text = "Form1";
             this.ResumeLayout(false);

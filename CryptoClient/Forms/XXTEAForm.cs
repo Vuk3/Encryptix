@@ -51,7 +51,18 @@ namespace CryptoClient.Forms
 
             XXTEAKeybytes = Types.StringToBytes(XXTEAKeytxt);
 
-            service.XXTEAEncrypt(listRawFiles, XXTEAKeybytes);
+            service.XXTEAEncrypt(listRawFiles, XXTEAKeybytes, rootFolder);
+
+            listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder) + "_encXXTEA"));
+        }
+
+        private void btnXXTEADec_Click(object sender, EventArgs e)
+        {
+            XXTEAKeytxt = this.inputXXTEAKey.Text;
+
+            XXTEAKeybytes = Types.StringToBytes(XXTEAKeytxt);
+
+            service.XXTEADecrypt(listRawFiles, XXTEAKeybytes, rootFolder);
 
             listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder)));
         }

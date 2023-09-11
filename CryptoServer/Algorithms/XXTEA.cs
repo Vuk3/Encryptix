@@ -11,132 +11,175 @@ namespace CryptoServer.Algorithms
 {
     internal class XXTEA
     {
-
+        private readonly HashMD5 shaM;
 
         private const uint Delta = 0x9e3779b9;
 
-        public static byte[] Encrypt(byte[] data, byte[] key)
+        public XXTEA()
         {
-            if (key.Length != 16)
-            {
-                throw new ArgumentException("The key must be 128 bits (16 bytes) long.");
-            }
-
-            uint[] v = ToUIntArray(data);
-            uint[] k = ToUIntArray(key);
-
-            int n = v.Length;
-
-            if (n < 1)
-            {
-                return new byte[0];
-            }
-
-            uint sum = 0;
-            uint v0 = v[0];
-            uint v1 = v[1]; // Initialize v1
-
-            int rounds = 6 + 52 / n;
-
-            while (rounds-- > 0)
-            {
-                sum = unchecked(sum + Delta);
-                uint e = (sum >> 2) & 3;
-                for (int i = 0; i < n - 1; i++)
-                {
-                    v0 = v[i];
-                    v1 = unchecked(v[i + 1] += (((v0 >> 5) ^ (v1 << 2)) + ((v1 >> 3) ^ (v0 << 4))) ^ ((sum ^ v0) + (k[(int)(i & 3)] ^ v1)));
-                }
-                v0 = v[n - 1];
-                v1 = unchecked(v[0] += (((v0 >> 5) ^ (v1 << 2)) + ((v1 >> 3) ^ (v0 << 4))) ^ ((sum ^ v0) + (k[(int)(n & 3)] ^ v1)));
-            }
-
-            // Replace the original v[0] and v[1] with v0 and v1
-            v[0] = v0;
-            v[1] = v1;
-
-            return ToByteArray(v);
+            shaM = new HashMD5();
         }
-
-        public static byte[] Decrypt(byte[] data, byte[] key)
+        private static uint MX(uint sum, uint y, uint z, int p, uint e, uint[] k)
         {
-            if (key.Length != 16)
-            {
-                throw new ArgumentException("The key must be 128 bits (16 bytes) long.");
-            }
-
-            uint[] v = ToUIntArray(data);
-            uint[] k = ToUIntArray(key);
-
-            int n = v.Length;
-
-            if (n < 1)
-            {
-                return new byte[0];
-            }
-
-            uint sum = unchecked((uint)(Delta * (6 + 52 / n)));
-            uint v0 = v[0];
-            uint v1 = v[n - 1];
-
-            while (sum != 0)
-            {
-                int e = (int)((sum >> 2) & 3);
-                for (int i = n - 1; i > 0; i--)
-                {
-                    v0 = v[i - 1];
-                    v1 = unchecked(v[i] -= (((v0 >> 5) ^ (v1 << 2)) + ((v1 >> 3) ^ (v0 << 4))) ^ ((sum ^ v0) + (k[(int)(i & 3)] ^ v1)));
-                }
-                v0 = v[n - 1];
-                v1 = unchecked(v[0] -= (((v0 >> 5) ^ (v1 << 2)) + ((v1 >> 3) ^ (v0 << 4))) ^ ((sum ^ v0) + (k[(int)(n & 3)] ^ v1)));
-                sum = unchecked(sum - Delta);
-            }
-
-            return ToByteArray(v);
+            return (z >> 5 ^ y << 2) + (y >> 3 ^ z << 4) ^ (sum ^ y) + (k[p & 3 ^ e] ^ z);
         }
 
         private static uint[] ToUIntArray(byte[] data)
         {
-            int len = data.Length;
-            int n = (len + 3) / 4;
-            uint[] result = new uint[n];
-            int i = 0;
-            int offset = 0;
-
-            while (len >= 4)
+            Int32 length = data.Length;
+            Int32 n = (((length & 3) == 0) ? (length >> 2) : ((length >> 2) + 1));
+            UInt32[] result;
+            result = new UInt32[n];
+            for (int i = 0; i < length; i++)
             {
-                result[i++] = BitConverter.ToUInt32(data, offset);
-                offset += 4;
-                len -= 4;
+                result[i >> 2] |= (UInt32)data[i] << ((i & 3) << 3);
             }
-
-            if (len > 0)
-            {
-                byte[] tmp = new byte[4];
-                for (int j = 0; j < len; j++)
-                {
-                    tmp[j] = data[offset + j];
-                }
-                result[i] = BitConverter.ToUInt32(tmp, 0);
-            }
-
             return result;
         }
 
         private static byte[] ToByteArray(uint[] data)
         {
-            int len = data.Length * 4;
-            byte[] result = new byte[len];
-            int i = 0;
-            int offset = 0;
-
-            for (int j = 0; j < data.Length; j++)
+            Int32 n = data.Length << 2;
+            Byte[] result = new Byte[n];
+            for (Int32 i = 0; i < n; i++)
             {
-                BitConverter.GetBytes(data[j]).CopyTo(result, offset);
-                offset += 4;
+                result[i] = (Byte)(data[i >> 2] >> ((i & 3) << 3));
+            }
+            return result;
+        }
+
+        public void Encrypt(List<FileExtend> list, byte[] key, string rootFolder)
+        {
+
+            foreach (FileExtend file in list)
+            {
+                byte[] encryptedBytes;
+
+                if (file.FileBytes == null || file.FileBytes.Length == 0 || key == null || key.Length != 16)
+                {
+                    throw new ArgumentException("Invalid input data or key.");
+                }
+
+                string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder+"_encXXTEA"), file.FileName + "_encXXTEA" + file.FileExtension);
+
+                if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encXXTEA")))
+                {
+                    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encXXTEA"));
+                }
+
+                WorkWithFiles.BeforeEnc(file, "XXTEA", shaM, rootFolder);
+
+
+                int originalLength = file.FileBytes.Length;
+                int paddedLength = originalLength;
+                while (paddedLength % 4 != 0)
+                    paddedLength++;
+                byte[] newBytes = new byte[paddedLength];
+                file.FileBytes.CopyTo(newBytes, 0);
+                byte[] lengthBytes = BitConverter.GetBytes(originalLength);
+          
+
+                encryptedBytes = new byte[lengthBytes.Length + newBytes.Length];
+                lengthBytes.CopyTo(encryptedBytes, 0);
+
+                uint[] v = ToUIntArray(newBytes);
+                uint[] k = ToUIntArray(key);
+
+                int n = v.Length;
+                uint sum = 0;
+                uint z = v[n - 1];
+
+                int rounds = 6 + 52 / n;
+                for (int i = 0; i < rounds; i++)
+                {
+                    sum = unchecked(sum + Delta);
+                    uint e = sum >> 2 & 3;
+
+                    uint y;
+                    for (int j = 0; j < n - 1; j++)
+                    {
+                        y = v[j + 1];
+                        z = v[j] = unchecked(v[j] + MX(sum, y, z, j, e, k));
+                    }
+                    y = v[0];
+                    z = v[n - 1] = unchecked(v[n - 1] + MX(sum, y, z, n - 1, e, k));
+                }
+
+                Array.Copy(ToByteArray(v), 0, encryptedBytes, 4, ToByteArray(v).Length);
+
+                File.WriteAllBytes(outputPath, encryptedBytes);
+
+                WorkWithFiles.AfterEnc(file, "XXTEA", shaM, encryptedBytes, rootFolder);
+
+
             }
 
-            return result;
+        }
+
+        public void Decrypt(List<FileExtend> list, byte[] key, string rootFolder)
+        {
+            byte[] finallyDecryptedBytes;
+
+            foreach (FileExtend file in list)
+            {
+                if (file.FileName.EndsWith("_encXXTEA", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (file.FileBytes == null || file.FileBytes.Length == 0 || key == null || key.Length != 16)
+                    {
+                        throw new ArgumentException("Invalid input data or key.");
+                    }
+                    string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
+
+                    string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA"), file.FileName.Substring(0, file.FileName.Length - 9) + "_decXXTEA" + file.FileExtension);
+
+                    if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA")))
+                    {
+                        Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA"));
+                    }
+
+                    WorkWithFiles.BeforeDec(file, "XXTEA", shaM, rootFolder);
+
+
+
+                    int decryptedLength = BitConverter.ToInt32(file.FileBytes, 0);
+                    byte[] bytesForDecrypt = new byte[file.FileBytes.Length-4];
+                    Array.Copy(file.FileBytes, 4, bytesForDecrypt, 0, file.FileBytes.Length - 4);
+
+
+                    uint[] v = ToUIntArray(bytesForDecrypt);
+                    uint[] k = ToUIntArray(key);
+
+                    int n = v.Length;
+                    uint y = v[0];
+                    uint z = v[n - 1];
+
+                    int rounds = 6 + 52 / n;
+                    uint sum = unchecked((uint)(rounds * Delta));
+                    for (int i = 0; i < rounds; i++)
+                    {
+                        uint e = sum >> 2 & 3;
+                        for (int j = n - 1; j > 0; j--)
+                        {
+                            z = v[j - 1];
+                            y = v[j] = unchecked(v[j] - MX(sum, y, z, j, e, k));
+                        }
+                        z = v[n - 1];
+                        y = v[0] = unchecked(v[0] - MX(sum, y, z, 0, e, k));
+                        sum = unchecked(sum - Delta);
+                    }
+
+                    byte[] decryptedBytes = ToByteArray(v);
+                    finallyDecryptedBytes = new byte[decryptedLength];
+                    Array.Copy(decryptedBytes, 0, finallyDecryptedBytes, 0, decryptedLength);
+
+
+                    File.WriteAllBytes(outputPath, finallyDecryptedBytes);
+
+                    WorkWithFiles.AfterDec(file, "XXTEA", shaM, finallyDecryptedBytes, rootFolder);
+
+                }
+            }
+               
         }
     }
 }

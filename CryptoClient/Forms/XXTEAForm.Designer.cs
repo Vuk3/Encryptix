@@ -37,25 +37,28 @@
             // lblXXTEAKey
             // 
             this.lblXXTEAKey.AutoSize = true;
-            this.lblXXTEAKey.Location = new System.Drawing.Point(43, 19);
+            this.lblXXTEAKey.Location = new System.Drawing.Point(57, 23);
+            this.lblXXTEAKey.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblXXTEAKey.Name = "lblXXTEAKey";
-            this.lblXXTEAKey.Size = new System.Drawing.Size(99, 13);
+            this.lblXXTEAKey.Size = new System.Drawing.Size(121, 16);
             this.lblXXTEAKey.TabIndex = 0;
             this.lblXXTEAKey.Text = "Key (16 characters)";
             // 
             // inputXXTEAKey
             // 
-            this.inputXXTEAKey.Location = new System.Drawing.Point(46, 49);
+            this.inputXXTEAKey.Location = new System.Drawing.Point(61, 60);
+            this.inputXXTEAKey.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.inputXXTEAKey.Multiline = true;
             this.inputXXTEAKey.Name = "inputXXTEAKey";
-            this.inputXXTEAKey.Size = new System.Drawing.Size(134, 28);
+            this.inputXXTEAKey.Size = new System.Drawing.Size(177, 34);
             this.inputXXTEAKey.TabIndex = 1;
             // 
             // btnXXTEAEnc
             // 
-            this.btnXXTEAEnc.Location = new System.Drawing.Point(46, 130);
+            this.btnXXTEAEnc.Location = new System.Drawing.Point(61, 160);
+            this.btnXXTEAEnc.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnXXTEAEnc.Name = "btnXXTEAEnc";
-            this.btnXXTEAEnc.Size = new System.Drawing.Size(75, 23);
+            this.btnXXTEAEnc.Size = new System.Drawing.Size(100, 28);
             this.btnXXTEAEnc.TabIndex = 2;
             this.btnXXTEAEnc.Text = "Encrypt";
             this.btnXXTEAEnc.UseVisualStyleBackColor = true;
@@ -63,22 +66,25 @@
             // 
             // btnXXTEADec
             // 
-            this.btnXXTEADec.Location = new System.Drawing.Point(214, 130);
+            this.btnXXTEADec.Location = new System.Drawing.Point(285, 160);
+            this.btnXXTEADec.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnXXTEADec.Name = "btnXXTEADec";
-            this.btnXXTEADec.Size = new System.Drawing.Size(75, 23);
+            this.btnXXTEADec.Size = new System.Drawing.Size(100, 28);
             this.btnXXTEADec.TabIndex = 3;
             this.btnXXTEADec.Text = "Decrypt";
             this.btnXXTEADec.UseVisualStyleBackColor = true;
+            this.btnXXTEADec.Click += new System.EventHandler(this.btnXXTEADec_Click);
             // 
             // XXTEAForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(338, 206);
+            this.ClientSize = new System.Drawing.Size(451, 254);
             this.Controls.Add(this.btnXXTEADec);
             this.Controls.Add(this.btnXXTEAEnc);
             this.Controls.Add(this.inputXXTEAKey);
             this.Controls.Add(this.lblXXTEAKey);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "XXTEAForm";
             this.Text = "XXTEAForm";
             this.ResumeLayout(false);
