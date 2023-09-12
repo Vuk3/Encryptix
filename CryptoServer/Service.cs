@@ -62,5 +62,37 @@ namespace CryptoServer
         {
             xxtea.Encrypt(list, key, rootFolder);
         }
+
+        //---------------- parallel functions
+
+        public void AesDecryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder)
+        {
+            aes.Decrypt(list, key, IV, rootFolder);
+        }
+
+        public void AesEncryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder)
+        {
+            aes.Encrypt(list, key, IV, rootFolder);
+        }
+
+        public void RC6EncryptP(List<FileExtend> list, byte[] key, string rootFolder)
+        {
+            rc6.Encrypt(list, key, rootFolder);
+        }
+
+        public void RC6DecryptP(List<FileExtend> list, byte[] key, string rootFolder)
+        {
+            rc6.Decrypt(list, key, rootFolder);
+        }
+
+        public void XXTEADecryptP(List<FileExtend> list, byte[] key, string rootFolder)
+        {
+            xxtea.Decrypt(list, key, rootFolder);
+        }
+
+        public void XXTEAEncryptP(List<FileExtend> list, byte[] key, string rootFolder)
+        {
+            xxtea.Encrypt(list, key, rootFolder);
+        }
     }
 }

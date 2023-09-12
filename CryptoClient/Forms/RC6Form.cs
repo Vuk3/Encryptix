@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,9 @@ namespace CryptoClient.Forms
         private byte[] RC6Keybytes;
 
         private string rootFolder;
+
+        Stopwatch stopwatch;
+
         public RC6Form()
         {
             InitializeComponent();
@@ -43,6 +47,11 @@ namespace CryptoClient.Forms
 
             this.listRawFiles = listRawFiles;
             this.rootFolder = rootFolder;
+
+            this.lblEncRC6Done.Visible = false;
+            this.lblDecRC6Done.Visible = false;
+
+            stopwatch = new Stopwatch();
         }
 
         private void btnRC6Encrypt_Click(object sender, EventArgs e)
@@ -51,7 +60,22 @@ namespace CryptoClient.Forms
 
             RC6Keybytes = Types.StringToBytes(RC6Keytxt);
 
-            service.RC6Encrypt(listRawFiles, RC6Keybytes, rootFolder);
+            stopwatch.Reset();
+            stopwatch.Start();
+
+            if (cbxRC6Par.Checked)
+            {
+                service.RC6EncryptP(listRawFiles, RC6Keybytes, rootFolder);
+            }
+            else
+            {
+                service.RC6Encrypt(listRawFiles, RC6Keybytes, rootFolder);
+            }
+
+            stopwatch.Stop();
+
+            this.lblEncRC6Done.Visible = true;
+            this.lblEncRC6Done.Text += (stopwatch.ElapsedMilliseconds / 1000.0).ToString("0.00") + " seconds";
 
             listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder) + "_encRC6"));
         }
@@ -62,7 +86,23 @@ namespace CryptoClient.Forms
 
             RC6Keybytes = Types.StringToBytes(RC6Keytxt);
 
-            service.RC6Decrypt(listRawFiles, RC6Keybytes, rootFolder);
+            stopwatch.Reset();
+            stopwatch.Start();
+
+            if (cbxRC6Par.Checked)
+            {
+                service.RC6DecryptP(listRawFiles, RC6Keybytes, rootFolder);
+            }
+            else
+            {
+                service.RC6Decrypt(listRawFiles, RC6Keybytes, rootFolder);
+            }
+
+            stopwatch.Stop();
+
+
+            this.lblDecRC6Done.Visible = true;
+            this.lblDecRC6Done.Text += (stopwatch.ElapsedMilliseconds / 1000.0).ToString("0.00") + " seconds";
 
             listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder(rootFolder)));
         }

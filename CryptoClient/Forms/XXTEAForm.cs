@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,9 @@ namespace CryptoClient.Forms
         private byte[] XXTEAKeybytes;
 
         private string rootFolder;
+
+        Stopwatch stopwatch;
+
         public XXTEAForm()
         {
             InitializeComponent(); 
@@ -43,6 +47,12 @@ namespace CryptoClient.Forms
 
             this.listRawFiles = listRawFiles;
             this.rootFolder = rootFolder;
+
+            this.lblEncXXTEADone.Visible = false;
+            this.lblDecXXTEADone.Visible = false;
+
+            stopwatch = new Stopwatch();
+
         }
 
         private void btnXXTEAEnc_Click(object sender, EventArgs e)
@@ -51,7 +61,23 @@ namespace CryptoClient.Forms
 
             XXTEAKeybytes = Types.StringToBytes(XXTEAKeytxt);
 
-            service.XXTEAEncrypt(listRawFiles, XXTEAKeybytes, rootFolder);
+            stopwatch.Reset();
+            stopwatch.Start();
+
+            if (cbxXXTEAPar.Checked)
+            {
+                service.XXTEAEncryptP(listRawFiles, XXTEAKeybytes, rootFolder);
+            }
+            else
+            {
+                service.XXTEAEncrypt(listRawFiles, XXTEAKeybytes, rootFolder);
+            }
+
+            stopwatch.Stop();
+
+
+            this.lblEncXXTEADone.Visible = true;
+            this.lblEncXXTEADone.Text += (stopwatch.ElapsedMilliseconds / 1000.0).ToString("0.00") + " seconds";
 
             listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder) + "_encXXTEA"));
         }
@@ -62,7 +88,23 @@ namespace CryptoClient.Forms
 
             XXTEAKeybytes = Types.StringToBytes(XXTEAKeytxt);
 
-            service.XXTEADecrypt(listRawFiles, XXTEAKeybytes, rootFolder);
+            stopwatch.Reset();
+            stopwatch.Start();
+
+            if (cbxXXTEAPar.Checked)
+            {
+                service.XXTEADecryptP(listRawFiles, XXTEAKeybytes, rootFolder);
+            }
+            else
+            {
+                service.XXTEADecrypt(listRawFiles, XXTEAKeybytes, rootFolder);
+            }
+
+            stopwatch.Stop();
+
+
+            this.lblDecXXTEADone.Visible = true;
+            this.lblDecXXTEADone.Text += (stopwatch.ElapsedMilliseconds / 1000.0).ToString("0.00") + " seconds";
 
             listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder)));
         }

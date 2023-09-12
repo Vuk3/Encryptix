@@ -56,6 +56,42 @@
   <wsdl:message name="IService_RC6Decrypt_OutputMessage">
     <wsdl:part name="parameters" element="tns:RC6DecryptResponse" />
   </wsdl:message>
+  <wsdl:message name="IService_AesEncryptP_InputMessage">
+    <wsdl:part name="parameters" element="tns:AesEncryptP" />
+  </wsdl:message>
+  <wsdl:message name="IService_AesEncryptP_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AesEncryptPResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_AesDecryptP_InputMessage">
+    <wsdl:part name="parameters" element="tns:AesDecryptP" />
+  </wsdl:message>
+  <wsdl:message name="IService_AesDecryptP_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AesDecryptPResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_XXTEAEncryptP_InputMessage">
+    <wsdl:part name="parameters" element="tns:XXTEAEncryptP" />
+  </wsdl:message>
+  <wsdl:message name="IService_XXTEAEncryptP_OutputMessage">
+    <wsdl:part name="parameters" element="tns:XXTEAEncryptPResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_XXTEADecryptP_InputMessage">
+    <wsdl:part name="parameters" element="tns:XXTEADecryptP" />
+  </wsdl:message>
+  <wsdl:message name="IService_XXTEADecryptP_OutputMessage">
+    <wsdl:part name="parameters" element="tns:XXTEADecryptPResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_RC6EncryptP_InputMessage">
+    <wsdl:part name="parameters" element="tns:RC6EncryptP" />
+  </wsdl:message>
+  <wsdl:message name="IService_RC6EncryptP_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RC6EncryptPResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_RC6DecryptP_InputMessage">
+    <wsdl:part name="parameters" element="tns:RC6DecryptP" />
+  </wsdl:message>
+  <wsdl:message name="IService_RC6DecryptP_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RC6DecryptPResponse" />
+  </wsdl:message>
   <wsdl:portType name="IService">
     <wsdl:operation name="GetData">
       <wsdl:input wsaw:Action="http://tempuri.org/IService/GetData" message="tns:IService_GetData_InputMessage" />
@@ -88,6 +124,30 @@
     <wsdl:operation name="RC6Decrypt">
       <wsdl:input wsaw:Action="http://tempuri.org/IService/RC6Decrypt" message="tns:IService_RC6Decrypt_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService/RC6DecryptResponse" message="tns:IService_RC6Decrypt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AesEncryptP">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/AesEncryptP" message="tns:IService_AesEncryptP_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/AesEncryptPResponse" message="tns:IService_AesEncryptP_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AesDecryptP">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/AesDecryptP" message="tns:IService_AesDecryptP_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/AesDecryptPResponse" message="tns:IService_AesDecryptP_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="XXTEAEncryptP">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/XXTEAEncryptP" message="tns:IService_XXTEAEncryptP_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/XXTEAEncryptPResponse" message="tns:IService_XXTEAEncryptP_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="XXTEADecryptP">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/XXTEADecryptP" message="tns:IService_XXTEADecryptP_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/XXTEADecryptPResponse" message="tns:IService_XXTEADecryptP_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RC6EncryptP">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/RC6EncryptP" message="tns:IService_RC6EncryptP_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/RC6EncryptPResponse" message="tns:IService_RC6EncryptP_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RC6DecryptP">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/RC6DecryptP" message="tns:IService_RC6DecryptP_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/RC6DecryptPResponse" message="tns:IService_RC6DecryptP_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService" type="tns:IService">
@@ -157,6 +217,60 @@
     </wsdl:operation>
     <wsdl:operation name="RC6Decrypt">
       <soap:operation soapAction="http://tempuri.org/IService/RC6Decrypt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AesEncryptP">
+      <soap:operation soapAction="http://tempuri.org/IService/AesEncryptP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AesDecryptP">
+      <soap:operation soapAction="http://tempuri.org/IService/AesDecryptP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XXTEAEncryptP">
+      <soap:operation soapAction="http://tempuri.org/IService/XXTEAEncryptP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XXTEADecryptP">
+      <soap:operation soapAction="http://tempuri.org/IService/XXTEADecryptP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RC6EncryptP">
+      <soap:operation soapAction="http://tempuri.org/IService/RC6EncryptP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RC6DecryptP">
+      <soap:operation soapAction="http://tempuri.org/IService/RC6DecryptP" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

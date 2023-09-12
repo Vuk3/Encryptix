@@ -41,6 +41,28 @@ namespace CryptoServer
         [OperationContract]
         void RC6Decrypt(List<FileExtend> list, byte[] key, string rootFolder);
 
+        //-------------- parallel functions
+
+        [OperationContract]
+        void AesEncryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder);
+
+        [OperationContract]
+        void AesDecryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder);
+
+
+        [OperationContract]
+        void XXTEAEncryptP(List<FileExtend> list, byte[] key, string rootFolder);
+
+
+        [OperationContract]
+        void XXTEADecryptP(List<FileExtend> list, byte[] key, string rootFolder);
+
+        [OperationContract]
+        void RC6EncryptP(List<FileExtend> list, byte[] key, string rootFolder);
+
+        [OperationContract]
+        void RC6DecryptP(List<FileExtend> list, byte[] key, string rootFolder);
+
 
     }
 

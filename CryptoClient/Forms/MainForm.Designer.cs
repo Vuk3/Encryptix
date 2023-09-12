@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.btnChooseFolder = new System.Windows.Forms.Button();
             this.lblTotalFiles = new System.Windows.Forms.Label();
             this.btnAes = new System.Windows.Forms.Button();
             this.btnRC6 = new System.Windows.Forms.Button();
             this.btnXXTEA = new System.Windows.Forms.Button();
+            this.myLoader = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.myLoader)).BeginInit();
             this.SuspendLayout();
             // 
             // btnChooseFolder
@@ -91,11 +94,22 @@
             this.btnXXTEA.UseVisualStyleBackColor = true;
             this.btnXXTEA.Click += new System.EventHandler(this.btnXXTEA_Click);
             // 
+            // myLoader
+            // 
+            this.myLoader.Image = ((System.Drawing.Image)(resources.GetObject("myLoader.Image")));
+            this.myLoader.Location = new System.Drawing.Point(219, 146);
+            this.myLoader.Name = "myLoader";
+            this.myLoader.Size = new System.Drawing.Size(66, 69);
+            this.myLoader.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.myLoader.TabIndex = 5;
+            this.myLoader.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(501, 304);
+            this.Controls.Add(this.myLoader);
             this.Controls.Add(this.btnXXTEA);
             this.Controls.Add(this.btnRC6);
             this.Controls.Add(this.btnAes);
@@ -104,6 +118,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.myLoader)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -116,6 +131,7 @@
         private System.Windows.Forms.Button btnAes;
         private System.Windows.Forms.Button btnRC6;
         private System.Windows.Forms.Button btnXXTEA;
+        private System.Windows.Forms.PictureBox myLoader;
     }
 }
 

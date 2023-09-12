@@ -116,4 +116,90 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="AesEncryptP">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q9:ArrayOfFileExtend" />
+        <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
+        <xs:element minOccurs="0" name="IV" nillable="true" type="xs:base64Binary" />
+        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AesEncryptPResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AesDecryptP">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q10:ArrayOfFileExtend" />
+        <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
+        <xs:element minOccurs="0" name="IV" nillable="true" type="xs:base64Binary" />
+        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AesDecryptPResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="XXTEAEncryptP">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q11:ArrayOfFileExtend" />
+        <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
+        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="XXTEAEncryptPResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="XXTEADecryptP">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q12:ArrayOfFileExtend" />
+        <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
+        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="XXTEADecryptPResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RC6EncryptP">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q13:ArrayOfFileExtend" />
+        <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
+        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RC6EncryptPResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RC6DecryptP">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q14:ArrayOfFileExtend" />
+        <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
+        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RC6DecryptPResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

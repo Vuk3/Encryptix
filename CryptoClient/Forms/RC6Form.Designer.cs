@@ -28,10 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RC6Form));
             this.lblRC6Key = new System.Windows.Forms.Label();
             this.inputRC6Key = new System.Windows.Forms.TextBox();
             this.btnRC6Encrypt = new System.Windows.Forms.Button();
             this.btnRC6Decrypt = new System.Windows.Forms.Button();
+            this.lblEncRC6Done = new System.Windows.Forms.Label();
+            this.lblDecRC6Done = new System.Windows.Forms.Label();
+            this.cbxRC6Par = new System.Windows.Forms.CheckBox();
+            this.myLoader = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.myLoader)).BeginInit();
             this.SuspendLayout();
             // 
             // lblRC6Key
@@ -71,17 +77,60 @@
             this.btnRC6Decrypt.UseVisualStyleBackColor = true;
             this.btnRC6Decrypt.Click += new System.EventHandler(this.btnRC6Decrypt_Click);
             // 
+            // lblEncRC6Done
+            // 
+            this.lblEncRC6Done.AutoSize = true;
+            this.lblEncRC6Done.Location = new System.Drawing.Point(137, 195);
+            this.lblEncRC6Done.Name = "lblEncRC6Done";
+            this.lblEncRC6Done.Size = new System.Drawing.Size(145, 16);
+            this.lblEncRC6Done.TabIndex = 9;
+            this.lblEncRC6Done.Text = "Encryption complete in ";
+            // 
+            // lblDecRC6Done
+            // 
+            this.lblDecRC6Done.AutoSize = true;
+            this.lblDecRC6Done.Location = new System.Drawing.Point(137, 229);
+            this.lblDecRC6Done.Name = "lblDecRC6Done";
+            this.lblDecRC6Done.Size = new System.Drawing.Size(147, 16);
+            this.lblDecRC6Done.TabIndex = 10;
+            this.lblDecRC6Done.Text = "Decryption complete in ";
+            // 
+            // cbxRC6Par
+            // 
+            this.cbxRC6Par.AutoSize = true;
+            this.cbxRC6Par.Location = new System.Drawing.Point(326, 123);
+            this.cbxRC6Par.Name = "cbxRC6Par";
+            this.cbxRC6Par.Size = new System.Drawing.Size(113, 20);
+            this.cbxRC6Par.TabIndex = 11;
+            this.cbxRC6Par.Text = "Parallelization";
+            this.cbxRC6Par.UseVisualStyleBackColor = true;
+            // 
+            // myLoader
+            // 
+            this.myLoader.Image = ((System.Drawing.Image)(resources.GetObject("myLoader.Image")));
+            this.myLoader.Location = new System.Drawing.Point(183, 120);
+            this.myLoader.Name = "myLoader";
+            this.myLoader.Size = new System.Drawing.Size(66, 69);
+            this.myLoader.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.myLoader.TabIndex = 12;
+            this.myLoader.TabStop = false;
+            // 
             // RC6Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(451, 254);
+            this.Controls.Add(this.myLoader);
+            this.Controls.Add(this.cbxRC6Par);
+            this.Controls.Add(this.lblDecRC6Done);
+            this.Controls.Add(this.lblEncRC6Done);
             this.Controls.Add(this.btnRC6Decrypt);
             this.Controls.Add(this.btnRC6Encrypt);
             this.Controls.Add(this.inputRC6Key);
             this.Controls.Add(this.lblRC6Key);
             this.Name = "RC6Form";
             this.Text = "RC6Form";
+            ((System.ComponentModel.ISupportInitialize)(this.myLoader)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,5 +142,9 @@
         private System.Windows.Forms.TextBox inputRC6Key;
         private System.Windows.Forms.Button btnRC6Encrypt;
         private System.Windows.Forms.Button btnRC6Decrypt;
+        private System.Windows.Forms.Label lblEncRC6Done;
+        private System.Windows.Forms.Label lblDecRC6Done;
+        private System.Windows.Forms.CheckBox cbxRC6Par;
+        private System.Windows.Forms.PictureBox myLoader;
     }
 }

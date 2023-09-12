@@ -18,30 +18,44 @@ namespace CryptoClient
     {
         private FileExtend[] listRawFiles;
         private readonly IService service;
+
+        private string lblTotalFilesDefault;
         public string rootFolder;
+
+
         public MainForm()
         {
             InitializeComponent();
             service = new ServiceClient();
 
+            lblTotalFilesDefault = lblTotalFiles.Text;
             lblTotalFiles.Visible = false;
             btnAes.Visible = false;
             btnRC6.Visible = false;
             btnXXTEA.Visible = false;
+
+            myLoader.Visible = false;
         }
 
         private void btnChooseFolder_Click(object sender, EventArgs e)
         {
-            listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(null)));
-            if(listRawFiles != null)
+            rootFolder = FilesAndFolders.OpenFolder(null);
+            if (rootFolder != null)
             {
-                lblTotalFiles.Text += listRawFiles.Length + " files";
+                myLoader.Visible = true;
+                listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder));
+                if (listRawFiles != null)
+                {
+                    lblTotalFiles.Text += listRawFiles.Length + " files";
 
-                lblTotalFiles.Visible = true;
-                btnAes.Visible = true;
-                btnRC6.Visible = true;
-                btnXXTEA.Visible = true;
+                    lblTotalFiles.Visible = true;
+                    btnAes.Visible = true;
+                    btnRC6.Visible = true;
+                    btnXXTEA.Visible = true;
+                }
+                myLoader.Visible = false;
             }
+
 
         }
 
@@ -52,10 +66,10 @@ namespace CryptoClient
 
         private void btnAes_Click(object sender, EventArgs e)
         {
-            //service.AesEncrypt(listRawFiles);
-
             AESForm a = new AESForm(listRawFiles, rootFolder);
             a.ShowDialog();
+            lblTotalFiles.Text = lblTotalFilesDefault;
+            lblTotalFiles.Visible = false;
 
         }
 
@@ -63,12 +77,16 @@ namespace CryptoClient
         {
             RC6Form r = new RC6Form(listRawFiles, rootFolder);
             r.ShowDialog();
+            lblTotalFiles.Text = lblTotalFilesDefault;
+            lblTotalFiles.Visible = false;
         }
 
         private void btnXXTEA_Click(object sender, EventArgs e)
         {
             XXTEAForm x = new XXTEAForm(listRawFiles, rootFolder);
             x.ShowDialog();
+            lblTotalFiles.Text = lblTotalFilesDefault;
+            lblTotalFiles.Visible = false;
         }
     }
 }
