@@ -45,7 +45,7 @@ namespace CryptoServer.Algorithms
         private static uint LeftShift(uint value, int shift)
         {
             return (value << shift) | (value >> (W - shift));
-        }
+        }   
 
         private void ExpandKey(byte[] key)
         {

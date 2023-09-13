@@ -37,13 +37,15 @@
             this.lblDecXXTEADone = new System.Windows.Forms.Label();
             this.cbxXXTEAPar = new System.Windows.Forms.CheckBox();
             this.myLoader = new System.Windows.Forms.PictureBox();
+            this.lblXXTEATitle = new System.Windows.Forms.Label();
+            this.progressDone = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.myLoader)).BeginInit();
             this.SuspendLayout();
             // 
             // lblXXTEAKey
             // 
             this.lblXXTEAKey.AutoSize = true;
-            this.lblXXTEAKey.Location = new System.Drawing.Point(57, 23);
+            this.lblXXTEAKey.Location = new System.Drawing.Point(58, 40);
             this.lblXXTEAKey.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblXXTEAKey.Name = "lblXXTEAKey";
             this.lblXXTEAKey.Size = new System.Drawing.Size(121, 16);
@@ -119,11 +121,30 @@
             this.myLoader.TabIndex = 13;
             this.myLoader.TabStop = false;
             // 
+            // lblXXTEATitle
+            // 
+            this.lblXXTEATitle.AutoSize = true;
+            this.lblXXTEATitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblXXTEATitle.Location = new System.Drawing.Point(181, 9);
+            this.lblXXTEATitle.Name = "lblXXTEATitle";
+            this.lblXXTEATitle.Size = new System.Drawing.Size(99, 29);
+            this.lblXXTEATitle.TabIndex = 14;
+            this.lblXXTEATitle.Text = "XXTEA";
+            // 
+            // progressDone
+            // 
+            this.progressDone.Location = new System.Drawing.Point(326, 71);
+            this.progressDone.Name = "progressDone";
+            this.progressDone.Size = new System.Drawing.Size(100, 23);
+            this.progressDone.TabIndex = 15;
+            // 
             // XXTEAForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(451, 254);
+            this.Controls.Add(this.progressDone);
+            this.Controls.Add(this.lblXXTEATitle);
             this.Controls.Add(this.myLoader);
             this.Controls.Add(this.cbxXXTEAPar);
             this.Controls.Add(this.lblDecXXTEADone);
@@ -134,7 +155,7 @@
             this.Controls.Add(this.lblXXTEAKey);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "XXTEAForm";
-            this.Text = "XXTEAForm";
+            this.Text = "XXTEA";
             ((System.ComponentModel.ISupportInitialize)(this.myLoader)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -151,5 +172,7 @@
         private System.Windows.Forms.Label lblDecXXTEADone;
         private System.Windows.Forms.CheckBox cbxXXTEAPar;
         private System.Windows.Forms.PictureBox myLoader;
+        private System.Windows.Forms.Label lblXXTEATitle;
+        private System.Windows.Forms.ProgressBar progressDone;
     }
 }

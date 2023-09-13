@@ -22,6 +22,8 @@ namespace CryptoClient
         private string lblTotalFilesDefault;
         public string rootFolder;
 
+        private int listSize;
+
 
         public MainForm()
         {
@@ -37,23 +39,49 @@ namespace CryptoClient
             myLoader.Visible = false;
         }
 
+        private int CalculateSize(FileExtend[] list)
+        {
+            if (list != null)
+            {
+                foreach (FileExtend file in listRawFiles)
+                {
+                    listSize += file.FileBytes.Length;
+                }
+                return listSize;
+            }
+            return 0;
+
+        }
+
         private void btnChooseFolder_Click(object sender, EventArgs e)
         {
             rootFolder = FilesAndFolders.OpenFolder(null);
             if (rootFolder != null)
             {
                 myLoader.Visible = true;
-                listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder));
-                if (listRawFiles != null)
+                btnChooseFolder.Enabled = false;
+                Task.Run(() =>
                 {
-                    lblTotalFiles.Text += listRawFiles.Length + " files";
+                    listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder));
 
-                    lblTotalFiles.Visible = true;
-                    btnAes.Visible = true;
-                    btnRC6.Visible = true;
-                    btnXXTEA.Visible = true;
-                }
-                myLoader.Visible = false;
+                }).ContinueWith((task) =>
+                {
+                    if (listRawFiles != null)
+                    {
+                        CalculateSize(listRawFiles);
+                        lblTotalFiles.Text += listRawFiles.Length + " files";
+
+                        lblTotalFiles.Visible = true;
+                        btnAes.Visible = true;
+                        btnRC6.Visible = true;
+                        btnXXTEA.Visible = true;
+                    }
+                    btnChooseFolder.Enabled = true;
+                    myLoader.Visible = false;
+
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+
+               
             }
 
 
@@ -66,7 +94,7 @@ namespace CryptoClient
 
         private void btnAes_Click(object sender, EventArgs e)
         {
-            AESForm a = new AESForm(listRawFiles, rootFolder);
+            AESForm a = new AESForm(listRawFiles, rootFolder, listSize);
             a.ShowDialog();
             lblTotalFiles.Text = lblTotalFilesDefault;
             lblTotalFiles.Visible = false;
@@ -75,7 +103,7 @@ namespace CryptoClient
 
         private void btnRC6_Click(object sender, EventArgs e)
         {
-            RC6Form r = new RC6Form(listRawFiles, rootFolder);
+            RC6Form r = new RC6Form(listRawFiles, rootFolder, listSize);
             r.ShowDialog();
             lblTotalFiles.Text = lblTotalFilesDefault;
             lblTotalFiles.Visible = false;
@@ -83,7 +111,7 @@ namespace CryptoClient
 
         private void btnXXTEA_Click(object sender, EventArgs e)
         {
-            XXTEAForm x = new XXTEAForm(listRawFiles, rootFolder);
+            XXTEAForm x = new XXTEAForm(listRawFiles, rootFolder, listSize);
             x.ShowDialog();
             lblTotalFiles.Text = lblTotalFilesDefault;
             lblTotalFiles.Visible = false;

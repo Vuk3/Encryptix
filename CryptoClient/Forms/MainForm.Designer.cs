@@ -35,12 +35,13 @@
             this.btnRC6 = new System.Windows.Forms.Button();
             this.btnXXTEA = new System.Windows.Forms.Button();
             this.myLoader = new System.Windows.Forms.PictureBox();
+            this.lblMainTitle = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.myLoader)).BeginInit();
             this.SuspendLayout();
             // 
             // btnChooseFolder
             // 
-            this.btnChooseFolder.Location = new System.Drawing.Point(187, 55);
+            this.btnChooseFolder.Location = new System.Drawing.Point(186, 73);
             this.btnChooseFolder.Margin = new System.Windows.Forms.Padding(4);
             this.btnChooseFolder.Name = "btnChooseFolder";
             this.btnChooseFolder.Size = new System.Drawing.Size(123, 53);
@@ -53,7 +54,7 @@
             // 
             this.lblTotalFiles.AutoSize = true;
             this.lblTotalFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalFiles.Location = new System.Drawing.Point(52, 124);
+            this.lblTotalFiles.Location = new System.Drawing.Point(51, 142);
             this.lblTotalFiles.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotalFiles.Name = "lblTotalFiles";
             this.lblTotalFiles.Size = new System.Drawing.Size(333, 25);
@@ -63,7 +64,7 @@
             // 
             // btnAes
             // 
-            this.btnAes.Location = new System.Drawing.Point(45, 222);
+            this.btnAes.Location = new System.Drawing.Point(44, 240);
             this.btnAes.Margin = new System.Windows.Forms.Padding(4);
             this.btnAes.Name = "btnAes";
             this.btnAes.Size = new System.Drawing.Size(100, 28);
@@ -74,7 +75,7 @@
             // 
             // btnRC6
             // 
-            this.btnRC6.Location = new System.Drawing.Point(209, 222);
+            this.btnRC6.Location = new System.Drawing.Point(208, 240);
             this.btnRC6.Margin = new System.Windows.Forms.Padding(4);
             this.btnRC6.Name = "btnRC6";
             this.btnRC6.Size = new System.Drawing.Size(100, 28);
@@ -85,7 +86,7 @@
             // 
             // btnXXTEA
             // 
-            this.btnXXTEA.Location = new System.Drawing.Point(375, 222);
+            this.btnXXTEA.Location = new System.Drawing.Point(374, 240);
             this.btnXXTEA.Margin = new System.Windows.Forms.Padding(4);
             this.btnXXTEA.Name = "btnXXTEA";
             this.btnXXTEA.Size = new System.Drawing.Size(100, 28);
@@ -97,18 +98,29 @@
             // myLoader
             // 
             this.myLoader.Image = ((System.Drawing.Image)(resources.GetObject("myLoader.Image")));
-            this.myLoader.Location = new System.Drawing.Point(219, 146);
+            this.myLoader.Location = new System.Drawing.Point(218, 164);
             this.myLoader.Name = "myLoader";
             this.myLoader.Size = new System.Drawing.Size(66, 69);
             this.myLoader.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.myLoader.TabIndex = 5;
             this.myLoader.TabStop = false;
             // 
+            // lblMainTitle
+            // 
+            this.lblMainTitle.AutoSize = true;
+            this.lblMainTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblMainTitle.Location = new System.Drawing.Point(191, 22);
+            this.lblMainTitle.Name = "lblMainTitle";
+            this.lblMainTitle.Size = new System.Drawing.Size(103, 32);
+            this.lblMainTitle.TabIndex = 6;
+            this.lblMainTitle.Text = "Crypto";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(501, 304);
+            this.Controls.Add(this.lblMainTitle);
             this.Controls.Add(this.myLoader);
             this.Controls.Add(this.btnXXTEA);
             this.Controls.Add(this.btnRC6);
@@ -117,7 +129,7 @@
             this.Controls.Add(this.btnChooseFolder);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "Crypto";
             ((System.ComponentModel.ISupportInitialize)(this.myLoader)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -132,6 +144,7 @@
         private System.Windows.Forms.Button btnRC6;
         private System.Windows.Forms.Button btnXXTEA;
         private System.Windows.Forms.PictureBox myLoader;
+        private System.Windows.Forms.Label lblMainTitle;
     }
 }
 

@@ -40,7 +40,7 @@
             this.lblEncAESDone = new System.Windows.Forms.Label();
             this.lblDecAESDone = new System.Windows.Forms.Label();
             this.myLoader = new System.Windows.Forms.PictureBox();
-            this.panelCover = new System.Windows.Forms.Panel();
+            this.progressDone = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.myLoader)).BeginInit();
             this.SuspendLayout();
             // 
@@ -152,20 +152,19 @@
             this.myLoader.TabIndex = 10;
             this.myLoader.TabStop = false;
             // 
-            // panelCover
+            // progressDone
             // 
-            this.panelCover.BackColor = System.Drawing.Color.Transparent;
-            this.panelCover.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelCover.Location = new System.Drawing.Point(0, 0);
-            this.panelCover.Name = "panelCover";
-            this.panelCover.Size = new System.Drawing.Size(451, 254);
-            this.panelCover.TabIndex = 11;
+            this.progressDone.Location = new System.Drawing.Point(344, 81);
+            this.progressDone.Name = "progressDone";
+            this.progressDone.Size = new System.Drawing.Size(100, 23);
+            this.progressDone.TabIndex = 11;
             // 
             // AESForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(451, 254);
+            this.Controls.Add(this.progressDone);
             this.Controls.Add(this.myLoader);
             this.Controls.Add(this.lblDecAESDone);
             this.Controls.Add(this.lblEncAESDone);
@@ -177,7 +176,6 @@
             this.Controls.Add(this.inputAesKey);
             this.Controls.Add(this.lblAesIV);
             this.Controls.Add(this.lblAesKey);
-            this.Controls.Add(this.panelCover);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AESForm";
             this.Text = "AES";
@@ -200,6 +198,6 @@
         private System.Windows.Forms.Label lblEncAESDone;
         private System.Windows.Forms.Label lblDecAESDone;
         private System.Windows.Forms.PictureBox myLoader;
-        private System.Windows.Forms.Panel panelCover;
+        private System.Windows.Forms.ProgressBar progressDone;
     }
 }

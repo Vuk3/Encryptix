@@ -37,13 +37,15 @@
             this.lblDecRC6Done = new System.Windows.Forms.Label();
             this.cbxRC6Par = new System.Windows.Forms.CheckBox();
             this.myLoader = new System.Windows.Forms.PictureBox();
+            this.lblRC6Title = new System.Windows.Forms.Label();
+            this.progressDone = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.myLoader)).BeginInit();
             this.SuspendLayout();
             // 
             // lblRC6Key
             // 
             this.lblRC6Key.AutoSize = true;
-            this.lblRC6Key.Location = new System.Drawing.Point(48, 33);
+            this.lblRC6Key.Location = new System.Drawing.Point(48, 43);
             this.lblRC6Key.Name = "lblRC6Key";
             this.lblRC6Key.Size = new System.Drawing.Size(121, 16);
             this.lblRC6Key.TabIndex = 0;
@@ -115,11 +117,30 @@
             this.myLoader.TabIndex = 12;
             this.myLoader.TabStop = false;
             // 
+            // lblRC6Title
+            // 
+            this.lblRC6Title.AutoSize = true;
+            this.lblRC6Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblRC6Title.Location = new System.Drawing.Point(199, 9);
+            this.lblRC6Title.Name = "lblRC6Title";
+            this.lblRC6Title.Size = new System.Drawing.Size(63, 29);
+            this.lblRC6Title.TabIndex = 13;
+            this.lblRC6Title.Text = "RC6";
+            // 
+            // progressDone
+            // 
+            this.progressDone.Location = new System.Drawing.Point(326, 91);
+            this.progressDone.Name = "progressDone";
+            this.progressDone.Size = new System.Drawing.Size(100, 23);
+            this.progressDone.TabIndex = 14;
+            // 
             // RC6Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(451, 254);
+            this.Controls.Add(this.progressDone);
+            this.Controls.Add(this.lblRC6Title);
             this.Controls.Add(this.myLoader);
             this.Controls.Add(this.cbxRC6Par);
             this.Controls.Add(this.lblDecRC6Done);
@@ -129,7 +150,7 @@
             this.Controls.Add(this.inputRC6Key);
             this.Controls.Add(this.lblRC6Key);
             this.Name = "RC6Form";
-            this.Text = "RC6Form";
+            this.Text = "RC6";
             ((System.ComponentModel.ISupportInitialize)(this.myLoader)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -146,5 +167,7 @@
         private System.Windows.Forms.Label lblDecRC6Done;
         private System.Windows.Forms.CheckBox cbxRC6Par;
         private System.Windows.Forms.PictureBox myLoader;
+        private System.Windows.Forms.Label lblRC6Title;
+        private System.Windows.Forms.ProgressBar progressDone;
     }
 }
