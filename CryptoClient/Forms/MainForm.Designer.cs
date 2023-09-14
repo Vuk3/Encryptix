@@ -54,7 +54,7 @@
             // 
             this.lblTotalFiles.AutoSize = true;
             this.lblTotalFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalFiles.Location = new System.Drawing.Point(51, 142);
+            this.lblTotalFiles.Location = new System.Drawing.Point(54, 136);
             this.lblTotalFiles.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotalFiles.Name = "lblTotalFiles";
             this.lblTotalFiles.Size = new System.Drawing.Size(333, 25);
