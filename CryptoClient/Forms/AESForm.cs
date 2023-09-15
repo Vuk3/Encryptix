@@ -42,41 +42,7 @@ namespace CryptoClient.Forms
 
         private static int mbps;
 
-        private async void PerformProgressBar() {
-            cancellationTokenSource = new CancellationTokenSource();
-
-            await Task.Run(async () =>
-            {
-                for (int i = 0; i <= 0.9*listSize; i += mbps)
-                {
-                    if (cancellationTokenSource.Token.IsCancellationRequested)
-                    {
-                        break; 
-                    }
-                    //SetProgress(i);
-                    Invoke(new Action(() =>
-                    {
-                        this.progressDone.Value = i;
-                    }));
-                    await Task.Delay(1000);
-                }
-            }, cancellationTokenSource.Token);
-        }
-        private void DisableControls() {
-            inputAesIV.Enabled = false;
-            inputAesKey.Enabled = false;
-            btnAesDec.Enabled = false;
-            btnAesEnc.Enabled = false;
-            cbxAESPar.Enabled = false;
-        }
-        private void EnableControls() {
-
-            inputAesIV.Enabled = true;
-            inputAesKey.Enabled = true;
-            btnAesDec.Enabled = true;
-            btnAesEnc.Enabled = true;
-            cbxAESPar.Enabled = true;
-        }
+        private string message;
         public AESForm()
         {
             InitializeComponent();
@@ -106,7 +72,19 @@ namespace CryptoClient.Forms
 
             myLoader.Visible = false;
 
-            mbps = 20 * 1024 * 1024;
+            if (listRawFiles.Length < 10)
+            {
+                mbps = 20 * 1024 * 1024;
+            }
+            else if(listRawFiles.Length > 100) { 
+                mbps = 10 * 1024 * 1024;
+            }
+            else
+            {
+                mbps = 15 * 1024 * 1024;
+            }
+
+            
 
             this.listSize = size;
 
@@ -121,6 +99,45 @@ namespace CryptoClient.Forms
 
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += TimerElapsed;
+        }
+
+        private async void PerformProgressBar()
+        {
+            cancellationTokenSource = new CancellationTokenSource();
+
+            await Task.Run(async () =>
+            {
+                for (int i = 0; i <= 0.9 * listSize; i += mbps)
+                {
+                    if (cancellationTokenSource.Token.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                    //SetProgress(i);
+                    Invoke(new Action(() =>
+                    {
+                        this.progressDone.Value = i;
+                    }));
+                    await Task.Delay(1000);
+                }
+            }, cancellationTokenSource.Token);
+        }
+        private void DisableControls()
+        {
+            inputAesIV.Enabled = false;
+            inputAesKey.Enabled = false;
+            btnAesDec.Enabled = false;
+            btnAesEnc.Enabled = false;
+            cbxAESPar.Enabled = false;
+        }
+        private void EnableControls()
+        {
+
+            inputAesIV.Enabled = true;
+            inputAesKey.Enabled = true;
+            btnAesDec.Enabled = true;
+            btnAesEnc.Enabled = true;
+            cbxAESPar.Enabled = true;
         }
         private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
@@ -145,99 +162,159 @@ namespace CryptoClient.Forms
             }));
 
         }
+
+        private bool ValidateInputs()
+        {
+            message = "";
+            if (inputAesKey.Text.Length != 32)
+                message += "The key must consist of 32 characters.\n";
+            if (inputAesIV.Text.Length != 16)
+                message += "The IV must consist of 16 characters.\n";
+            if (message == "")
+                return true;
+            else
+                return false;
+        }
         private void btnAesEnc_Click(object sender, EventArgs e)
         {
-
-            aesIVtxt = this.inputAesIV.Text;
-            aesKeytxt = this.inputAesKey.Text;
-
-            aesIVbytes = Types.StringToBytes(aesIVtxt);
-            aesKeybytes = Types.StringToBytes(aesKeytxt);
-
-            stopwatch.Reset();
-            stopwatch.Start();
-
-            myLoader.Visible = true;
-
-            DisableControls();
-
-            //-----------------------------------------
-
-            Task.Run(() =>
+            if (ValidateInputs())
             {
-                PerformProgressBar();
-                Invoke(new Action(() =>
-                {
-                    progressDone.Visible = true;
-                }));
-                if (cbxAESPar.Checked)
-                {
-                    service.AesEncryptP(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
-                }
-                else
-                {
-                    service.AesEncrypt(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
-                }
-            }).ContinueWith((task) =>
-            {
-                cancellationTokenSource?.Cancel();
-                this.progressDone.Value = this.progressDone.Maximum;
-                stopwatch.Stop();
-                this.enc = true;
-                timer.Start();
+                aesIVtxt = this.inputAesIV.Text;
+                aesKeytxt = this.inputAesKey.Text;
 
-                
-                listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder) + "_encAES"));
+                aesIVbytes = Types.StringToBytes(aesIVtxt);
+                aesKeybytes = Types.StringToBytes(aesKeytxt);
 
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+                stopwatch.Reset();
+                stopwatch.Start();
+
+                myLoader.Visible = true;
+
+                DisableControls();
+
+                //-----------------------------------------
+
+                Task.Run(() =>
+                {
+                    PerformProgressBar();
+                    Invoke(new Action(() =>
+                    {
+                        progressDone.Visible = true;
+                    }));
+                    if (cbxAESPar.Checked)
+                    {
+                        service.AesEncryptP(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
+                    }
+                    else
+                    {
+                        service.AesEncrypt(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
+                    }
+                }).ContinueWith((task) =>
+                {
+                    cancellationTokenSource?.Cancel();
+                    this.progressDone.Value = this.progressDone.Maximum;
+                    stopwatch.Stop();
+                    this.enc = true;
+                    timer.Start();
+
+
+                    listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder) + "_encAES"));
+                    message = "";
+
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+
 
 
         }
 
         private void btnAesDec_Click(object sender, EventArgs e)
         {
-            aesIVtxt = this.inputAesIV.Text;
-            aesKeytxt = this.inputAesKey.Text;
-
-            aesIVbytes = Types.StringToBytes(aesIVtxt);
-            aesKeybytes = Types.StringToBytes(aesKeytxt);
-
-            stopwatch.Reset();
-            stopwatch.Start();
-
-            myLoader.Visible = true;
-
-            DisableControls();
-
-            Task.Run(() =>
+            if (ValidateInputs())
             {
-                PerformProgressBar();
-                Invoke(new Action(() =>
+                aesIVtxt = this.inputAesIV.Text;
+                aesKeytxt = this.inputAesKey.Text;
+
+                aesIVbytes = Types.StringToBytes(aesIVtxt);
+                aesKeybytes = Types.StringToBytes(aesKeytxt);
+
+                stopwatch.Reset();
+                stopwatch.Start();
+
+                myLoader.Visible = true;
+
+                DisableControls();
+
+                Task.Run(() =>
                 {
-                    progressDone.Visible = true;
-                }));
-                if (cbxAESPar.Checked)
+                    PerformProgressBar();
+                    Invoke(new Action(() =>
+                    {
+                        progressDone.Visible = true;
+                    }));
+                    if (cbxAESPar.Checked)
+                    {
+                        service.AesDecryptP(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
+                    }
+                    else
+                    {
+                        service.AesDecrypt(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
+                    }
+                }).ContinueWith((task) =>
                 {
-                    service.AesDecryptP(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
-                }
-                else
-                {
-                    service.AesDecrypt(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
-                }
-            }).ContinueWith((task) =>
+                    cancellationTokenSource?.Cancel();
+                    this.progressDone.Value = this.progressDone.Maximum;
+                    stopwatch.Stop();
+                    this.enc = false;
+                    timer.Start();
+
+                    listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder(rootFolder)));
+                    message = "";
+
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            else
             {
-                cancellationTokenSource?.Cancel();
-                this.progressDone.Value = this.progressDone.Maximum;
-                stopwatch.Stop();
-                this.enc = false;
-                timer.Start();
+                MessageBox.Show(message);
+            }
 
-                listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder(rootFolder)));
-
-            }, TaskScheduler.FromCurrentSynchronizationContext());
            
 
 
+        }
+
+        private void imgExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        //------------ Dragging form -----------------------
+        private bool isDragging;
+        private Point offset;
+        private void AESForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isDragging = true;
+                offset = new Point(e.X, e.Y);
+            }
+        }
+
+        private void AESForm_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isDragging = false;
+            }
+        }
+
+        private void AESForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                Point currentScreenPos = PointToScreen(e.Location);
+                Location = new Point(currentScreenPos.X - offset.X, currentScreenPos.Y - offset.Y);
+            }
         }
     }
 }

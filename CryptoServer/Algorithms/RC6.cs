@@ -16,9 +16,9 @@ namespace CryptoServer.Algorithms
         private readonly HashMD5 shaM;
 
         private const int R = 20;
-        private static uint[] RoundKey = new uint[2 * R + 4];
+        private static uint[] S = new uint[2 * R + 4];
         private const int W = 32;
-        private static byte[] MainKey;
+        private static byte[] Key;
         private const uint P32 = 0xB7E15163;
         private const uint Q32 = 0x9E3779B9;
 
@@ -27,7 +27,7 @@ namespace CryptoServer.Algorithms
             shaM = new HashMD5();
         }
 
-        private static byte[] ToArrayBytes(uint[] uints, int Long)
+        private static byte[] GetBytes(uint[] uints, int Long)
         {
             byte[] arrayBytes = new byte[Long * 4];
             for (int i = 0; i < Long; i++)
@@ -38,37 +38,38 @@ namespace CryptoServer.Algorithms
             return arrayBytes;
         }
 
-        private static uint RightShift(uint value, int shift)
+        private static uint RotateLeft(uint x, int n)
         {
-            return (value >> shift) | (value << (W - shift));
+            return (x << n) | (x >> (W - n));
         }
-        private static uint LeftShift(uint value, int shift)
-        {
-            return (value << shift) | (value >> (W - shift));
-        }   
 
-        private void ExpandKey(byte[] key)
+        private static uint RotateRight(uint x, int n)
         {
-            MainKey = key;
+            return (x >> n) | (x << (W - n));
+        }
+
+        private void GenerateKey(byte[] key)
+        {
+            Key = key;
             int c = 0;
             int i, j;
             c = key.Length / 4;
             uint[] L = new uint[c];
             for (i = 0; i < c; i++)
             {
-                L[i] = BitConverter.ToUInt32(MainKey, i * 4);
+                L[i] = BitConverter.ToUInt32(Key, i * 4);
             }
-            RoundKey[0] = P32;
+            S[0] = P32;
             for (i = 1; i < 2 * R + 4; i++)
-                RoundKey[i] = RoundKey[i - 1] + Q32;
+                S[i] = S[i - 1] + Q32;
             uint A, B;
             A = B = 0;
             i = j = 0;
             int V = 3 * Math.Max(c, 2 * R + 4);
             for (int s = 1; s <= V; s++)
             {
-                A = RoundKey[i] = LeftShift((RoundKey[i] + A + B), 3);
-                B = L[j] = LeftShift((L[j] + A + B), (int)(A + B));
+                A = S[i] = RotateLeft((S[i] + A + B), 3);
+                B = L[j] = RotateLeft((L[j] + A + B), (int)(A + B));
                 i = (i + 1) % (2 * R + 4);
                 j = (j + 1) % c;
             }
@@ -78,7 +79,7 @@ namespace CryptoServer.Algorithms
         public void Encrypt(List<FileExtend> list, byte[] key, string rootFolder)
         {
 
-            ExpandKey(key);
+            GenerateKey(key);
             
             foreach (FileExtend file in list)
             {
@@ -121,24 +122,24 @@ namespace CryptoServer.Algorithms
                     B = BitConverter.ToUInt32(bytesToEncrypt, i + 4);
                     C = BitConverter.ToUInt32(bytesToEncrypt, i + 8);
                     D = BitConverter.ToUInt32(bytesToEncrypt, i + 12);
-                    B = B + RoundKey[0];
-                    D = D + RoundKey[1];
+                    B += S[0];
+                    D += S[1];
                     for (int j = 1; j <= R; j++)
                     {
-                        uint t = LeftShift((B * (2 * B + 1)), (int)(Math.Log(W, 2)));
-                        uint u = LeftShift((D * (2 * D + 1)), (int)(Math.Log(W, 2)));
-                        A = (LeftShift((A ^ t), (int)u)) + RoundKey[j * 2];
-                        C = (LeftShift((C ^ u), (int)t)) + RoundKey[j * 2 + 1];
+                        uint t = RotateLeft((B * (2 * B + 1)), (int)(Math.Log(W, 2)));
+                        uint u = RotateLeft((D * (2 * D + 1)), (int)(Math.Log(W, 2)));
+                        A = (RotateLeft((A ^ t), (int)u)) + S[j * 2];
+                        C = (RotateLeft((C ^ u), (int)t)) + S[j * 2 + 1];
                         uint temp = A;
                         A = B;
                         B = C;
                         C = D;
                         D = temp;
                     }
-                    A = A + RoundKey[2 * R + 2];
-                    C = C + RoundKey[2 * R + 3];
+                    A += S[2 * R + 2];
+                    C += S[2 * R + 3];
                     uint[] tempWords = new uint[4] { A, B, C, D };
-                    byte[] block = ToArrayBytes(tempWords, 4);
+                    byte[] block = GetBytes(tempWords, 4);
                     block.CopyTo(encryptedBytes, i);
 
                 }
@@ -153,7 +154,7 @@ namespace CryptoServer.Algorithms
 
         public void Decrypt(List<FileExtend> list, byte[] key, string rootFolder)
         {
-            ExpandKey(key);
+            GenerateKey(key);
             byte[] decryptedBytes;
             byte[] finallyDecryptedBytes;
             foreach (FileExtend file in list)
@@ -186,8 +187,8 @@ namespace CryptoServer.Algorithms
                         B = BitConverter.ToUInt32(file.FileBytes, i + 4);
                         C = BitConverter.ToUInt32(file.FileBytes, i + 8);
                         D = BitConverter.ToUInt32(file.FileBytes, i + 12);
-                        C = C - RoundKey[2 * R + 3];
-                        A = A - RoundKey[2 * R + 2];
+                        C -= S[2 * R + 3];
+                        A -= S[2 * R + 2];
                         for (int j = R; j >= 1; j--)
                         {
                             uint temp = D;
@@ -195,15 +196,15 @@ namespace CryptoServer.Algorithms
                             C = B;
                             B = A;
                             A = temp;
-                            uint u = LeftShift((D * (2 * D + 1)), (int)Math.Log(W, 2));
-                            uint t = LeftShift((B * (2 * B + 1)), (int)Math.Log(W, 2));
-                            C = RightShift((C - RoundKey[2 * j + 1]), (int)t) ^ u;
-                            A = RightShift((A - RoundKey[2 * j]), (int)u) ^ t;
+                            uint u = RotateLeft((D * (2 * D + 1)), (int)Math.Log(W, 2));
+                            uint t = RotateLeft((B * (2 * B + 1)), (int)Math.Log(W, 2));
+                            C = RotateRight((C - S[2 * j + 1]), (int)t) ^ u;
+                            A = RotateRight((A - S[2 * j]), (int)u) ^ t;
                         }
-                        D = D - RoundKey[1];
-                        B = B - RoundKey[0];
+                        D -= S[1];
+                        B -= S[0];
                         uint[] tempWords = new uint[4] { A, B, C, D };
-                        byte[] block = ToArrayBytes(tempWords, 4);
+                        byte[] block = GetBytes(tempWords, 4);
                         block.CopyTo(decryptedBytes, i);
                     }
 
@@ -227,7 +228,7 @@ namespace CryptoServer.Algorithms
         public void EncryptP(List<FileExtend> list, byte[] key, string rootFolder)
         {
 
-            ExpandKey(key);
+            GenerateKey(key);
 
             Parallel.ForEach(list, file =>
             {
@@ -261,30 +262,31 @@ namespace CryptoServer.Algorithms
 
                 encryptedBytes = new byte[bytesToEncrypt.Length];
                 lengthBytes.CopyTo(encryptedBytes, 0);
+
                 for (int i = 4; i < bytesToEncrypt.Length; i = i + 16)
                 {
                     A = BitConverter.ToUInt32(bytesToEncrypt, i);
                     B = BitConverter.ToUInt32(bytesToEncrypt, i + 4);
                     C = BitConverter.ToUInt32(bytesToEncrypt, i + 8);
                     D = BitConverter.ToUInt32(bytesToEncrypt, i + 12);
-                    B = B + RoundKey[0];
-                    D = D + RoundKey[1];
+                    B += S[0];
+                    D += S[1];
                     for (int j = 1; j <= R; j++)
                     {
-                        uint t = LeftShift((B * (2 * B + 1)), (int)(Math.Log(W, 2)));
-                        uint u = LeftShift((D * (2 * D + 1)), (int)(Math.Log(W, 2)));
-                        A = (LeftShift((A ^ t), (int)u)) + RoundKey[j * 2];
-                        C = (LeftShift((C ^ u), (int)t)) + RoundKey[j * 2 + 1];
+                        uint t = RotateLeft((B * (2 * B + 1)), (int)(Math.Log(W, 2)));
+                        uint u = RotateLeft((D * (2 * D + 1)), (int)(Math.Log(W, 2)));
+                        A = (RotateLeft((A ^ t), (int)u)) + S[j * 2];
+                        C = (RotateLeft((C ^ u), (int)t)) + S[j * 2 + 1];
                         uint temp = A;
                         A = B;
                         B = C;
                         C = D;
                         D = temp;
                     }
-                    A = A + RoundKey[2 * R + 2];
-                    C = C + RoundKey[2 * R + 3];
+                    A += S[2 * R + 2];
+                    C += S[2 * R + 3];
                     uint[] tempWords = new uint[4] { A, B, C, D };
-                    byte[] block = ToArrayBytes(tempWords, 4);
+                    byte[] block = GetBytes(tempWords, 4);
                     block.CopyTo(encryptedBytes, i);
 
                 }
@@ -298,7 +300,7 @@ namespace CryptoServer.Algorithms
 
         public void DecryptP(List<FileExtend> list, byte[] key, string rootFolder)
         {
-            ExpandKey(key);
+            GenerateKey(key);
             byte[] decryptedBytes;
             byte[] finallyDecryptedBytes;
 
@@ -332,8 +334,8 @@ namespace CryptoServer.Algorithms
                         B = BitConverter.ToUInt32(file.FileBytes, i + 4);
                         C = BitConverter.ToUInt32(file.FileBytes, i + 8);
                         D = BitConverter.ToUInt32(file.FileBytes, i + 12);
-                        C = C - RoundKey[2 * R + 3];
-                        A = A - RoundKey[2 * R + 2];
+                        C -= S[2 * R + 3];
+                        A -= S[2 * R + 2];
                         for (int j = R; j >= 1; j--)
                         {
                             uint temp = D;
@@ -341,22 +343,23 @@ namespace CryptoServer.Algorithms
                             C = B;
                             B = A;
                             A = temp;
-                            uint u = LeftShift((D * (2 * D + 1)), (int)Math.Log(W, 2));
-                            uint t = LeftShift((B * (2 * B + 1)), (int)Math.Log(W, 2));
-                            C = RightShift((C - RoundKey[2 * j + 1]), (int)t) ^ u;
-                            A = RightShift((A - RoundKey[2 * j]), (int)u) ^ t;
+                            uint u = RotateLeft((D * (2 * D + 1)), (int)Math.Log(W, 2));
+                            uint t = RotateLeft((B * (2 * B + 1)), (int)Math.Log(W, 2));
+                            C = RotateRight((C - S[2 * j + 1]), (int)t) ^ u;
+                            A = RotateRight((A - S[2 * j]), (int)u) ^ t;
                         }
-                        D = D - RoundKey[1];
-                        B = B - RoundKey[0];
+
+                        D -= S[1];
+                        B -= S[0];
+
                         uint[] tempWords = new uint[4] { A, B, C, D };
-                        byte[] block = ToArrayBytes(tempWords, 4);
+                        byte[] block = GetBytes(tempWords, 4);
                         block.CopyTo(decryptedBytes, i);
                     }
 
                     finallyDecryptedBytes = new byte[decryptedLength];
 
                     Array.Copy(decryptedBytes, 4, finallyDecryptedBytes, 0, decryptedLength);
-
 
                     File.WriteAllBytes(outputPath, finallyDecryptedBytes);
 

@@ -32,11 +32,14 @@ namespace CryptoClient
 
             lblTotalFilesDefault = lblTotalFiles.Text;
             lblTotalFiles.Visible = false;
-            btnAes.Visible = false;
-            btnRC6.Visible = false;
-            btnXXTEA.Visible = false;
+
+            btnAes.Enabled = false;
+            btnRC6.Enabled = false;
+            btnXXTEA.Enabled = false;
 
             myLoader.Visible = false;
+
+            lblOneFile.Visible = false;
         }
 
         private int CalculateSize(FileExtend[] list)
@@ -72,9 +75,15 @@ namespace CryptoClient
                         lblTotalFiles.Text += listRawFiles.Length + " files";
 
                         lblTotalFiles.Visible = true;
-                        btnAes.Visible = true;
-                        btnRC6.Visible = true;
-                        btnXXTEA.Visible = true;
+                        btnAes.Enabled = true;
+                        btnRC6.Enabled = true;
+                        btnXXTEA.Enabled = true;
+
+                        lblOneFile.Visible = false;
+                    }
+                    else
+                    {
+                        lblOneFile.Visible = true;
                     }
                     btnChooseFolder.Enabled = true;
                     myLoader.Visible = false;
@@ -115,6 +124,40 @@ namespace CryptoClient
             x.ShowDialog();
             lblTotalFiles.Text = lblTotalFilesDefault;
             lblTotalFiles.Visible = false;
+        }
+
+        private void imgExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        //------------ Dragging form -----------------------
+        private bool isDragging;
+        private Point offset;
+        private void MainForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isDragging = true;
+                offset = new Point(e.X, e.Y);
+            }
+        }
+
+        private void MainForm_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isDragging = false;
+            }
+        }
+
+        private void MainForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                Point currentScreenPos = PointToScreen(e.Location);
+                Location = new Point(currentScreenPos.X - offset.X, currentScreenPos.Y - offset.Y);
+            }
         }
     }
 }

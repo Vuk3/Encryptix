@@ -39,6 +39,62 @@ namespace CryptoClient.Forms
 
         private static int mbps;
 
+        private string message;
+        public RC6Form()
+        {
+            InitializeComponent();
+            service = new ServiceClient();
+        }
+
+        public RC6Form(FileExtend[] listRawFiles, string rootFolder, int size)
+        {
+            InitializeComponent();
+            Initialize(listRawFiles, rootFolder, size);
+
+            service = new ServiceClient();
+        }
+
+        private void Initialize(FileExtend[] listRawFiles, string rootFolder, int size)
+        {
+            this.inputRC6Key.MaxLength = 16;
+
+            this.listRawFiles = listRawFiles;
+            this.rootFolder = rootFolder;
+
+            this.lblEncRC6Done.Visible = false;
+            this.lblDecRC6Done.Visible = false;
+
+            this.listSize = size;
+
+            myLoader.Visible = false;
+
+            if (listRawFiles.Length < 10)
+            {
+                mbps = 7 * 1024 * 1024;
+            }
+            else if (listRawFiles.Length > 100)
+            {
+                mbps = 3 * 1024 * 1024;
+            }
+            else
+            {
+                mbps = 5 * 1024 * 1024;
+            }
+
+            stopwatch = new Stopwatch();
+
+
+            progressDone.Visible = false;
+            progressDone.Maximum = listSize;
+            progressDone.Minimum = 0;
+            progressDone.Step = (int)listSize / mbps;
+            progressDone.Style = ProgressBarStyle.Continuous;
+
+
+            timer = new System.Timers.Timer(1000);
+            timer.Elapsed += TimerElapsed;
+        }
+
         private async void PerformProgressBar()
         {
             cancellationTokenSource = new CancellationTokenSource();
@@ -74,49 +130,6 @@ namespace CryptoClient.Forms
             btnRC6Encrypt.Enabled = true;
             cbxRC6Par.Enabled = true;
         }
-        public RC6Form()
-        {
-            InitializeComponent();
-            service = new ServiceClient();
-        }
-
-        public RC6Form(FileExtend[] listRawFiles, string rootFolder, int size)
-        {
-            InitializeComponent();
-            Initialize(listRawFiles, rootFolder, size);
-
-            service = new ServiceClient();
-        }
-
-        private void Initialize(FileExtend[] listRawFiles, string rootFolder, int size)
-        {
-            this.inputRC6Key.MaxLength = 16;
-
-            this.listRawFiles = listRawFiles;
-            this.rootFolder = rootFolder;
-
-            this.lblEncRC6Done.Visible = false;
-            this.lblDecRC6Done.Visible = false;
-
-            this.listSize = size;
-
-            myLoader.Visible = false;
-
-            mbps = 7 * 1024 * 1024;
-
-            stopwatch = new Stopwatch();
-
-
-            progressDone.Visible = false;
-            progressDone.Maximum = listSize;
-            progressDone.Minimum = 0;
-            progressDone.Step = (int)listSize / mbps;
-            progressDone.Style = ProgressBarStyle.Continuous;
-
-
-            timer = new System.Timers.Timer(1000);
-            timer.Elapsed += TimerElapsed;
-        }
 
         private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
@@ -142,94 +155,160 @@ namespace CryptoClient.Forms
 
         }
 
+        private bool ValidateInputs()
+        {
+            message = "";
+            if (inputRC6Key.Text.Length != 16)
+                message += "The key must consist of 16 characters.\n";
+            if (message == "")
+                return true;
+            else
+                return false;
+        }
         private void btnRC6Encrypt_Click(object sender, EventArgs e)
         {
-            RC6Keytxt = this.inputRC6Key.Text;
-
-            RC6Keybytes = Types.StringToBytes(RC6Keytxt);
-
-            stopwatch.Reset();
-            stopwatch.Start();
-
-            myLoader.Visible = true;
-
-            DisableControls();
-
-            Task.Run(() =>
+            if (ValidateInputs())
             {
-                PerformProgressBar();
-                Invoke(new Action(() =>
+                RC6Keytxt = this.inputRC6Key.Text;
+
+                RC6Keybytes = Types.StringToBytes(RC6Keytxt);
+
+                stopwatch.Reset();
+                stopwatch.Start();
+
+                myLoader.Visible = true;
+
+                DisableControls();
+
+                Task.Run(() =>
                 {
-                    progressDone.Visible = true;
-                }));
-                if (cbxRC6Par.Checked)
+                    PerformProgressBar();
+                    Invoke(new Action(() =>
+                    {
+                        progressDone.Visible = true;
+                    }));
+                    if (cbxRC6Par.Checked)
+                    {
+                        service.RC6EncryptP(listRawFiles, RC6Keybytes, rootFolder);
+                    }
+                    else
+                    {
+                        service.RC6Encrypt(listRawFiles, RC6Keybytes, rootFolder);
+                    }
+                }).ContinueWith((task) =>
                 {
-                    service.RC6EncryptP(listRawFiles, RC6Keybytes, rootFolder);
-                }
-                else
-                {
-                    service.RC6Encrypt(listRawFiles, RC6Keybytes, rootFolder);
-                }
-            }).ContinueWith((task) =>
+
+                    cancellationTokenSource?.Cancel();
+                    this.progressDone.Value = this.progressDone.Maximum;
+                    stopwatch.Stop();
+                    this.enc = true;
+                    timer.Start();
+
+                    listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder) + "_encRC6"));
+
+                    message = "";
+
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            else
             {
-
-                cancellationTokenSource?.Cancel();
-                this.progressDone.Value = this.progressDone.Maximum;
-                stopwatch.Stop();
-                this.enc = true;
-                timer.Start();
-
-                listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder) + "_encRC6"));
-
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+                MessageBox.Show(message);
+            }
+    
 
            
         }
 
         private void btnRC6Decrypt_Click(object sender, EventArgs e)
         {
-            RC6Keytxt = this.inputRC6Key.Text;
 
-            RC6Keybytes = Types.StringToBytes(RC6Keytxt);
-
-            stopwatch.Reset();
-            stopwatch.Start();
-
-            myLoader.Visible = true;
-
-            DisableControls();
-
-            Task.Run(() =>
+            if (ValidateInputs())
             {
-                PerformProgressBar();
-                Invoke(new Action(() =>
+                RC6Keytxt = this.inputRC6Key.Text;
+
+                RC6Keybytes = Types.StringToBytes(RC6Keytxt);
+
+                stopwatch.Reset();
+                stopwatch.Start();
+
+                myLoader.Visible = true;
+
+                DisableControls();
+
+                Task.Run(() =>
                 {
-                    progressDone.Visible = true;
-                }));
-                if (cbxRC6Par.Checked)
+                    PerformProgressBar();
+                    Invoke(new Action(() =>
+                    {
+                        progressDone.Visible = true;
+                    }));
+                    if (cbxRC6Par.Checked)
+                    {
+                        service.RC6DecryptP(listRawFiles, RC6Keybytes, rootFolder);
+                    }
+                    else
+                    {
+                        service.RC6Decrypt(listRawFiles, RC6Keybytes, rootFolder);
+                    }
+                }).ContinueWith((task) =>
                 {
-                    service.RC6DecryptP(listRawFiles, RC6Keybytes, rootFolder);
-                }
-                else
-                {
-                    service.RC6Decrypt(listRawFiles, RC6Keybytes, rootFolder);
-                }
-            }).ContinueWith((task) =>
+
+                    cancellationTokenSource?.Cancel();
+                    this.progressDone.Value = this.progressDone.Maximum;
+                    stopwatch.Stop();
+                    this.enc = false;
+                    timer.Start();
+
+
+                    listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder(rootFolder)));
+
+                    message = "";
+
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+
+            }
+            else
             {
-
-                cancellationTokenSource?.Cancel();
-                this.progressDone.Value = this.progressDone.Maximum;
-                stopwatch.Stop();
-                this.enc = false;
-                timer.Start();
-
-
-                listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder(rootFolder)));
-
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+                MessageBox.Show(message);
+            }
 
 
 
+        }
+
+        private void imgExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        //------------ Dragging form -----------------------
+        private bool isDragging;
+        private Point offset;
+        private void RC6Form_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isDragging = true;
+                offset = new Point(e.X, e.Y);
+            }
+
+        }
+
+        private void RC6Form_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isDragging = false;
+            }
+        }
+
+        private void RC6Form_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                Point currentScreenPos = PointToScreen(e.Location);
+                Location = new Point(currentScreenPos.X - offset.X, currentScreenPos.Y - offset.Y);
+            }
         }
     }
 }

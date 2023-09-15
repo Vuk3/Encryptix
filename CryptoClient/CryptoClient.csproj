@@ -154,13 +154,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <None Include="Connected Services\ServiceReference\CryptoServer.Helper.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -180,6 +176,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -212,6 +213,21 @@
       <Project>{d753ce58-83b2-4a59-86e3-7022cc991733}</Project>
       <Name>CryptoServer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\redLoader.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\justTextTransparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\justLogoTransparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\XredTransparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loaderGray1.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
