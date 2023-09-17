@@ -65,15 +65,17 @@ namespace CryptoClient.Forms
             this.lblEncXXTEADone.Visible = false;
             this.lblDecXXTEADone.Visible = false;
 
-            if (listRawFiles.Length < 10)
+            mbps = 13 * 1024 * 1024;
+
+            if (listRawFiles.Length < 10 && size > 100000000)
             {
-                mbps = 13 * 1024 * 1024;
+                mbps = 12 * 1024 * 1024;
             }
-            else if (listRawFiles.Length > 100)
+            else if (listRawFiles.Length > 100 && size > 100000000)
             {
                 mbps = 7 * 1024 * 1024;
             }
-            else
+            else if (listRawFiles.Length >= 10 && listRawFiles.Length <= 100 && size > 100000000)
             {
                 mbps = 10 * 1024 * 1024;
             }

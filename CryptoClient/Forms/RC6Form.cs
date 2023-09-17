@@ -68,15 +68,17 @@ namespace CryptoClient.Forms
 
             myLoader.Visible = false;
 
-            if (listRawFiles.Length < 10)
+            mbps = 7 * 1024 * 1024;
+
+            if (listRawFiles.Length < 10 && size > 100000000)
             {
-                mbps = 7 * 1024 * 1024;
+                mbps = 6 * 1024 * 1024;
             }
-            else if (listRawFiles.Length > 100)
+            else if (listRawFiles.Length > 100 && size > 100000000)
             {
                 mbps = 3 * 1024 * 1024;
             }
-            else
+            else if (listRawFiles.Length >= 10 && listRawFiles.Length <= 100 && size > 100000000)
             {
                 mbps = 5 * 1024 * 1024;
             }
