@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -40,6 +41,8 @@ namespace CryptoClient.Forms
         private static int mbps;
 
         private string message;
+
+        private bool isExpanded;
         public RC6Form()
         {
             InitializeComponent();
@@ -95,6 +98,10 @@ namespace CryptoClient.Forms
 
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += TimerElapsed;
+
+            isExpanded = false;
+
+            this.Size = new Size(this.Width / 2, this.Height);
         }
 
         private async void PerformProgressBar()
@@ -310,6 +317,71 @@ namespace CryptoClient.Forms
             {
                 Point currentScreenPos = PointToScreen(e.Location);
                 Location = new Point(currentScreenPos.X - offset.X, currentScreenPos.Y - offset.Y);
+            }
+        }
+
+
+        // TREE VIEW
+
+        private void btnRC6AllFiles_Click(object sender, EventArgs e)
+        {
+            if (isExpanded)
+            {
+                this.btnRC6AllFiles.Text = "Show all files";
+                this.Size = new Size(this.Width / 2, this.Height);
+                treeView1.Nodes.Clear();
+            }
+            else
+            {
+                this.btnRC6AllFiles.Text = "Hide files";
+                this.Size = new Size(this.Width * 2, this.Height);
+                PopulateTreeView(rootFolder);
+                ExpandAllNodes(treeView1.Nodes);
+            }
+            isExpanded = !isExpanded;
+        }
+
+        private void PopulateTreeView(string rootDirectory)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(rootDirectory);
+
+            if (!directoryInfo.Exists)
+                return;
+
+            TreeNode rootNode = new TreeNode(directoryInfo.Name);
+            rootNode.Tag = directoryInfo.FullName;
+            PopulateTreeView(rootDirectory, rootNode);
+            treeView1.Nodes.Add(rootNode);
+        }
+
+        private void PopulateTreeView(string dir, TreeNode parentNode)
+        {
+            string[] subDirectories = Directory.GetDirectories(dir);
+            foreach (string directory in subDirectories)
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(directory);
+                TreeNode directoryNode = new TreeNode(directoryInfo.Name);
+                directoryNode.Tag = directoryInfo.FullName;
+                parentNode.Nodes.Add(directoryNode);
+                PopulateTreeView(directory, directoryNode);
+            }
+
+            string[] files = Directory.GetFiles(dir);
+            foreach (string file in files)
+            {
+                FileInfo fileInfo = new FileInfo(file);
+                TreeNode fileNode = new TreeNode(fileInfo.Name);
+                fileNode.Tag = fileInfo.FullName;
+                parentNode.Nodes.Add(fileNode);
+            }
+        }
+
+        private void ExpandAllNodes(TreeNodeCollection nodes)
+        {
+            foreach (TreeNode node in nodes)
+            {
+                node.Expand();
+                ExpandAllNodes(node.Nodes);
             }
         }
     }

@@ -41,6 +41,8 @@
             this.imgExit = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.myLoader = new System.Windows.Forms.PictureBox();
+            this.btnRC6AllFiles = new System.Windows.Forms.Button();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgExit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -72,7 +74,7 @@
             this.btnRC6Encrypt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRC6Encrypt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnRC6Encrypt.ForeColor = System.Drawing.Color.AntiqueWhite;
-            this.btnRC6Encrypt.Location = new System.Drawing.Point(236, 120);
+            this.btnRC6Encrypt.Location = new System.Drawing.Point(236, 110);
             this.btnRC6Encrypt.Name = "btnRC6Encrypt";
             this.btnRC6Encrypt.Size = new System.Drawing.Size(138, 40);
             this.btnRC6Encrypt.TabIndex = 2;
@@ -88,7 +90,7 @@
             this.btnRC6Decrypt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRC6Decrypt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnRC6Decrypt.ForeColor = System.Drawing.Color.AntiqueWhite;
-            this.btnRC6Decrypt.Location = new System.Drawing.Point(236, 188);
+            this.btnRC6Decrypt.Location = new System.Drawing.Point(237, 176);
             this.btnRC6Decrypt.Name = "btnRC6Decrypt";
             this.btnRC6Decrypt.Size = new System.Drawing.Size(138, 40);
             this.btnRC6Decrypt.TabIndex = 3;
@@ -99,7 +101,7 @@
             // lblEncRC6Done
             // 
             this.lblEncRC6Done.AutoSize = true;
-            this.lblEncRC6Done.Location = new System.Drawing.Point(84, 242);
+            this.lblEncRC6Done.Location = new System.Drawing.Point(0, 249);
             this.lblEncRC6Done.Name = "lblEncRC6Done";
             this.lblEncRC6Done.Size = new System.Drawing.Size(145, 16);
             this.lblEncRC6Done.TabIndex = 9;
@@ -108,7 +110,7 @@
             // lblDecRC6Done
             // 
             this.lblDecRC6Done.AutoSize = true;
-            this.lblDecRC6Done.Location = new System.Drawing.Point(84, 262);
+            this.lblDecRC6Done.Location = new System.Drawing.Point(0, 273);
             this.lblDecRC6Done.Name = "lblDecRC6Done";
             this.lblDecRC6Done.Size = new System.Drawing.Size(147, 16);
             this.lblDecRC6Done.TabIndex = 10;
@@ -117,7 +119,7 @@
             // cbxRC6Par
             // 
             this.cbxRC6Par.AutoSize = true;
-            this.cbxRC6Par.Location = new System.Drawing.Point(15, 188);
+            this.cbxRC6Par.Location = new System.Drawing.Point(12, 205);
             this.cbxRC6Par.Name = "cbxRC6Par";
             this.cbxRC6Par.Size = new System.Drawing.Size(113, 20);
             this.cbxRC6Par.TabIndex = 11;
@@ -183,12 +185,38 @@
             this.myLoader.TabIndex = 12;
             this.myLoader.TabStop = false;
             // 
+            // btnRC6AllFiles
+            // 
+            this.btnRC6AllFiles.BackColor = System.Drawing.Color.SaddleBrown;
+            this.btnRC6AllFiles.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRC6AllFiles.FlatAppearance.BorderSize = 0;
+            this.btnRC6AllFiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRC6AllFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnRC6AllFiles.ForeColor = System.Drawing.Color.AntiqueWhite;
+            this.btnRC6AllFiles.Location = new System.Drawing.Point(266, 237);
+            this.btnRC6AllFiles.Margin = new System.Windows.Forms.Padding(4);
+            this.btnRC6AllFiles.Name = "btnRC6AllFiles";
+            this.btnRC6AllFiles.Size = new System.Drawing.Size(108, 52);
+            this.btnRC6AllFiles.TabIndex = 20;
+            this.btnRC6AllFiles.Text = "Show all files";
+            this.btnRC6AllFiles.UseVisualStyleBackColor = false;
+            this.btnRC6AllFiles.Click += new System.EventHandler(this.btnRC6AllFiles_Click);
+            // 
+            // treeView1
+            // 
+            this.treeView1.Location = new System.Drawing.Point(393, 10);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(356, 279);
+            this.treeView1.TabIndex = 21;
+            // 
             // RC6Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.ClientSize = new System.Drawing.Size(379, 295);
+            this.ClientSize = new System.Drawing.Size(760, 295);
+            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.btnRC6AllFiles);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.imgExit);
             this.Controls.Add(this.pictureBox1);
@@ -232,5 +260,7 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox imgExit;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnRC6AllFiles;
+        private System.Windows.Forms.TreeView treeView1;
     }
 }
