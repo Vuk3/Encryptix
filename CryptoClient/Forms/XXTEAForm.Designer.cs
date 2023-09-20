@@ -41,6 +41,8 @@
             this.imgExit = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.myLoader = new System.Windows.Forms.PictureBox();
+            this.btnXXTEAAllFiles = new System.Windows.Forms.Button();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgExit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -73,7 +75,7 @@
             this.btnXXTEAEnc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnXXTEAEnc.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnXXTEAEnc.ForeColor = System.Drawing.Color.AntiqueWhite;
-            this.btnXXTEAEnc.Location = new System.Drawing.Point(235, 131);
+            this.btnXXTEAEnc.Location = new System.Drawing.Point(235, 118);
             this.btnXXTEAEnc.Margin = new System.Windows.Forms.Padding(4);
             this.btnXXTEAEnc.Name = "btnXXTEAEnc";
             this.btnXXTEAEnc.Size = new System.Drawing.Size(138, 40);
@@ -89,7 +91,7 @@
             this.btnXXTEADec.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnXXTEADec.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnXXTEADec.ForeColor = System.Drawing.Color.AntiqueWhite;
-            this.btnXXTEADec.Location = new System.Drawing.Point(235, 189);
+            this.btnXXTEADec.Location = new System.Drawing.Point(235, 177);
             this.btnXXTEADec.Margin = new System.Windows.Forms.Padding(4);
             this.btnXXTEADec.Name = "btnXXTEADec";
             this.btnXXTEADec.Size = new System.Drawing.Size(138, 40);
@@ -101,7 +103,7 @@
             // lblEncXXTEADone
             // 
             this.lblEncXXTEADone.AutoSize = true;
-            this.lblEncXXTEADone.Location = new System.Drawing.Point(86, 246);
+            this.lblEncXXTEADone.Location = new System.Drawing.Point(0, 250);
             this.lblEncXXTEADone.Name = "lblEncXXTEADone";
             this.lblEncXXTEADone.Size = new System.Drawing.Size(145, 16);
             this.lblEncXXTEADone.TabIndex = 10;
@@ -110,7 +112,7 @@
             // lblDecXXTEADone
             // 
             this.lblDecXXTEADone.AutoSize = true;
-            this.lblDecXXTEADone.Location = new System.Drawing.Point(86, 272);
+            this.lblDecXXTEADone.Location = new System.Drawing.Point(0, 273);
             this.lblDecXXTEADone.Name = "lblDecXXTEADone";
             this.lblDecXXTEADone.Size = new System.Drawing.Size(147, 16);
             this.lblDecXXTEADone.TabIndex = 11;
@@ -185,12 +187,38 @@
             this.myLoader.TabIndex = 13;
             this.myLoader.TabStop = false;
             // 
+            // btnXXTEAAllFiles
+            // 
+            this.btnXXTEAAllFiles.BackColor = System.Drawing.Color.SaddleBrown;
+            this.btnXXTEAAllFiles.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnXXTEAAllFiles.FlatAppearance.BorderSize = 0;
+            this.btnXXTEAAllFiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnXXTEAAllFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnXXTEAAllFiles.ForeColor = System.Drawing.Color.AntiqueWhite;
+            this.btnXXTEAAllFiles.Location = new System.Drawing.Point(265, 236);
+            this.btnXXTEAAllFiles.Margin = new System.Windows.Forms.Padding(4);
+            this.btnXXTEAAllFiles.Name = "btnXXTEAAllFiles";
+            this.btnXXTEAAllFiles.Size = new System.Drawing.Size(108, 52);
+            this.btnXXTEAAllFiles.TabIndex = 23;
+            this.btnXXTEAAllFiles.Text = "Show all files";
+            this.btnXXTEAAllFiles.UseVisualStyleBackColor = false;
+            this.btnXXTEAAllFiles.Click += new System.EventHandler(this.btnXXTEAAllFiles_Click);
+            // 
+            // treeView1
+            // 
+            this.treeView1.Location = new System.Drawing.Point(392, 12);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(356, 279);
+            this.treeView1.TabIndex = 24;
+            // 
             // XXTEAForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.ClientSize = new System.Drawing.Size(381, 298);
+            this.ClientSize = new System.Drawing.Size(760, 298);
+            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.btnXXTEAAllFiles);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.imgExit);
             this.Controls.Add(this.pictureBox1);
@@ -235,5 +263,7 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox imgExit;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnXXTEAAllFiles;
+        private System.Windows.Forms.TreeView treeView1;
     }
 }
