@@ -33,66 +33,66 @@ namespace CryptoServer
             return composite;
         }
 
-        public void AesDecrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder)
+        public void AesDecrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder, string hashFolder)
         {
-            aes.Decrypt(list, key, IV, rootFolder);
+            aes.Decrypt(list, key, IV, rootFolder, hashFolder);
         }
 
-        public void AesEncrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder)
+        public void AesEncrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder, string hashFolder)
         {
-            aes.Encrypt(list, key, IV, rootFolder);
+            aes.Encrypt(list, key, IV, rootFolder, hashFolder);
         }
 
-        public void RC6Encrypt(List<FileExtend> list, byte[] key, string rootFolder)
+        public void RC6Encrypt(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
-            rc6.Encrypt(list, key, rootFolder);
+            rc6.Encrypt(list, key, rootFolder, hashFolder);
         }
 
-        public void RC6Decrypt(List<FileExtend> list, byte[] key, string rootFolder)
+        public void RC6Decrypt(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
-            rc6.Decrypt(list, key, rootFolder);
+            rc6.Decrypt(list, key, rootFolder, hashFolder);
         }
 
-        public void XXTEADecrypt(List<FileExtend> list, byte[] key, string rootFolder)
+        public void XXTEADecrypt(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
-            xxtea.Decrypt(list, key, rootFolder);
+            xxtea.Decrypt(list, key, rootFolder, hashFolder);
         }
 
-        public void XXTEAEncrypt(List<FileExtend> list, byte[] key, string rootFolder)
+        public void XXTEAEncrypt(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
-            xxtea.Encrypt(list, key, rootFolder);
+            xxtea.Encrypt(list, key, rootFolder, hashFolder);
         }
 
         //---------------- parallel functions
 
-        public void AesDecryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder)
+        public void AesDecryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder, string hashFolder)
         {
-            aes.Decrypt(list, key, IV, rootFolder);
+            aes.Decrypt(list, key, IV, rootFolder, hashFolder);
         }
 
-        public void AesEncryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder)
+        public void AesEncryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder, string hashFolder)
         {
-            aes.Encrypt(list, key, IV, rootFolder);
+            aes.Encrypt(list, key, IV, rootFolder, hashFolder);
         }
 
-        public void RC6EncryptP(List<FileExtend> list, byte[] key, string rootFolder)
+        public void RC6EncryptP(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
-            rc6.Encrypt(list, key, rootFolder);
+            rc6.Encrypt(list, key, rootFolder, hashFolder);
         }
 
-        public void RC6DecryptP(List<FileExtend> list, byte[] key, string rootFolder)
+        public void RC6DecryptP(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
-            rc6.Decrypt(list, key, rootFolder);
+            rc6.Decrypt(list, key, rootFolder, hashFolder);
         }
 
-        public void XXTEADecryptP(List<FileExtend> list, byte[] key, string rootFolder)
+        public void XXTEADecryptP(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
-            xxtea.Decrypt(list, key, rootFolder);
+            xxtea.Decrypt(list, key, rootFolder, hashFolder);
         }
 
-        public void XXTEAEncryptP(List<FileExtend> list, byte[] key, string rootFolder)
+        public void XXTEAEncryptP(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
-            xxtea.Encrypt(list, key, rootFolder);
+            xxtea.Encrypt(list, key, rootFolder, hashFolder);
         }
     }
 }

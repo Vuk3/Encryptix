@@ -28,76 +28,76 @@ namespace CryptoClient.ServiceReference {
         System.Threading.Tasks.Task<CryptoServer.CompositeType> GetDataUsingDataContractAsync(CryptoServer.CompositeType composite);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AesEncrypt", ReplyAction="http://tempuri.org/IService/AesEncryptResponse")]
-        void AesEncrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder);
+        void AesEncrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string encFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AesEncrypt", ReplyAction="http://tempuri.org/IService/AesEncryptResponse")]
-        System.Threading.Tasks.Task AesEncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder);
+        System.Threading.Tasks.Task AesEncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string encFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AesDecrypt", ReplyAction="http://tempuri.org/IService/AesDecryptResponse")]
-        void AesDecrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder);
+        void AesDecrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string decFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AesDecrypt", ReplyAction="http://tempuri.org/IService/AesDecryptResponse")]
-        System.Threading.Tasks.Task AesDecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder);
+        System.Threading.Tasks.Task AesDecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string decFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/XXTEAEncrypt", ReplyAction="http://tempuri.org/IService/XXTEAEncryptResponse")]
-        void XXTEAEncrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        void XXTEAEncrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/XXTEAEncrypt", ReplyAction="http://tempuri.org/IService/XXTEAEncryptResponse")]
-        System.Threading.Tasks.Task XXTEAEncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        System.Threading.Tasks.Task XXTEAEncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/XXTEADecrypt", ReplyAction="http://tempuri.org/IService/XXTEADecryptResponse")]
-        void XXTEADecrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        void XXTEADecrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/XXTEADecrypt", ReplyAction="http://tempuri.org/IService/XXTEADecryptResponse")]
-        System.Threading.Tasks.Task XXTEADecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        System.Threading.Tasks.Task XXTEADecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RC6Encrypt", ReplyAction="http://tempuri.org/IService/RC6EncryptResponse")]
-        void RC6Encrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        void RC6Encrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RC6Encrypt", ReplyAction="http://tempuri.org/IService/RC6EncryptResponse")]
-        System.Threading.Tasks.Task RC6EncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        System.Threading.Tasks.Task RC6EncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RC6Decrypt", ReplyAction="http://tempuri.org/IService/RC6DecryptResponse")]
-        void RC6Decrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        void RC6Decrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RC6Decrypt", ReplyAction="http://tempuri.org/IService/RC6DecryptResponse")]
-        System.Threading.Tasks.Task RC6DecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        System.Threading.Tasks.Task RC6DecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AesEncryptP", ReplyAction="http://tempuri.org/IService/AesEncryptPResponse")]
-        void AesEncryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder);
+        void AesEncryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string encFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AesEncryptP", ReplyAction="http://tempuri.org/IService/AesEncryptPResponse")]
-        System.Threading.Tasks.Task AesEncryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder);
+        System.Threading.Tasks.Task AesEncryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string encFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AesDecryptP", ReplyAction="http://tempuri.org/IService/AesDecryptPResponse")]
-        void AesDecryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder);
+        void AesDecryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string decFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AesDecryptP", ReplyAction="http://tempuri.org/IService/AesDecryptPResponse")]
-        System.Threading.Tasks.Task AesDecryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder);
+        System.Threading.Tasks.Task AesDecryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string decFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/XXTEAEncryptP", ReplyAction="http://tempuri.org/IService/XXTEAEncryptPResponse")]
-        void XXTEAEncryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        void XXTEAEncryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/XXTEAEncryptP", ReplyAction="http://tempuri.org/IService/XXTEAEncryptPResponse")]
-        System.Threading.Tasks.Task XXTEAEncryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        System.Threading.Tasks.Task XXTEAEncryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/XXTEADecryptP", ReplyAction="http://tempuri.org/IService/XXTEADecryptPResponse")]
-        void XXTEADecryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        void XXTEADecryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/XXTEADecryptP", ReplyAction="http://tempuri.org/IService/XXTEADecryptPResponse")]
-        System.Threading.Tasks.Task XXTEADecryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        System.Threading.Tasks.Task XXTEADecryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RC6EncryptP", ReplyAction="http://tempuri.org/IService/RC6EncryptPResponse")]
-        void RC6EncryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        void RC6EncryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RC6EncryptP", ReplyAction="http://tempuri.org/IService/RC6EncryptPResponse")]
-        System.Threading.Tasks.Task RC6EncryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        System.Threading.Tasks.Task RC6EncryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RC6DecryptP", ReplyAction="http://tempuri.org/IService/RC6DecryptPResponse")]
-        void RC6DecryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        void RC6DecryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RC6DecryptP", ReplyAction="http://tempuri.org/IService/RC6DecryptPResponse")]
-        System.Threading.Tasks.Task RC6DecryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder);
+        System.Threading.Tasks.Task RC6DecryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -143,100 +143,100 @@ namespace CryptoClient.ServiceReference {
             return base.Channel.GetDataUsingDataContractAsync(composite);
         }
         
-        public void AesEncrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder) {
-            base.Channel.AesEncrypt(list, key, IV, rootFolder);
+        public void AesEncrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string encFolder, string hashFolder) {
+            base.Channel.AesEncrypt(list, key, IV, encFolder, hashFolder);
         }
         
-        public System.Threading.Tasks.Task AesEncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder) {
-            return base.Channel.AesEncryptAsync(list, key, IV, rootFolder);
+        public System.Threading.Tasks.Task AesEncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string encFolder, string hashFolder) {
+            return base.Channel.AesEncryptAsync(list, key, IV, encFolder, hashFolder);
         }
         
-        public void AesDecrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder) {
-            base.Channel.AesDecrypt(list, key, IV, rootFolder);
+        public void AesDecrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string decFolder, string hashFolder) {
+            base.Channel.AesDecrypt(list, key, IV, decFolder, hashFolder);
         }
         
-        public System.Threading.Tasks.Task AesDecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder) {
-            return base.Channel.AesDecryptAsync(list, key, IV, rootFolder);
+        public System.Threading.Tasks.Task AesDecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string decFolder, string hashFolder) {
+            return base.Channel.AesDecryptAsync(list, key, IV, decFolder, hashFolder);
         }
         
-        public void XXTEAEncrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            base.Channel.XXTEAEncrypt(list, key, rootFolder);
+        public void XXTEAEncrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder) {
+            base.Channel.XXTEAEncrypt(list, key, encFolder, hashFolder);
         }
         
-        public System.Threading.Tasks.Task XXTEAEncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            return base.Channel.XXTEAEncryptAsync(list, key, rootFolder);
+        public System.Threading.Tasks.Task XXTEAEncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder) {
+            return base.Channel.XXTEAEncryptAsync(list, key, encFolder, hashFolder);
         }
         
-        public void XXTEADecrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            base.Channel.XXTEADecrypt(list, key, rootFolder);
+        public void XXTEADecrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder) {
+            base.Channel.XXTEADecrypt(list, key, decFolder, hashFolder);
         }
         
-        public System.Threading.Tasks.Task XXTEADecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            return base.Channel.XXTEADecryptAsync(list, key, rootFolder);
+        public System.Threading.Tasks.Task XXTEADecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder) {
+            return base.Channel.XXTEADecryptAsync(list, key, decFolder, hashFolder);
         }
         
-        public void RC6Encrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            base.Channel.RC6Encrypt(list, key, rootFolder);
+        public void RC6Encrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder) {
+            base.Channel.RC6Encrypt(list, key, encFolder, hashFolder);
         }
         
-        public System.Threading.Tasks.Task RC6EncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            return base.Channel.RC6EncryptAsync(list, key, rootFolder);
+        public System.Threading.Tasks.Task RC6EncryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder) {
+            return base.Channel.RC6EncryptAsync(list, key, encFolder, hashFolder);
         }
         
-        public void RC6Decrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            base.Channel.RC6Decrypt(list, key, rootFolder);
+        public void RC6Decrypt(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder) {
+            base.Channel.RC6Decrypt(list, key, decFolder, hashFolder);
         }
         
-        public System.Threading.Tasks.Task RC6DecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            return base.Channel.RC6DecryptAsync(list, key, rootFolder);
+        public System.Threading.Tasks.Task RC6DecryptAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder) {
+            return base.Channel.RC6DecryptAsync(list, key, decFolder, hashFolder);
         }
         
-        public void AesEncryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder) {
-            base.Channel.AesEncryptP(list, key, IV, rootFolder);
+        public void AesEncryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string encFolder, string hashFolder) {
+            base.Channel.AesEncryptP(list, key, IV, encFolder, hashFolder);
         }
         
-        public System.Threading.Tasks.Task AesEncryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder) {
-            return base.Channel.AesEncryptPAsync(list, key, IV, rootFolder);
+        public System.Threading.Tasks.Task AesEncryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string encFolder, string hashFolder) {
+            return base.Channel.AesEncryptPAsync(list, key, IV, encFolder, hashFolder);
         }
         
-        public void AesDecryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder) {
-            base.Channel.AesDecryptP(list, key, IV, rootFolder);
+        public void AesDecryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string decFolder, string hashFolder) {
+            base.Channel.AesDecryptP(list, key, IV, decFolder, hashFolder);
         }
         
-        public System.Threading.Tasks.Task AesDecryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string rootFolder) {
-            return base.Channel.AesDecryptPAsync(list, key, IV, rootFolder);
+        public System.Threading.Tasks.Task AesDecryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, byte[] IV, string decFolder, string hashFolder) {
+            return base.Channel.AesDecryptPAsync(list, key, IV, decFolder, hashFolder);
         }
         
-        public void XXTEAEncryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            base.Channel.XXTEAEncryptP(list, key, rootFolder);
+        public void XXTEAEncryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder) {
+            base.Channel.XXTEAEncryptP(list, key, encFolder, hashFolder);
         }
         
-        public System.Threading.Tasks.Task XXTEAEncryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            return base.Channel.XXTEAEncryptPAsync(list, key, rootFolder);
+        public System.Threading.Tasks.Task XXTEAEncryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder) {
+            return base.Channel.XXTEAEncryptPAsync(list, key, encFolder, hashFolder);
         }
         
-        public void XXTEADecryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            base.Channel.XXTEADecryptP(list, key, rootFolder);
+        public void XXTEADecryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder) {
+            base.Channel.XXTEADecryptP(list, key, decFolder, hashFolder);
         }
         
-        public System.Threading.Tasks.Task XXTEADecryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            return base.Channel.XXTEADecryptPAsync(list, key, rootFolder);
+        public System.Threading.Tasks.Task XXTEADecryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder) {
+            return base.Channel.XXTEADecryptPAsync(list, key, decFolder, hashFolder);
         }
         
-        public void RC6EncryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            base.Channel.RC6EncryptP(list, key, rootFolder);
+        public void RC6EncryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder) {
+            base.Channel.RC6EncryptP(list, key, encFolder, hashFolder);
         }
         
-        public System.Threading.Tasks.Task RC6EncryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            return base.Channel.RC6EncryptPAsync(list, key, rootFolder);
+        public System.Threading.Tasks.Task RC6EncryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string encFolder, string hashFolder) {
+            return base.Channel.RC6EncryptPAsync(list, key, encFolder, hashFolder);
         }
         
-        public void RC6DecryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            base.Channel.RC6DecryptP(list, key, rootFolder);
+        public void RC6DecryptP(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder) {
+            base.Channel.RC6DecryptP(list, key, decFolder, hashFolder);
         }
         
-        public System.Threading.Tasks.Task RC6DecryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string rootFolder) {
-            return base.Channel.RC6DecryptPAsync(list, key, rootFolder);
+        public System.Threading.Tasks.Task RC6DecryptPAsync(CryptoServer.Helper.FileExtend[] list, byte[] key, string decFolder, string hashFolder) {
+            return base.Channel.RC6DecryptPAsync(list, key, decFolder, hashFolder);
         }
     }
 }

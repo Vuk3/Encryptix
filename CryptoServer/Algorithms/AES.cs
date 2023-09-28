@@ -12,12 +12,15 @@ namespace CryptoServer.Algorithms
     internal class AES
     {
         private readonly HashMD5 shaM;
+        private string initialRoot;
         public AES()
         {
             shaM = new HashMD5();
         }
-        public void Encrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder)
+        public void Encrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder, string hashFolder)
         {
+
+            initialRoot = list[0].FilePath;
             using (Aes myAes = Aes.Create())
             {
                 myAes.Key = key;
@@ -29,15 +32,29 @@ namespace CryptoServer.Algorithms
 
                 foreach (FileExtend file in list)
                 {
-                    // Construct the output file path in the same directory as the input file
-                    string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder + "_encAES"), file.FileName + "_encAES" + file.FileExtension);
 
-                    if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encAES")))
+                    //stara verzija
+
+                    //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder + "_encAES"), file.FileName + "_encAES" + file.FileExtension);
+
+                    //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encAES")))
+                    //{
+                    //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encAES"));
+                    //}
+
+                    //nova verzija
+
+
+                    string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
+
+                    string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
+
+                    if (!Directory.Exists(rootFolder + difference))
                     {
-                        Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encAES"));
+                        Directory.CreateDirectory(rootFolder + difference);
                     }
 
-                    WorkWithFiles.BeforeEnc(file, "AES", shaM, rootFolder);
+                    WorkWithFiles.BeforeEnc(file, "AES", shaM, hashFolder + difference);
 
                     using (FileStream fsEncryptedOutput = new FileStream(outputPath, FileMode.Create))
                     {
@@ -49,14 +66,15 @@ namespace CryptoServer.Algorithms
                     }
 
                     byte[] encryptedBytes = File.ReadAllBytes(outputPath);
-                    WorkWithFiles.AfterEnc(file, "AES", shaM, encryptedBytes, rootFolder);
+                    WorkWithFiles.AfterEnc(file, "AES", shaM, encryptedBytes, hashFolder + difference);
 
                 }
             }
         }
 
-        public void Decrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder)
+        public void Decrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder, string hashFolder)
         {
+            initialRoot = list[0].FilePath;
             using (Aes myAes = Aes.Create())
             {
                 myAes.Key = key;
@@ -69,18 +87,33 @@ namespace CryptoServer.Algorithms
                 foreach (FileExtend file in list)
                 {
                     // Construct the output file path for the decrypted file
-                    if(file.FileName.EndsWith("_encAES", StringComparison.OrdinalIgnoreCase)){
+                    //if(file.FileName.EndsWith("_encAES", StringComparison.OrdinalIgnoreCase)){
+
 
                         string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
 
-                        string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES"), file.FileName.Substring(0, file.FileName.Length-7) + "_decAES" + file.FileExtension);
+                    //stara verzija
 
-                        if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES")))
-                        {
-                            Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES"));
-                        }
+                    //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES"), file.FileName.Substring(0, file.FileName.Length-7) + "_decAES" + file.FileExtension);
 
-                        WorkWithFiles.BeforeDec(file, "AES", shaM, rootFolder);
+                    //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES")))
+                    //{
+                    //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES"));
+                    //}
+
+                    //nova verzija
+
+
+                    string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
+
+                    string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
+
+                    if (!Directory.Exists(rootFolder + difference))
+                    {
+                        Directory.CreateDirectory(rootFolder + difference);
+                    }
+
+                    WorkWithFiles.BeforeDec(file, "AES", shaM, hashFolder + difference);
 
                         using (FileStream fsEncryptedInput = new FileStream(inputPath, FileMode.Open))
                         {
@@ -101,9 +134,9 @@ namespace CryptoServer.Algorithms
                         }
 
                         byte[] decryptedBytes = File.ReadAllBytes(outputPath);
-                        WorkWithFiles.AfterDec(file, "AES", shaM, decryptedBytes, rootFolder);
+                        WorkWithFiles.AfterDec(file, "AES", shaM, decryptedBytes, hashFolder + difference);
 
-                    }
+                    //}
 
                 }
             }
@@ -112,8 +145,9 @@ namespace CryptoServer.Algorithms
 
         //----------------- parallel functions
 
-        public void EncryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder)
+        public void EncryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder, string hashFolder)
         {
+            initialRoot = list[0].FilePath;
             using (Aes myAes = Aes.Create())
             {
                 myAes.Key = key;
@@ -124,17 +158,29 @@ namespace CryptoServer.Algorithms
                 ICryptoTransform encryptor = myAes.CreateEncryptor(myAes.Key, myAes.IV);
 
                 Parallel.ForEach(list, file =>
-                {  
-                    
-                    // Construct the output file path in the same directory as the input file
-                    string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder + "_encAES"), file.FileName + "_encAES" + file.FileExtension);
+                {
 
-                    if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encAES")))
+                    //stara verzija
+
+                    //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder + "_encAES"), file.FileName + "_encAES" + file.FileExtension);
+
+                    //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encAES")))
+                    //{
+                    //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encAES"));
+                    //}
+
+                    //nova verzija
+
+                    string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
+
+                    string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
+
+                    if (!Directory.Exists(rootFolder + difference))
                     {
-                        Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encAES"));
+                        Directory.CreateDirectory(rootFolder + difference);
                     }
 
-                    WorkWithFiles.BeforeEnc(file, "AES", shaM, rootFolder);
+                    WorkWithFiles.BeforeEnc(file, "AES", shaM, hashFolder + difference);
 
                     using (FileStream fsEncryptedOutput = new FileStream(outputPath, FileMode.Create))
                     {
@@ -146,15 +192,16 @@ namespace CryptoServer.Algorithms
                     }
 
                     byte[] encryptedBytes = File.ReadAllBytes(outputPath);
-                    WorkWithFiles.AfterEnc(file, "AES", shaM, encryptedBytes, rootFolder);
+                    WorkWithFiles.AfterEnc(file, "AES", shaM, encryptedBytes, hashFolder + difference);
 
 
                 });
             }
         }
 
-        public void DecryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder)
+        public void DecryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder, string hashFolder)
         {
+            initialRoot = list[0].FilePath;
             using (Aes myAes = Aes.Create())
             {
                 myAes.Key = key;
@@ -167,19 +214,28 @@ namespace CryptoServer.Algorithms
                 Parallel.ForEach(list, file =>
                 {
                     // Construct the output file path for the decrypted file
-                    if (file.FileName.EndsWith("_encAES", StringComparison.OrdinalIgnoreCase))
-                    {
+                    //if (file.FileName.EndsWith("_encAES", StringComparison.OrdinalIgnoreCase))
+                    //{
 
                         string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
 
-                        string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES"), file.FileName.Substring(0, file.FileName.Length - 7) + "_decAES" + file.FileExtension);
+                    //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES"), file.FileName.Substring(0, file.FileName.Length - 7) + "_decAES" + file.FileExtension);
 
-                        if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES")))
-                        {
-                            Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES"));
-                        }
+                    //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES")))
+                    //{
+                    //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES"));
+                    //}
 
-                        WorkWithFiles.BeforeDec(file, "AES", shaM, rootFolder);
+                    string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
+
+                    string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
+
+                    if (!Directory.Exists(rootFolder + difference))
+                    {
+                        Directory.CreateDirectory(rootFolder + difference);
+                    }
+
+                    WorkWithFiles.BeforeDec(file, "AES", shaM, hashFolder + difference);
 
                         using (FileStream fsEncryptedInput = new FileStream(inputPath, FileMode.Open))
                         {
@@ -200,9 +256,9 @@ namespace CryptoServer.Algorithms
                         }
 
                         byte[] decryptedBytes = File.ReadAllBytes(outputPath);
-                        WorkWithFiles.AfterDec(file, "AES", shaM, decryptedBytes, rootFolder);
+                        WorkWithFiles.AfterDec(file, "AES", shaM, decryptedBytes, hashFolder + difference);
 
-                    }
+                    //}
                 });
           
             }

@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.ServiceModel.Channels;
@@ -28,6 +29,9 @@ namespace CryptoClient.Forms
         private byte[] XXTEAKeybytes;
 
         private string rootFolder;
+        private string encFolder;
+        private string decFolder;
+        private string hashFolder;
 
         private int listSize;
 
@@ -104,6 +108,11 @@ namespace CryptoClient.Forms
 
             this.Size = new Size(this.Width / 2, this.Height);
 
+
+            encFolder = "";
+            decFolder = "";
+            hashFolder = "";
+
         }
 
         private async void PerformProgressBar()
@@ -168,9 +177,11 @@ namespace CryptoClient.Forms
 
         private bool ValidateInputs()
         {
-            message = "";
             if (inputXXTEAKey.Text.Length != 16)
                 message += "The key must consist of 16 characters.\n";
+            if (inputAESFolderHashReal.Text == "")
+                message += "Folder for storing hash files must be selected.\n";
+
             if (message == "")
                 return true;
             else
@@ -178,6 +189,9 @@ namespace CryptoClient.Forms
         }
         private void btnXXTEAEnc_Click(object sender, EventArgs e)
         {
+            message = "";
+            if (inputAESFolderEncReal.Text == "")
+                message += "Folder for storing encrypted files must be selected.\n";
             if (ValidateInputs())
             {
                 XXTEAKeytxt = this.inputXXTEAKey.Text;
@@ -201,11 +215,11 @@ namespace CryptoClient.Forms
                     }));
                     if (cbxXXTEAPar.Checked)
                     {
-                        service.XXTEAEncryptP(listRawFiles, XXTEAKeybytes, rootFolder);
+                        service.XXTEAEncryptP(listRawFiles, XXTEAKeybytes, encFolder, hashFolder);
                     }
                     else
                     {
-                        service.XXTEAEncrypt(listRawFiles, XXTEAKeybytes, rootFolder);
+                        service.XXTEAEncrypt(listRawFiles, XXTEAKeybytes, encFolder, hashFolder);
                     }
                 }).ContinueWith((task) =>
                 {
@@ -216,7 +230,9 @@ namespace CryptoClient.Forms
                     this.enc = true;
                     timer.Start();
 
-                    listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder) + "_encXXTEA"));
+                    //listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder) + "_encXXTEA"));
+                    listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(encFolder)));
+
                     message = "";
 
                 }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -231,6 +247,9 @@ namespace CryptoClient.Forms
 
         private void btnXXTEADec_Click(object sender, EventArgs e)
         {
+            message = "";
+            if (inputAESFolderDecReal.Text == "")
+                message += "Folder for storing decrypted files must be selected.\n";
             if (ValidateInputs())
             {
                 XXTEAKeytxt = this.inputXXTEAKey.Text;
@@ -253,11 +272,11 @@ namespace CryptoClient.Forms
                     }));
                     if (cbxXXTEAPar.Checked)
                     {
-                        service.XXTEADecryptP(listRawFiles, XXTEAKeybytes, rootFolder);
+                        service.XXTEADecryptP(listRawFiles, XXTEAKeybytes, decFolder, hashFolder);
                     }
                     else
                     {
-                        service.XXTEADecrypt(listRawFiles, XXTEAKeybytes, rootFolder);
+                        service.XXTEADecrypt(listRawFiles, XXTEAKeybytes, decFolder, hashFolder);
                     }
                 }).ContinueWith((task) =>
                 {
@@ -266,7 +285,7 @@ namespace CryptoClient.Forms
                     this.enc = false;
                     timer.Start();
 
-                    listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder)));
+                    //listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder)));
                     message = "";
 
                 }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -376,6 +395,60 @@ namespace CryptoClient.Forms
             {
                 node.Expand();
                 ExpandAllNodes(node.Nodes);
+            }
+        }
+
+        private void imgEncFolder_Click(object sender, EventArgs e)
+        {
+            encFolder = FilesAndFolders.OpenFolder(null);
+            this.inputAESFolderEncReal.Text = encFolder;
+        }
+
+        private void imgDecFolder_Click(object sender, EventArgs e)
+        {
+            decFolder = FilesAndFolders.OpenFolder(null);
+            this.inputAESFolderDecReal.Text = decFolder;
+        }
+
+        private void imgHashFolder_Click(object sender, EventArgs e)
+        {
+            hashFolder = FilesAndFolders.OpenFolder(null);
+            this.inputAESFolderHashReal.Text = hashFolder;
+        }
+
+        private void cbxEncDefault_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxEncDefault.Checked)
+            {
+                inputAESFolderEncReal.Text = encFolder = rootFolder + "_encXXTEA";
+            }
+            else
+            {
+                inputAESFolderEncReal.Text = "";
+            }
+        }
+
+        private void cbxDecDefault_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxDecDefault.Checked)
+            {
+                inputAESFolderDecReal.Text = decFolder = rootFolder + "_decXXTEA";
+            }
+            else
+            {
+                inputAESFolderDecReal.Text = "";
+            }
+        }
+
+        private void cbxHashDefault_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxHashDefault.Checked)
+            {
+                inputAESFolderHashReal.Text = hashFolder = rootFolder + "_hashXXTEA";
+            }
+            else
+            {
+                inputAESFolderHashReal.Text = "";
             }
         }
     }

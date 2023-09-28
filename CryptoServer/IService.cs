@@ -22,46 +22,46 @@ namespace CryptoServer
         // TODO: Add your service operations here
 
         [OperationContract]
-        void AesEncrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder);
+        void AesEncrypt(List<FileExtend> list, byte[] key, byte[] IV, string encFolder, string hashFolder);
 
         [OperationContract]
-        void AesDecrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder);
-
-
-        [OperationContract]
-        void XXTEAEncrypt(List<FileExtend> list, byte[] key, string rootFolder);
+        void AesDecrypt(List<FileExtend> list, byte[] key, byte[] IV, string decFolder, string hashFolder);
 
 
         [OperationContract]
-        void XXTEADecrypt(List<FileExtend> list, byte[] key, string rootFolder);
+        void XXTEAEncrypt(List<FileExtend> list, byte[] key, string encFolder, string hashFolder);
+
 
         [OperationContract]
-        void RC6Encrypt(List<FileExtend> list, byte[] key, string rootFolder);
+        void XXTEADecrypt(List<FileExtend> list, byte[] key, string decFolder, string hashFolder);
 
         [OperationContract]
-        void RC6Decrypt(List<FileExtend> list, byte[] key, string rootFolder);
+        void RC6Encrypt(List<FileExtend> list, byte[] key, string encFolder, string hashFolder);
+
+        [OperationContract]
+        void RC6Decrypt(List<FileExtend> list, byte[] key, string decFolder, string hashFolder);
 
         //-------------- parallel functions
 
         [OperationContract]
-        void AesEncryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder);
+        void AesEncryptP(List<FileExtend> list, byte[] key, byte[] IV, string encFolder, string hashFolder);
 
         [OperationContract]
-        void AesDecryptP(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder);
-
-
-        [OperationContract]
-        void XXTEAEncryptP(List<FileExtend> list, byte[] key, string rootFolder);
+        void AesDecryptP(List<FileExtend> list, byte[] key, byte[] IV, string decFolder, string hashFolder);
 
 
         [OperationContract]
-        void XXTEADecryptP(List<FileExtend> list, byte[] key, string rootFolder);
+        void XXTEAEncryptP(List<FileExtend> list, byte[] key, string encFolder, string hashFolder);
+
 
         [OperationContract]
-        void RC6EncryptP(List<FileExtend> list, byte[] key, string rootFolder);
+        void XXTEADecryptP(List<FileExtend> list, byte[] key, string decFolder, string hashFolder);
 
         [OperationContract]
-        void RC6DecryptP(List<FileExtend> list, byte[] key, string rootFolder);
+        void RC6EncryptP(List<FileExtend> list, byte[] key, string encFolder, string hashFolder);
+
+        [OperationContract]
+        void RC6DecryptP(List<FileExtend> list, byte[] key, string decFolder, string hashFolder);
 
 
     }

@@ -16,6 +16,8 @@ using System.Diagnostics;
 using System.Threading;
 using System.Timers;
 using System.IO;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Windows.Forms.VisualStyles;
 
 namespace CryptoClient.Forms
 {
@@ -30,6 +32,10 @@ namespace CryptoClient.Forms
         private byte[] aesKeybytes;
 
         private string rootFolder;
+        private string encFolder;
+        private string decFolder;
+        private string hashFolder;
+
 
         private int listSize;
 
@@ -109,6 +115,11 @@ namespace CryptoClient.Forms
 
             this.Size = new Size(this.Width / 2, this.Height);
 
+
+            encFolder = "";
+            decFolder = "";
+            hashFolder = "";
+
         }
 
         private async void PerformProgressBar()
@@ -175,11 +186,13 @@ namespace CryptoClient.Forms
 
         private bool ValidateInputs()
         {
-            message = "";
             if (inputAesKey.Text.Length != 32)
                 message += "The key must consist of 32 characters.\n";
             if (inputAesIV.Text.Length != 16)
                 message += "The IV must consist of 16 characters.\n";
+            if (inputAESFolderHashReal.Text == "")
+                message += "Folder for storing hash files must be selected.\n";
+
             if (message == "")
                 return true;
             else
@@ -187,6 +200,9 @@ namespace CryptoClient.Forms
         }
         private void btnAesEnc_Click(object sender, EventArgs e)
         {
+            message = "";
+            if (inputAESFolderEncReal.Text == "")
+                message += "Folder for storing encrypted files must be selected.\n";
             if (ValidateInputs())
             {
                 aesIVtxt = this.inputAesIV.Text;
@@ -213,11 +229,11 @@ namespace CryptoClient.Forms
                     }));
                     if (cbxAESPar.Checked)
                     {
-                        service.AesEncryptP(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
+                        service.AesEncryptP(listRawFiles, aesKeybytes, aesIVbytes, encFolder, hashFolder);
                     }
                     else
                     {
-                        service.AesEncrypt(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
+                        service.AesEncrypt(listRawFiles, aesKeybytes, aesIVbytes, encFolder, hashFolder);
                     }
                 }).ContinueWith((task) =>
                 {
@@ -228,10 +244,16 @@ namespace CryptoClient.Forms
                     timer.Start();
 
 
-                    listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder) + "_encAES"));
+                    //listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder) + "_encAES"));
+
+                    listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(encFolder)));
                     message = "";
 
                 }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            else
+            {
+                MessageBox.Show(message);
             }
 
 
@@ -240,6 +262,9 @@ namespace CryptoClient.Forms
 
         private void btnAesDec_Click(object sender, EventArgs e)
         {
+            message = "";
+            if (inputAESFolderDecReal.Text == "")
+                message += "Folder for storing decrypted files must be selected.\n";
             if (ValidateInputs())
             {
                 aesIVtxt = this.inputAesIV.Text;
@@ -264,11 +289,11 @@ namespace CryptoClient.Forms
                     }));
                     if (cbxAESPar.Checked)
                     {
-                        service.AesDecryptP(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
+                        service.AesDecryptP(listRawFiles, aesKeybytes, aesIVbytes, decFolder, hashFolder);
                     }
                     else
                     {
-                        service.AesDecrypt(listRawFiles, aesKeybytes, aesIVbytes, rootFolder);
+                        service.AesDecrypt(listRawFiles, aesKeybytes, aesIVbytes, decFolder, hashFolder);
                     }
                 }).ContinueWith((task) =>
                 {
@@ -278,7 +303,7 @@ namespace CryptoClient.Forms
                     this.enc = false;
                     timer.Start();
 
-                    listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder(rootFolder)));
+                    //listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(FilesAndFolders.OpenFolder(rootFolder)));
                     message = "";
 
                 }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -390,6 +415,58 @@ namespace CryptoClient.Forms
             {
                 node.Expand();
                 ExpandAllNodes(node.Nodes);
+            }
+        }
+
+        private void imgEncFolder_Click(object sender, EventArgs e)
+        {
+            encFolder = FilesAndFolders.OpenFolder(null);
+            this.inputAESFolderEncReal.Text = encFolder;
+        }
+
+        private void imgDecFolder_Click(object sender, EventArgs e)
+        {
+            decFolder = FilesAndFolders.OpenFolder(null);
+            this.inputAESFolderDecReal.Text = decFolder;
+        }
+        private void imgHashFolder_Click(object sender, EventArgs e)
+        {
+            hashFolder = FilesAndFolders.OpenFolder(null);
+            this.inputAESFolderHashReal.Text = hashFolder;
+        }
+        private void cbxEncDefault_CheckedChanged(object sender, EventArgs e)
+        {
+            if(cbxEncDefault.Checked)
+            {
+                inputAESFolderEncReal.Text = encFolder = rootFolder + "_encAES";
+            }
+            else
+            {
+                inputAESFolderEncReal.Text = "";
+            }
+        }
+
+        private void cbxDecDefault_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxDecDefault.Checked)
+            {
+                inputAESFolderDecReal.Text = decFolder = rootFolder + "_decAES";
+            }
+            else
+            {
+                inputAESFolderDecReal.Text = "";
+            }
+        }
+
+        private void cbxHashDefault_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxHashDefault.Checked)
+            {
+                inputAESFolderHashReal.Text = hashFolder = rootFolder + "_hashAES";
+            }
+            else
+            {
+                inputAESFolderHashReal.Text = "";
             }
         }
     }

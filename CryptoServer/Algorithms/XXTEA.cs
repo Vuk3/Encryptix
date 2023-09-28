@@ -15,6 +15,8 @@ namespace CryptoServer.Algorithms
 
         private const uint Delta = 0x9e3779b9;
 
+        private string initialRoot;
+
         public XXTEA()
         {
             shaM = new HashMD5();
@@ -48,11 +50,12 @@ namespace CryptoServer.Algorithms
             return result;
         }
 
-        public void Encrypt(List<FileExtend> list, byte[] key, string rootFolder)
+        public void Encrypt(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
 
             foreach (FileExtend file in list)
             {
+                initialRoot = list[0].FilePath;
                 byte[] encryptedBytes;
 
                 if (file.FileBytes == null || file.FileBytes.Length == 0 || key == null || key.Length != 16)
@@ -60,14 +63,23 @@ namespace CryptoServer.Algorithms
                     throw new ArgumentException("Invalid input data or key.");
                 }
 
-                string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder+"_encXXTEA"), file.FileName + "_encXXTEA" + file.FileExtension);
+                //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder+"_encXXTEA"), file.FileName + "_encXXTEA" + file.FileExtension);
 
-                if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encXXTEA")))
+                //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encXXTEA")))
+                //{
+                //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encXXTEA"));
+                //}
+
+                string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
+
+                string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
+
+                if (!Directory.Exists(rootFolder + difference))
                 {
-                    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encXXTEA"));
+                    Directory.CreateDirectory(rootFolder + difference);
                 }
 
-                WorkWithFiles.BeforeEnc(file, "XXTEA", shaM, rootFolder);
+                WorkWithFiles.BeforeEnc(file, "XXTEA", shaM, hashFolder + difference);
 
 
                 int originalLength = file.FileBytes.Length;
@@ -77,7 +89,7 @@ namespace CryptoServer.Algorithms
                 byte[] newBytes = new byte[paddedLength];
                 file.FileBytes.CopyTo(newBytes, 0);
                 byte[] lengthBytes = BitConverter.GetBytes(originalLength);
-          
+
 
                 encryptedBytes = new byte[lengthBytes.Length + newBytes.Length];
                 lengthBytes.CopyTo(encryptedBytes, 0);
@@ -109,86 +121,99 @@ namespace CryptoServer.Algorithms
 
                 File.WriteAllBytes(outputPath, encryptedBytes);
 
-                WorkWithFiles.AfterEnc(file, "XXTEA", shaM, encryptedBytes, rootFolder);
+                WorkWithFiles.AfterEnc(file, "XXTEA", shaM, encryptedBytes, hashFolder + difference);
 
 
             }
 
         }
 
-        public void Decrypt(List<FileExtend> list, byte[] key, string rootFolder)
+        public void Decrypt(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
             byte[] finallyDecryptedBytes;
 
             foreach (FileExtend file in list)
             {
-                if (file.FileName.EndsWith("_encXXTEA", StringComparison.OrdinalIgnoreCase))
+                initialRoot = list[0].FilePath;
+
+                //if (file.FileName.EndsWith("_encXXTEA", StringComparison.OrdinalIgnoreCase))
+                //{
+                if (file.FileBytes == null || file.FileBytes.Length == 0 || key == null || key.Length != 16)
                 {
-                    if (file.FileBytes == null || file.FileBytes.Length == 0 || key == null || key.Length != 16)
-                    {
-                        throw new ArgumentException("Invalid input data or key.");
-                    }
-                    string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
-
-                    string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA"), file.FileName.Substring(0, file.FileName.Length - 9) + "_decXXTEA" + file.FileExtension);
-
-                    if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA")))
-                    {
-                        Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA"));
-                    }
-
-                    WorkWithFiles.BeforeDec(file, "XXTEA", shaM, rootFolder);
-
-
-
-                    int decryptedLength = BitConverter.ToInt32(file.FileBytes, 0);
-                    byte[] bytesForDecrypt = new byte[file.FileBytes.Length-4];
-                    Array.Copy(file.FileBytes, 4, bytesForDecrypt, 0, file.FileBytes.Length - 4);
-
-
-                    uint[] v = ToUIntArray(bytesForDecrypt);
-                    uint[] k = ToUIntArray(key);
-
-                    int n = v.Length;
-                    uint y = v[0];
-                    uint z = v[n - 1];
-
-                    int rounds = 6 + 52 / n;
-                    uint sum = unchecked((uint)(rounds * Delta));
-                    for (int i = 0; i < rounds; i++)
-                    {
-                        uint e = sum >> 2 & 3;
-                        for (int j = n - 1; j > 0; j--)
-                        {
-                            z = v[j - 1];
-                            y = v[j] = unchecked(v[j] - MX(sum, y, z, j, e, k));
-                        }
-                        z = v[n - 1];
-                        y = v[0] = unchecked(v[0] - MX(sum, y, z, 0, e, k));
-                        sum = unchecked(sum - Delta);
-                    }
-
-                    byte[] decryptedBytes = ToByteArray(v);
-                    finallyDecryptedBytes = new byte[decryptedLength];
-                    Array.Copy(decryptedBytes, 0, finallyDecryptedBytes, 0, decryptedLength);
-
-
-                    File.WriteAllBytes(outputPath, finallyDecryptedBytes);
-
-                    WorkWithFiles.AfterDec(file, "XXTEA", shaM, finallyDecryptedBytes, rootFolder);
-
+                    throw new ArgumentException("Invalid input data or key.");
                 }
+                string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
+
+                //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA"), file.FileName.Substring(0, file.FileName.Length - 9) + "_decXXTEA" + file.FileExtension);
+
+                //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA")))
+                //{
+                //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA"));
+                //}
+
+                string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
+
+                string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
+
+                if (!Directory.Exists(rootFolder + difference))
+                {
+                    Directory.CreateDirectory(rootFolder + difference);
+                }
+
+                WorkWithFiles.BeforeDec(file, "XXTEA", shaM, hashFolder + difference);
+
+
+
+                int decryptedLength = BitConverter.ToInt32(file.FileBytes, 0);
+                byte[] bytesForDecrypt = new byte[file.FileBytes.Length - 4];
+                Array.Copy(file.FileBytes, 4, bytesForDecrypt, 0, file.FileBytes.Length - 4);
+
+
+                uint[] v = ToUIntArray(bytesForDecrypt);
+                uint[] k = ToUIntArray(key);
+
+                int n = v.Length;
+                uint y = v[0];
+                uint z = v[n - 1];
+
+                int rounds = 6 + 52 / n;
+                uint sum = unchecked((uint)(rounds * Delta));
+                for (int i = 0; i < rounds; i++)
+                {
+                    uint e = sum >> 2 & 3;
+                    for (int j = n - 1; j > 0; j--)
+                    {
+                        z = v[j - 1];
+                        y = v[j] = unchecked(v[j] - MX(sum, y, z, j, e, k));
+                    }
+                    z = v[n - 1];
+                    y = v[0] = unchecked(v[0] - MX(sum, y, z, 0, e, k));
+                    sum = unchecked(sum - Delta);
+                }
+
+                byte[] decryptedBytes = ToByteArray(v);
+                finallyDecryptedBytes = new byte[decryptedLength];
+                Array.Copy(decryptedBytes, 0, finallyDecryptedBytes, 0, decryptedLength);
+
+
+                File.WriteAllBytes(outputPath, finallyDecryptedBytes);
+
+                WorkWithFiles.AfterDec(file, "XXTEA", shaM, finallyDecryptedBytes, hashFolder + difference);
+
+                //}
             }
-               
+
         }
 
         //----------------- parallel functions
 
-        public void EncryptP(List<FileExtend> list, byte[] key, string rootFolder)
+        public void EncryptP(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
 
             Parallel.ForEach(list, file =>
             {
+                initialRoot = list[0].FilePath;
+
                 byte[] encryptedBytes;
 
                 if (file.FileBytes == null || file.FileBytes.Length == 0 || key == null || key.Length != 16)
@@ -196,14 +221,25 @@ namespace CryptoServer.Algorithms
                     throw new ArgumentException("Invalid input data or key.");
                 }
 
-                string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder + "_encXXTEA"), file.FileName + "_encXXTEA" + file.FileExtension);
+                //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder + "_encXXTEA"), file.FileName + "_encXXTEA" + file.FileExtension);
 
-                if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encXXTEA")))
+                //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encXXTEA")))
+                //{
+                //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encXXTEA"));
+                //}
+
+
+                string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
+
+
+                string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
+
+                if (!Directory.Exists(rootFolder + difference))
                 {
-                    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encXXTEA"));
+                    Directory.CreateDirectory(rootFolder + difference);
                 }
 
-                WorkWithFiles.BeforeEnc(file, "XXTEA", shaM, rootFolder);
+                WorkWithFiles.BeforeEnc(file, "XXTEA", shaM, hashFolder + difference);
 
 
                 int originalLength = file.FileBytes.Length;
@@ -245,74 +281,85 @@ namespace CryptoServer.Algorithms
 
                 File.WriteAllBytes(outputPath, encryptedBytes);
 
-                WorkWithFiles.AfterEnc(file, "XXTEA", shaM, encryptedBytes, rootFolder);
+                WorkWithFiles.AfterEnc(file, "XXTEA", shaM, encryptedBytes, hashFolder + difference);
 
             });
 
         }
 
-        public void DecryptP(List<FileExtend> list, byte[] key, string rootFolder)
+        public void DecryptP(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
             byte[] finallyDecryptedBytes;
 
             Parallel.ForEach(list, file =>
             {
-                if (file.FileName.EndsWith("_encXXTEA", StringComparison.OrdinalIgnoreCase))
+                //if (file.FileName.EndsWith("_encXXTEA", StringComparison.OrdinalIgnoreCase))
+                //{
+                initialRoot = list[0].FilePath;
+
+                if (file.FileBytes == null || file.FileBytes.Length == 0 || key == null || key.Length != 16)
                 {
-                    if (file.FileBytes == null || file.FileBytes.Length == 0 || key == null || key.Length != 16)
-                    {
-                        throw new ArgumentException("Invalid input data or key.");
-                    }
-                    string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
-
-                    string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA"), file.FileName.Substring(0, file.FileName.Length - 9) + "_decXXTEA" + file.FileExtension);
-
-                    if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA")))
-                    {
-                        Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA"));
-                    }
-
-                    WorkWithFiles.BeforeDec(file, "XXTEA", shaM, rootFolder);
-
-
-
-                    int decryptedLength = BitConverter.ToInt32(file.FileBytes, 0);
-                    byte[] bytesForDecrypt = new byte[file.FileBytes.Length - 4];
-                    Array.Copy(file.FileBytes, 4, bytesForDecrypt, 0, file.FileBytes.Length - 4);
-
-
-                    uint[] v = ToUIntArray(bytesForDecrypt);
-                    uint[] k = ToUIntArray(key);
-
-                    int n = v.Length;
-                    uint y = v[0];
-                    uint z = v[n - 1];
-
-                    int rounds = 6 + 52 / n;
-                    uint sum = unchecked((uint)(rounds * Delta));
-                    for (int i = 0; i < rounds; i++)
-                    {
-                        uint e = sum >> 2 & 3;
-                        for (int j = n - 1; j > 0; j--)
-                        {
-                            z = v[j - 1];
-                            y = v[j] = unchecked(v[j] - MX(sum, y, z, j, e, k));
-                        }
-                        z = v[n - 1];
-                        y = v[0] = unchecked(v[0] - MX(sum, y, z, 0, e, k));
-                        sum = unchecked(sum - Delta);
-                    }
-
-                    byte[] decryptedBytes = ToByteArray(v);
-                    finallyDecryptedBytes = new byte[decryptedLength];
-                    Array.Copy(decryptedBytes, 0, finallyDecryptedBytes, 0, decryptedLength);
-
-
-                    File.WriteAllBytes(outputPath, finallyDecryptedBytes);
-
-                    WorkWithFiles.AfterDec(file, "XXTEA", shaM, finallyDecryptedBytes, rootFolder);
-
+                    throw new ArgumentException("Invalid input data or key.");
                 }
+                string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
+
+                //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA"), file.FileName.Substring(0, file.FileName.Length - 9) + "_decXXTEA" + file.FileExtension);
+
+                //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA")))
+                //{
+                //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA"));
+                //}
+
+                string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
+
+                string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
+
+                if (!Directory.Exists(rootFolder + difference))
+                {
+                    Directory.CreateDirectory(rootFolder + difference);
+                }
+
+                WorkWithFiles.BeforeDec(file, "XXTEA", shaM, hashFolder + difference);
+
+
+
+                int decryptedLength = BitConverter.ToInt32(file.FileBytes, 0);
+                byte[] bytesForDecrypt = new byte[file.FileBytes.Length - 4];
+                Array.Copy(file.FileBytes, 4, bytesForDecrypt, 0, file.FileBytes.Length - 4);
+
+
+                uint[] v = ToUIntArray(bytesForDecrypt);
+                uint[] k = ToUIntArray(key);
+
+                int n = v.Length;
+                uint y = v[0];
+                uint z = v[n - 1];
+
+                int rounds = 6 + 52 / n;
+                uint sum = unchecked((uint)(rounds * Delta));
+                for (int i = 0; i < rounds; i++)
+                {
+                    uint e = sum >> 2 & 3;
+                    for (int j = n - 1; j > 0; j--)
+                    {
+                        z = v[j - 1];
+                        y = v[j] = unchecked(v[j] - MX(sum, y, z, j, e, k));
+                    }
+                    z = v[n - 1];
+                    y = v[0] = unchecked(v[0] - MX(sum, y, z, 0, e, k));
+                    sum = unchecked(sum - Delta);
+                }
+
+                byte[] decryptedBytes = ToByteArray(v);
+                finallyDecryptedBytes = new byte[decryptedLength];
+                Array.Copy(decryptedBytes, 0, finallyDecryptedBytes, 0, decryptedLength);
+
+
+                File.WriteAllBytes(outputPath, finallyDecryptedBytes);
+
+                WorkWithFiles.AfterDec(file, "XXTEA", shaM, finallyDecryptedBytes, hashFolder + difference);
+
+                //}
             });
 
         }

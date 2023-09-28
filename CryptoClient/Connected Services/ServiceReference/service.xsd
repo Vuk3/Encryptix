@@ -36,7 +36,8 @@
         <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q3:ArrayOfFileExtend" />
         <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
         <xs:element minOccurs="0" name="IV" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="encFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="hashFolder" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -51,7 +52,8 @@
         <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q4:ArrayOfFileExtend" />
         <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
         <xs:element minOccurs="0" name="IV" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="decFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="hashFolder" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -65,7 +67,8 @@
       <xs:sequence>
         <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q5:ArrayOfFileExtend" />
         <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="encFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="hashFolder" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -79,7 +82,8 @@
       <xs:sequence>
         <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q6:ArrayOfFileExtend" />
         <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="decFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="hashFolder" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -93,7 +97,8 @@
       <xs:sequence>
         <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q7:ArrayOfFileExtend" />
         <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="encFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="hashFolder" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -107,7 +112,8 @@
       <xs:sequence>
         <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q8:ArrayOfFileExtend" />
         <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="decFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="hashFolder" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -122,7 +128,8 @@
         <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q9:ArrayOfFileExtend" />
         <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
         <xs:element minOccurs="0" name="IV" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="encFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="hashFolder" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -137,7 +144,8 @@
         <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q10:ArrayOfFileExtend" />
         <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
         <xs:element minOccurs="0" name="IV" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="decFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="hashFolder" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -151,7 +159,8 @@
       <xs:sequence>
         <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q11:ArrayOfFileExtend" />
         <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="encFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="hashFolder" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -165,7 +174,8 @@
       <xs:sequence>
         <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q12:ArrayOfFileExtend" />
         <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="decFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="hashFolder" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -179,7 +189,8 @@
       <xs:sequence>
         <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q13:ArrayOfFileExtend" />
         <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="encFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="hashFolder" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -193,7 +204,8 @@
       <xs:sequence>
         <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/CryptoServer.Helper" minOccurs="0" name="list" nillable="true" type="q14:ArrayOfFileExtend" />
         <xs:element minOccurs="0" name="key" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="rootFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="decFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="hashFolder" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

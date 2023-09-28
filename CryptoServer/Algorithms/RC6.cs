@@ -22,6 +22,8 @@ namespace CryptoServer.Algorithms
         private const uint P32 = 0xB7E15163;
         private const uint Q32 = 0x9E3779B9;
 
+        private string initialRoot;
+
         public RC6()
         {
             shaM = new HashMD5();
@@ -76,23 +78,33 @@ namespace CryptoServer.Algorithms
 
         }
 
-        public void Encrypt(List<FileExtend> list, byte[] key, string rootFolder)
+        public void Encrypt(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
 
             GenerateKey(key);
             
             foreach (FileExtend file in list)
             {
+                initialRoot = list[0].FilePath;
                 byte[] encryptedBytes;
 
-                string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6"), file.FileName + "_encRC6" + file.FileExtension);
+                //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6"), file.FileName + "_encRC6" + file.FileExtension);
 
-                if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6")))
+                //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6")))
+                //{
+                //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6"));
+                //}
+
+                string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
+
+                string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
+
+                if (!Directory.Exists(rootFolder + difference))
                 {
-                    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6"));
+                    Directory.CreateDirectory(rootFolder + difference);
                 }
 
-                WorkWithFiles.BeforeEnc(file, "RC6", shaM, rootFolder);
+                WorkWithFiles.BeforeEnc(file, "RC6", shaM, hashFolder + difference);
 
 
 
@@ -146,31 +158,41 @@ namespace CryptoServer.Algorithms
 
                 File.WriteAllBytes(outputPath, encryptedBytes);
 
-                WorkWithFiles.AfterEnc(file, "RC6", shaM, encryptedBytes, rootFolder);
+                WorkWithFiles.AfterEnc(file, "RC6", shaM, encryptedBytes, hashFolder + difference);
 
             }
 
         }
 
-        public void Decrypt(List<FileExtend> list, byte[] key, string rootFolder)
+        public void Decrypt(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
             GenerateKey(key);
             byte[] decryptedBytes;
             byte[] finallyDecryptedBytes;
             foreach (FileExtend file in list)
             {
-                if (file.FileName.EndsWith("_encRC6", StringComparison.OrdinalIgnoreCase))
-                {
+                initialRoot = list[0].FilePath;
+                //if (file.FileName.EndsWith("_encRC6", StringComparison.OrdinalIgnoreCase))
+                //{
                     string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
 
-                    string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6"), file.FileName.Substring(0, file.FileName.Length - 7) + "_decRC6" + file.FileExtension);
+                    //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6"), file.FileName.Substring(0, file.FileName.Length - 7) + "_decRC6" + file.FileExtension);
 
-                    if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6")))
+                    //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6")))
+                    //{
+                    //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6"));
+                    //}
+
+                    string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
+
+                    string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
+
+                    if (!Directory.Exists(rootFolder + difference))
                     {
-                        Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6"));
+                        Directory.CreateDirectory(rootFolder + difference);
                     }
 
-                    WorkWithFiles.BeforeDec(file, "RC6", shaM, rootFolder);
+                    WorkWithFiles.BeforeDec(file, "RC6", shaM, hashFolder + difference);
 
 
                     uint A, B, C, D;
@@ -215,9 +237,9 @@ namespace CryptoServer.Algorithms
 
                     File.WriteAllBytes(outputPath, finallyDecryptedBytes);
 
-                    WorkWithFiles.AfterDec(file, "RC6", shaM, finallyDecryptedBytes, rootFolder);
+                    WorkWithFiles.AfterDec(file, "RC6", shaM, finallyDecryptedBytes, hashFolder + difference);
 
-                }
+                //}
 
             }
         }
@@ -225,23 +247,34 @@ namespace CryptoServer.Algorithms
         //----------------- parallel functions
 
 
-        public void EncryptP(List<FileExtend> list, byte[] key, string rootFolder)
+        public void EncryptP(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
 
             GenerateKey(key);
 
             Parallel.ForEach(list, file =>
             {
+                initialRoot = list[0].FilePath;
                 byte[] encryptedBytes;
 
-                string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6"), file.FileName + "_encRC6" + file.FileExtension);
+                //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6"), file.FileName + "_encRC6" + file.FileExtension);
 
-                if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6")))
+                //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6")))
+                //{
+                //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6"));
+                //}
+
+                string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
+
+
+                string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
+
+                if (!Directory.Exists(rootFolder + difference))
                 {
-                    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6"));
+                    Directory.CreateDirectory(rootFolder + difference);
                 }
 
-                WorkWithFiles.BeforeEnc(file, "RC6", shaM, rootFolder);
+                WorkWithFiles.BeforeEnc(file, "RC6", shaM, hashFolder + difference);
 
                 //---------------------------------------------------------------------------------
 
@@ -293,12 +326,12 @@ namespace CryptoServer.Algorithms
 
                 File.WriteAllBytes(outputPath, encryptedBytes);
 
-                WorkWithFiles.AfterEnc(file, "RC6", shaM, encryptedBytes, rootFolder);
+                WorkWithFiles.AfterEnc(file, "RC6", shaM, encryptedBytes, hashFolder + difference);
             });
 
         }
 
-        public void DecryptP(List<FileExtend> list, byte[] key, string rootFolder)
+        public void DecryptP(List<FileExtend> list, byte[] key, string rootFolder, string hashFolder)
         {
             GenerateKey(key);
             byte[] decryptedBytes;
@@ -306,18 +339,28 @@ namespace CryptoServer.Algorithms
 
             Parallel.ForEach(list, file =>
             {
-                if (file.FileName.EndsWith("_encRC6", StringComparison.OrdinalIgnoreCase))
-                {
+                initialRoot = list[0].FilePath;
+                //if (file.FileName.EndsWith("_encRC6", StringComparison.OrdinalIgnoreCase))
+                //{
                     string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
 
-                    string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6"), file.FileName.Substring(0, file.FileName.Length - 7) + "_decRC6" + file.FileExtension);
+                    //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6"), file.FileName.Substring(0, file.FileName.Length - 7) + "_decRC6" + file.FileExtension);
 
-                    if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6")))
+                    //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6")))
+                    //{
+                    //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6"));
+                    //}
+
+                    string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
+
+                    string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
+
+                    if (!Directory.Exists(rootFolder + difference))
                     {
-                        Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6"));
+                        Directory.CreateDirectory(rootFolder + difference);
                     }
 
-                    WorkWithFiles.BeforeDec(file, "RC6", shaM, rootFolder);
+                    WorkWithFiles.BeforeDec(file, "RC6", shaM, hashFolder + difference);
 
 
                     uint A, B, C, D;
@@ -363,9 +406,9 @@ namespace CryptoServer.Algorithms
 
                     File.WriteAllBytes(outputPath, finallyDecryptedBytes);
 
-                    WorkWithFiles.AfterDec(file, "RC6", shaM, finallyDecryptedBytes, rootFolder);
+                    WorkWithFiles.AfterDec(file, "RC6", shaM, finallyDecryptedBytes, hashFolder + difference);
 
-                }
+                //}
             });
         }
     }
