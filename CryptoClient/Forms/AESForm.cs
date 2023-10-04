@@ -134,13 +134,12 @@ namespace CryptoClient.Forms
                     {
                         break;
                     }
-                    //SetProgress(i);
                     Invoke(new Action(() =>
                     {
                         this.progressDone.Value = i;
                     }));
                     await Task.Delay(1000);
-                }
+                }   
             }, cancellationTokenSource.Token);
         }
         private void DisableControls()
@@ -242,10 +241,6 @@ namespace CryptoClient.Forms
                     stopwatch.Stop();
                     this.enc = true;
                     timer.Start();
-
-
-                    //listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(rootFolder) + "_encAES"));
-
                     listRawFiles = FilesAndFolders.FromListToArray(FilesAndFolders.ReadAllFiles(rootFolder = FilesAndFolders.OpenFolder(encFolder)));
                     message = "";
 

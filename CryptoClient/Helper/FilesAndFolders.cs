@@ -19,21 +19,17 @@ namespace CryptoClient.Helper
                 using (FolderBrowserDialog fbd = new FolderBrowserDialog())
                 {
                     fbd.Description = "Select a Folder";
-
                     if (fbd.ShowDialog() == DialogResult.OK)
                     {
                         return fbd.SelectedPath;
                     }
                 }
-
                 return null;
             }
-
             else
             {
                 return rootFolder;
             }
-
         }
 
         public static T[] FromListToArray<T>(List<T> list)

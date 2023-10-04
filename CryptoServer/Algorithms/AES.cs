@@ -27,24 +27,10 @@ namespace CryptoServer.Algorithms
                 myAes.IV = IV;
                 myAes.Mode = CipherMode.CBC;
 
-                // Create an encryptor to perform the stream transform.
                 ICryptoTransform encryptor = myAes.CreateEncryptor(myAes.Key, myAes.IV);
 
                 foreach (FileExtend file in list)
                 {
-
-                    //stara verzija
-
-                    //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder + "_encAES"), file.FileName + "_encAES" + file.FileExtension);
-
-                    //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encAES")))
-                    //{
-                    //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encAES"));
-                    //}
-
-                    //nova verzija
-
-
                     string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
 
                     string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);

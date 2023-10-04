@@ -194,10 +194,10 @@
             this.btnAesAllFiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAesAllFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnAesAllFiles.ForeColor = System.Drawing.Color.AntiqueWhite;
-            this.btnAesAllFiles.Location = new System.Drawing.Point(265, 200);
+            this.btnAesAllFiles.Location = new System.Drawing.Point(265, 187);
             this.btnAesAllFiles.Margin = new System.Windows.Forms.Padding(4);
             this.btnAesAllFiles.Name = "btnAesAllFiles";
-            this.btnAesAllFiles.Size = new System.Drawing.Size(110, 48);
+            this.btnAesAllFiles.Size = new System.Drawing.Size(110, 61);
             this.btnAesAllFiles.TabIndex = 17;
             this.btnAesAllFiles.Text = "Show all files";
             this.btnAesAllFiles.UseVisualStyleBackColor = false;

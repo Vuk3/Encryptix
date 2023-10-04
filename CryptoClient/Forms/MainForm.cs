@@ -59,6 +59,7 @@ namespace CryptoClient
         private void btnChooseFolder_Click(object sender, EventArgs e)
         {
             rootFolder = FilesAndFolders.OpenFolder(null);
+
             if (rootFolder != null)
             {
                 myLoader.Visible = true;
@@ -89,8 +90,6 @@ namespace CryptoClient
                     myLoader.Visible = false;
 
                 }, TaskScheduler.FromCurrentSynchronizationContext());
-
-               
             }
 
 
@@ -142,7 +141,6 @@ namespace CryptoClient
                 offset = new Point(e.X, e.Y);
             }
         }
-
         private void MainForm_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -150,7 +148,6 @@ namespace CryptoClient
                 isDragging = false;
             }
         }
-
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
             if (isDragging)
