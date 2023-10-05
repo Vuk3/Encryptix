@@ -49,10 +49,10 @@
             // 
             // btnChooseFolder
             // 
-            this.btnChooseFolder.Location = new System.Drawing.Point(128, 221);
-            this.btnChooseFolder.Margin = new System.Windows.Forms.Padding(4);
+            this.btnChooseFolder.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnChooseFolder.Location = new System.Drawing.Point(96, 180);
             this.btnChooseFolder.Name = "btnChooseFolder";
-            this.btnChooseFolder.Size = new System.Drawing.Size(120, 50);
+            this.btnChooseFolder.Size = new System.Drawing.Size(90, 41);
             this.btnChooseFolder.TabIndex = 0;
             this.btnChooseFolder.Text = "Choose folder";
             this.btnChooseFolder.UseVisualStyleBackColor = true;
@@ -62,10 +62,9 @@
             // 
             this.lblTotalFiles.AutoSize = true;
             this.lblTotalFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lblTotalFiles.Location = new System.Drawing.Point(22, 294);
-            this.lblTotalFiles.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTotalFiles.Location = new System.Drawing.Point(16, 239);
             this.lblTotalFiles.Name = "lblTotalFiles";
-            this.lblTotalFiles.Size = new System.Drawing.Size(252, 18);
+            this.lblTotalFiles.Size = new System.Drawing.Size(205, 15);
             this.lblTotalFiles.TabIndex = 1;
             this.lblTotalFiles.Text = "You have successfully read a total of ";
             this.lblTotalFiles.Click += new System.EventHandler(this.label1_Click);
@@ -78,10 +77,9 @@
             this.btnAes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.btnAes.ForeColor = System.Drawing.Color.AntiqueWhite;
-            this.btnAes.Location = new System.Drawing.Point(0, 316);
-            this.btnAes.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAes.Location = new System.Drawing.Point(0, 257);
             this.btnAes.Name = "btnAes";
-            this.btnAes.Size = new System.Drawing.Size(126, 84);
+            this.btnAes.Size = new System.Drawing.Size(94, 68);
             this.btnAes.TabIndex = 2;
             this.btnAes.Text = "AES";
             this.btnAes.UseVisualStyleBackColor = false;
@@ -95,10 +93,9 @@
             this.btnRC6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRC6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.btnRC6.ForeColor = System.Drawing.Color.AntiqueWhite;
-            this.btnRC6.Location = new System.Drawing.Point(128, 316);
-            this.btnRC6.Margin = new System.Windows.Forms.Padding(4);
+            this.btnRC6.Location = new System.Drawing.Point(96, 257);
             this.btnRC6.Name = "btnRC6";
-            this.btnRC6.Size = new System.Drawing.Size(126, 84);
+            this.btnRC6.Size = new System.Drawing.Size(94, 68);
             this.btnRC6.TabIndex = 3;
             this.btnRC6.Text = "RC6";
             this.btnRC6.UseVisualStyleBackColor = false;
@@ -112,10 +109,9 @@
             this.btnXXTEA.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnXXTEA.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnXXTEA.ForeColor = System.Drawing.Color.AntiqueWhite;
-            this.btnXXTEA.Location = new System.Drawing.Point(256, 316);
-            this.btnXXTEA.Margin = new System.Windows.Forms.Padding(4);
+            this.btnXXTEA.Location = new System.Drawing.Point(192, 257);
             this.btnXXTEA.Name = "btnXXTEA";
-            this.btnXXTEA.Size = new System.Drawing.Size(126, 84);
+            this.btnXXTEA.Size = new System.Drawing.Size(94, 68);
             this.btnXXTEA.TabIndex = 4;
             this.btnXXTEA.Text = "XXTEA";
             this.btnXXTEA.UseVisualStyleBackColor = false;
@@ -125,9 +121,10 @@
             // 
             this.lblMainTitle.AutoSize = true;
             this.lblMainTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lblMainTitle.Location = new System.Drawing.Point(85, 108);
+            this.lblMainTitle.Location = new System.Drawing.Point(64, 88);
+            this.lblMainTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMainTitle.Name = "lblMainTitle";
-            this.lblMainTitle.Size = new System.Drawing.Size(205, 29);
+            this.lblMainTitle.Size = new System.Drawing.Size(160, 24);
             this.lblMainTitle.TabIndex = 6;
             this.lblMainTitle.Text = "Confidently Guard";
             // 
@@ -135,9 +132,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(95, 137);
+            this.label1.Location = new System.Drawing.Point(71, 111);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(189, 29);
+            this.label1.Size = new System.Drawing.Size(147, 24);
             this.label1.TabIndex = 9;
             this.label1.Text = "Your Information";
             // 
@@ -145,9 +143,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(60, 197);
+            this.label2.Location = new System.Drawing.Point(45, 160);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(259, 20);
+            this.label2.Size = new System.Drawing.Size(218, 17);
             this.label2.TabIndex = 10;
             this.label2.Text = "Select the files to encrypt/decrypt";
             // 
@@ -156,9 +155,10 @@
             this.lblOneFile.AutoSize = true;
             this.lblOneFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.lblOneFile.ForeColor = System.Drawing.Color.Red;
-            this.lblOneFile.Location = new System.Drawing.Point(67, 275);
+            this.lblOneFile.Location = new System.Drawing.Point(50, 223);
+            this.lblOneFile.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblOneFile.Name = "lblOneFile";
-            this.lblOneFile.Size = new System.Drawing.Size(257, 22);
+            this.lblOneFile.Size = new System.Drawing.Size(209, 18);
             this.lblOneFile.TabIndex = 14;
             this.lblOneFile.Text = "You must read at least one file!";
             // 
@@ -166,9 +166,10 @@
             // 
             this.pictureBox2.BackgroundImage = global::CryptoClient.Properties.Resources.justLogoTransparent;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox2.Location = new System.Drawing.Point(1, 3);
+            this.pictureBox2.Location = new System.Drawing.Point(1, 2);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(71, 62);
+            this.pictureBox2.Size = new System.Drawing.Size(53, 50);
             this.pictureBox2.TabIndex = 13;
             this.pictureBox2.TabStop = false;
             // 
@@ -177,9 +178,10 @@
             this.imgExit.BackgroundImage = global::CryptoClient.Properties.Resources.XredTransparent;
             this.imgExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.imgExit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgExit.Location = new System.Drawing.Point(332, 12);
+            this.imgExit.Location = new System.Drawing.Point(249, 10);
+            this.imgExit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.imgExit.Name = "imgExit";
-            this.imgExit.Size = new System.Drawing.Size(41, 30);
+            this.imgExit.Size = new System.Drawing.Size(31, 24);
             this.imgExit.TabIndex = 8;
             this.imgExit.TabStop = false;
             this.imgExit.Click += new System.EventHandler(this.imgExit_Click);
@@ -188,9 +190,10 @@
             // 
             this.pictureBox1.BackgroundImage = global::CryptoClient.Properties.Resources.justTextTransparent;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox1.Location = new System.Drawing.Point(90, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(68, 2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(222, 62);
+            this.pictureBox1.Size = new System.Drawing.Size(166, 50);
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
             // 
@@ -198,19 +201,20 @@
             // 
             this.myLoader.Image = global::CryptoClient.Properties.Resources.loaderGray1;
             this.myLoader.InitialImage = global::CryptoClient.Properties.Resources.redLoader;
-            this.myLoader.Location = new System.Drawing.Point(267, 220);
+            this.myLoader.Location = new System.Drawing.Point(200, 179);
+            this.myLoader.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.myLoader.Name = "myLoader";
-            this.myLoader.Size = new System.Drawing.Size(56, 51);
+            this.myLoader.Size = new System.Drawing.Size(42, 41);
             this.myLoader.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.myLoader.TabIndex = 5;
             this.myLoader.TabStop = false;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.ClientSize = new System.Drawing.Size(382, 400);
+            this.ClientSize = new System.Drawing.Size(286, 325);
             this.Controls.Add(this.lblOneFile);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label2);
@@ -225,7 +229,6 @@
             this.Controls.Add(this.lblTotalFiles);
             this.Controls.Add(this.btnChooseFolder);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.Text = "Encryptix";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);

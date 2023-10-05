@@ -59,7 +59,7 @@ namespace CryptoClient
         private void btnChooseFolder_Click(object sender, EventArgs e)
         {
             rootFolder = FilesAndFolders.OpenFolder(null);
-
+            lblTotalFiles.Text = lblTotalFilesDefault;
             if (rootFolder != null)
             {
                 myLoader.Visible = true;
