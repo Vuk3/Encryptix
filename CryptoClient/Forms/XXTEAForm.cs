@@ -175,10 +175,21 @@ namespace CryptoClient.Forms
 
         }
 
-        private bool ValidateInputs()
+        private bool ValidateInputs(bool isEnc)
         {
+            message = "";
             if (inputXXTEAKey.Text.Length != 16)
                 message += "The key must consist of 16 characters.\n";
+            if (isEnc)
+            {
+                if (inputAESFolderEncReal.Text == "")
+                    message += "Folder for storing encrypted files must be selected.\n";
+            }
+            else
+            {
+                if (inputAESFolderDecReal.Text == "")
+                    message += "Folder for storing decrypted files must be selected.\n";
+            }
             if (inputAESFolderHashReal.Text == "")
                 message += "Folder for storing hash files must be selected.\n";
 
@@ -189,10 +200,7 @@ namespace CryptoClient.Forms
         }
         private void btnXXTEAEnc_Click(object sender, EventArgs e)
         {
-            message = "";
-            if (inputAESFolderEncReal.Text == "")
-                message += "Folder for storing encrypted files must be selected.\n";
-            if (ValidateInputs())
+            if (ValidateInputs(true))
             {
                 XXTEAKeytxt = this.inputXXTEAKey.Text;
 
@@ -247,10 +255,7 @@ namespace CryptoClient.Forms
 
         private void btnXXTEADec_Click(object sender, EventArgs e)
         {
-            message = "";
-            if (inputAESFolderDecReal.Text == "")
-                message += "Folder for storing decrypted files must be selected.\n";
-            if (ValidateInputs())
+            if (ValidateInputs(false))
             {
                 XXTEAKeytxt = this.inputXXTEAKey.Text;
 

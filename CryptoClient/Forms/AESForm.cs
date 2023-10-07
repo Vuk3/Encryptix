@@ -183,12 +183,23 @@ namespace CryptoClient.Forms
 
         }
 
-        private bool ValidateInputs()
+        private bool ValidateInputs(bool isEnc)
         {
+            message = "";
             if (inputAesKey.Text.Length != 32)
                 message += "The key must consist of 32 characters.\n";
             if (inputAesIV.Text.Length != 16)
                 message += "The IV must consist of 16 characters.\n";
+            if (isEnc)
+            {
+                if (inputAESFolderEncReal.Text == "")
+                    message += "Folder for storing encrypted files must be selected.\n";
+            }
+            else
+            {
+                if (inputAESFolderDecReal.Text == "")
+                    message += "Folder for storing decrypted files must be selected.\n";
+            }
             if (inputAESFolderHashReal.Text == "")
                 message += "Folder for storing hash files must be selected.\n";
 
@@ -199,10 +210,8 @@ namespace CryptoClient.Forms
         }
         private void btnAesEnc_Click(object sender, EventArgs e)
         {
-            message = "";
-            if (inputAESFolderEncReal.Text == "")
-                message += "Folder for storing encrypted files must be selected.\n";
-            if (ValidateInputs())
+
+            if (ValidateInputs(true))
             {
                 aesIVtxt = this.inputAesIV.Text;
                 aesKeytxt = this.inputAesKey.Text;
@@ -257,10 +266,7 @@ namespace CryptoClient.Forms
 
         private void btnAesDec_Click(object sender, EventArgs e)
         {
-            message = "";
-            if (inputAESFolderDecReal.Text == "")
-                message += "Folder for storing decrypted files must be selected.\n";
-            if (ValidateInputs())
+            if (ValidateInputs(false))
             {
                 aesIVtxt = this.inputAesIV.Text;
                 aesKeytxt = this.inputAesKey.Text;
