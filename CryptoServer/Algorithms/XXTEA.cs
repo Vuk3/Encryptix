@@ -11,7 +11,7 @@ namespace CryptoServer.Algorithms
 {
     internal class XXTEA
     {
-        private readonly HashMD5 shaM;
+        private readonly Hash shaM;
 
         private const uint Delta = 0x9e3779b9;
 
@@ -19,7 +19,7 @@ namespace CryptoServer.Algorithms
 
         public XXTEA()
         {
-            shaM = new HashMD5();
+            shaM = new Hash();
         }
         private static uint MX(uint sum, uint y, uint z, int p, uint e, uint[] k)
         {

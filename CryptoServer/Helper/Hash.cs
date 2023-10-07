@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace CryptoServer.Helper
 {
-    public class HashMD5
+    public class Hash
     {
 
         private SHA512 shaM;
-        public HashMD5()
+        public Hash()
         {
             shaM = new SHA512Managed();
         }

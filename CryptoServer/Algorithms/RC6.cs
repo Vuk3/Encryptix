@@ -13,7 +13,7 @@ namespace CryptoServer.Algorithms
 {
     internal class RC6
     {
-        private readonly HashMD5 shaM;
+        private readonly Hash shaM;
 
         private const int R = 20;
         private static uint[] S = new uint[2 * R + 4];
@@ -26,7 +26,7 @@ namespace CryptoServer.Algorithms
 
         public RC6()
         {
-            shaM = new HashMD5();
+            shaM = new Hash();
         }
 
         private static byte[] GetBytes(uint[] uints, int Long)
@@ -88,13 +88,6 @@ namespace CryptoServer.Algorithms
                 initialRoot = list[0].FilePath;
                 byte[] encryptedBytes;
 
-                //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6"), file.FileName + "_encRC6" + file.FileExtension);
-
-                //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6")))
-                //{
-                //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder + "_encRC6"));
-                //}
-
                 string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
 
                 string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
@@ -111,9 +104,8 @@ namespace CryptoServer.Algorithms
                 //---------------------------------------------------------------------------------
 
 
-                uint A, B, C, D;
+
                 int originalLength = file.FileBytes.Length;
-                
                 int paddedLength = originalLength;
                 while (paddedLength % 16 != 0)
                     paddedLength++;
@@ -121,13 +113,16 @@ namespace CryptoServer.Algorithms
                 file.FileBytes.CopyTo(newBytes, 0);
 
                 byte[] lengthBytes = BitConverter.GetBytes(originalLength);
+
                 byte[] bytesToEncrypt = new byte[lengthBytes.Length + newBytes.Length];
                 lengthBytes.CopyTo(bytesToEncrypt, 0);
                 newBytes.CopyTo(bytesToEncrypt, lengthBytes.Length);
 
-
                 encryptedBytes = new byte[bytesToEncrypt.Length];
                 lengthBytes.CopyTo(encryptedBytes, 0);
+                
+                
+                uint A, B, C, D;
                 for (int i = 4; i < bytesToEncrypt.Length; i = i + 16)
                 {
                     A = BitConverter.ToUInt32(bytesToEncrypt, i);
@@ -172,75 +167,64 @@ namespace CryptoServer.Algorithms
             foreach (FileExtend file in list)
             {
                 initialRoot = list[0].FilePath;
-                //if (file.FileName.EndsWith("_encRC6", StringComparison.OrdinalIgnoreCase))
-                //{
-                    string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
 
-                    //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6"), file.FileName.Substring(0, file.FileName.Length - 7) + "_decRC6" + file.FileExtension);
+                string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
 
-                    //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6")))
-                    //{
-                    //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decRC6"));
-                    //}
+                string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
 
-                    string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
+                string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
 
-                    string outputPath = Path.Combine(rootFolder + difference, file.FileName + file.FileExtension);
+                if (!Directory.Exists(rootFolder + difference))
+                {
+                    Directory.CreateDirectory(rootFolder + difference);
+                }
 
-                    if (!Directory.Exists(rootFolder + difference))
+                WorkWithFiles.BeforeDec(file, "RC6", shaM, hashFolder + difference);
+
+
+                uint A, B, C, D;
+                int i;
+
+                int decryptedLength = BitConverter.ToInt32(file.FileBytes, 0);
+
+                decryptedBytes = new byte[file.FileBytes.Length];
+                Array.Copy(file.FileBytes, sizeof(int), decryptedBytes, 0, decryptedLength);
+
+                for (i = 4; i < file.FileBytes.Length; i = i + 16)
+                {
+                    A = BitConverter.ToUInt32(file.FileBytes, i);
+                    B = BitConverter.ToUInt32(file.FileBytes, i + 4);
+                    C = BitConverter.ToUInt32(file.FileBytes, i + 8);
+                    D = BitConverter.ToUInt32(file.FileBytes, i + 12);
+                    C -= S[2 * R + 3];
+                    A -= S[2 * R + 2];
+                    for (int j = R; j >= 1; j--)
                     {
-                        Directory.CreateDirectory(rootFolder + difference);
+                        uint temp = D;
+                        D = C;
+                        C = B;
+                        B = A;
+                        A = temp;
+                        uint u = RotateLeft((D * (2 * D + 1)), (int)Math.Log(W, 2));
+                        uint t = RotateLeft((B * (2 * B + 1)), (int)Math.Log(W, 2));
+                        C = RotateRight((C - S[2 * j + 1]), (int)t) ^ u;
+                        A = RotateRight((A - S[2 * j]), (int)u) ^ t;
                     }
+                    D -= S[1];
+                    B -= S[0];
+                    uint[] tempWords = new uint[4] { A, B, C, D };
+                    byte[] block = GetBytes(tempWords, 4);
+                    block.CopyTo(decryptedBytes, i);
+                }
 
-                    WorkWithFiles.BeforeDec(file, "RC6", shaM, hashFolder + difference);
+                finallyDecryptedBytes = new byte[decryptedLength];
 
-
-                    uint A, B, C, D;
-                    int i;
-
-                    int decryptedLength = BitConverter.ToInt32(file.FileBytes, 0);
-
-                    decryptedBytes = new byte[file.FileBytes.Length];
-                    Array.Copy(file.FileBytes, sizeof(int), decryptedBytes, 0, decryptedLength);
-
-                    for (i = 4; i < file.FileBytes.Length; i = i + 16)
-                    {
-                        A = BitConverter.ToUInt32(file.FileBytes, i);
-                        B = BitConverter.ToUInt32(file.FileBytes, i + 4);
-                        C = BitConverter.ToUInt32(file.FileBytes, i + 8);
-                        D = BitConverter.ToUInt32(file.FileBytes, i + 12);
-                        C -= S[2 * R + 3];
-                        A -= S[2 * R + 2];
-                        for (int j = R; j >= 1; j--)
-                        {
-                            uint temp = D;
-                            D = C;
-                            C = B;
-                            B = A;
-                            A = temp;
-                            uint u = RotateLeft((D * (2 * D + 1)), (int)Math.Log(W, 2));
-                            uint t = RotateLeft((B * (2 * B + 1)), (int)Math.Log(W, 2));
-                            C = RotateRight((C - S[2 * j + 1]), (int)t) ^ u;
-                            A = RotateRight((A - S[2 * j]), (int)u) ^ t;
-                        }
-                        D -= S[1];
-                        B -= S[0];
-                        uint[] tempWords = new uint[4] { A, B, C, D };
-                        byte[] block = GetBytes(tempWords, 4);
-                        block.CopyTo(decryptedBytes, i);
-                    }
-
-                    finallyDecryptedBytes = new byte[decryptedLength];
-
-                    Array.Copy(decryptedBytes, 4, finallyDecryptedBytes, 0, decryptedLength);
+                Array.Copy(decryptedBytes, 4, finallyDecryptedBytes, 0, decryptedLength);
 
 
-                    File.WriteAllBytes(outputPath, finallyDecryptedBytes);
+                File.WriteAllBytes(outputPath, finallyDecryptedBytes);
 
-                    WorkWithFiles.AfterDec(file, "RC6", shaM, finallyDecryptedBytes, hashFolder + difference);
-
-                //}
-
+                WorkWithFiles.AfterDec(file, "RC6", shaM, finallyDecryptedBytes, hashFolder + difference);
             }
         }
 

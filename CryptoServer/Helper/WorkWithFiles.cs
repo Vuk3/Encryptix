@@ -10,10 +10,8 @@ namespace CryptoServer.Helper
 {
     internal class WorkWithFiles
     {
-        public static void BeforeEnc(FileExtend file, string algorithm, HashMD5 shaM, string rootFolder)
+        public static void BeforeEnc(FileExtend file, string algorithm, Hash shaM, string rootFolder)
         {
-
-
             if (!Directory.Exists(rootFolder))
             {
                 Directory.CreateDirectory(rootFolder);
@@ -26,12 +24,9 @@ namespace CryptoServer.Helper
             string valueHashBeforeEnc = shaM.GetString(shaM.GetBytes(file.FileBytes));
 
             File.AppendAllText(Path.Combine(rootFolder, file.FileName + ".txt"), valueHashBeforeEnc + Environment.NewLine + Environment.NewLine);
-
-
-
         }
 
-        public static void AfterEnc(FileExtend file, string algorithm, HashMD5 shaM, byte[] encryptedBytes, string rootFolder)
+        public static void AfterEnc(FileExtend file, string algorithm, Hash shaM, byte[] encryptedBytes, string rootFolder)
         {
 
             if (!Directory.Exists(rootFolder))
@@ -47,7 +42,7 @@ namespace CryptoServer.Helper
 
             File.AppendAllText(Path.Combine(rootFolder, file.FileName + ".txt"), valueHashAfterEnc + Environment.NewLine + Environment.NewLine);
         }
-        public static void BeforeDec(FileExtend file, string algorithm, HashMD5 shaM, string rootFolder)
+        public static void BeforeDec(FileExtend file, string algorithm, Hash shaM, string rootFolder)
         {
 
             if (!Directory.Exists(rootFolder))
@@ -63,7 +58,7 @@ namespace CryptoServer.Helper
 
             File.AppendAllText(Path.Combine(rootFolder, file.FileName + ".txt"), valueHashBeforeDec + Environment.NewLine + Environment.NewLine);
         }
-        public static void AfterDec(FileExtend file, string algorithm, HashMD5 shaM, byte[] decryptedBytes, string rootFolder)
+        public static void AfterDec(FileExtend file, string algorithm, Hash shaM, byte[] decryptedBytes, string rootFolder)
         {
 
             if (!Directory.Exists(rootFolder))

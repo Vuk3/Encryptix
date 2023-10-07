@@ -11,11 +11,12 @@ namespace CryptoServer.Algorithms
 {
     internal class AES
     {
-        private readonly HashMD5 shaM;
         private string initialRoot;
+       
+        private readonly Hash hash;
         public AES()
         {
-            shaM = new HashMD5();
+            hash = new Hash();
         }
         public void Encrypt(List<FileExtend> list, byte[] key, byte[] IV, string rootFolder, string hashFolder)
         {
@@ -40,19 +41,18 @@ namespace CryptoServer.Algorithms
                         Directory.CreateDirectory(rootFolder + difference);
                     }
 
-                    WorkWithFiles.BeforeEnc(file, "AES", shaM, hashFolder + difference);
+                    WorkWithFiles.BeforeEnc(file, "AES", hash, hashFolder + difference);
 
                     using (FileStream fsEncryptedOutput = new FileStream(outputPath, FileMode.Create))
                     {
                         using (CryptoStream csEncrypt = new CryptoStream(fsEncryptedOutput, encryptor, CryptoStreamMode.Write))
                         {
-                            // Write the encrypted file bytes to the CryptoStream
                             csEncrypt.Write(file.FileBytes, 0, file.FileBytes.Length);
                         }
                     }
 
                     byte[] encryptedBytes = File.ReadAllBytes(outputPath);
-                    WorkWithFiles.AfterEnc(file, "AES", shaM, encryptedBytes, hashFolder + difference);
+                    WorkWithFiles.AfterEnc(file, "AES", hash, encryptedBytes, hashFolder + difference);
 
                 }
             }
@@ -67,28 +67,11 @@ namespace CryptoServer.Algorithms
                 myAes.IV = IV;
                 myAes.Mode = CipherMode.CBC;
 
-                // Create a decryptor to perform the stream transform.
                 ICryptoTransform decryptor = myAes.CreateDecryptor(myAes.Key, myAes.IV);
 
                 foreach (FileExtend file in list)
                 {
-                    // Construct the output file path for the decrypted file
-                    //if(file.FileName.EndsWith("_encAES", StringComparison.OrdinalIgnoreCase)){
-
-
-                        string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
-
-                    //stara verzija
-
-                    //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES"), file.FileName.Substring(0, file.FileName.Length-7) + "_decAES" + file.FileExtension);
-
-                    //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES")))
-                    //{
-                    //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 7) + "_decAES"));
-                    //}
-
-                    //nova verzija
-
+                    string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
 
                     string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
 
@@ -99,7 +82,7 @@ namespace CryptoServer.Algorithms
                         Directory.CreateDirectory(rootFolder + difference);
                     }
 
-                    WorkWithFiles.BeforeDec(file, "AES", shaM, hashFolder + difference);
+                    WorkWithFiles.BeforeDec(file, "AES", hash, hashFolder + difference);
 
                         using (FileStream fsEncryptedInput = new FileStream(inputPath, FileMode.Open))
                         {
@@ -110,7 +93,6 @@ namespace CryptoServer.Algorithms
                                     byte[] buffer = new byte[4096];
                                     int bytesRead;
 
-                                    // Read from the CryptoStream and write decrypted data to the output file
                                     while ((bytesRead = csDecrypt.Read(buffer, 0, buffer.Length)) > 0)
                                     {
                                         fsDecryptedOutput.Write(buffer, 0, bytesRead);
@@ -120,7 +102,7 @@ namespace CryptoServer.Algorithms
                         }
 
                         byte[] decryptedBytes = File.ReadAllBytes(outputPath);
-                        WorkWithFiles.AfterDec(file, "AES", shaM, decryptedBytes, hashFolder + difference);
+                        WorkWithFiles.AfterDec(file, "AES", hash, decryptedBytes, hashFolder + difference);
 
                     //}
 
@@ -166,7 +148,7 @@ namespace CryptoServer.Algorithms
                         Directory.CreateDirectory(rootFolder + difference);
                     }
 
-                    WorkWithFiles.BeforeEnc(file, "AES", shaM, hashFolder + difference);
+                    WorkWithFiles.BeforeEnc(file, "AES", hash, hashFolder + difference);
 
                     using (FileStream fsEncryptedOutput = new FileStream(outputPath, FileMode.Create))
                     {
@@ -178,7 +160,7 @@ namespace CryptoServer.Algorithms
                     }
 
                     byte[] encryptedBytes = File.ReadAllBytes(outputPath);
-                    WorkWithFiles.AfterEnc(file, "AES", shaM, encryptedBytes, hashFolder + difference);
+                    WorkWithFiles.AfterEnc(file, "AES", hash, encryptedBytes, hashFolder + difference);
 
 
                 });
@@ -221,7 +203,7 @@ namespace CryptoServer.Algorithms
                         Directory.CreateDirectory(rootFolder + difference);
                     }
 
-                    WorkWithFiles.BeforeDec(file, "AES", shaM, hashFolder + difference);
+                    WorkWithFiles.BeforeDec(file, "AES", hash, hashFolder + difference);
 
                         using (FileStream fsEncryptedInput = new FileStream(inputPath, FileMode.Open))
                         {
@@ -242,7 +224,7 @@ namespace CryptoServer.Algorithms
                         }
 
                         byte[] decryptedBytes = File.ReadAllBytes(outputPath);
-                        WorkWithFiles.AfterDec(file, "AES", shaM, decryptedBytes, hashFolder + difference);
+                        WorkWithFiles.AfterDec(file, "AES", hash, decryptedBytes, hashFolder + difference);
 
                     //}
                 });

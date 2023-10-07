@@ -48,7 +48,7 @@
     <Compile Include="Algorithms\AES.cs" />
     <Compile Include="Algorithms\RC6.cs" />
     <Compile Include="Algorithms\XXTEA.cs" />
-    <Compile Include="Helper\HashMD5.cs" />
+    <Compile Include="Helper\Hash.cs" />
     <Compile Include="Helper\WorkWithFiles.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="Helper\FileExtend.cs" />
