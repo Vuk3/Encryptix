@@ -88,8 +88,9 @@ namespace CryptoServer.Algorithms
                     paddedLength++;
                 byte[] newBytes = new byte[paddedLength];
                 file.FileBytes.CopyTo(newBytes, 0);
-                byte[] lengthBytes = BitConverter.GetBytes(originalLength);
 
+
+                byte[] lengthBytes = BitConverter.GetBytes(originalLength);
 
                 encryptedBytes = new byte[lengthBytes.Length + newBytes.Length];
                 lengthBytes.CopyTo(encryptedBytes, 0);
