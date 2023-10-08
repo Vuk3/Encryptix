@@ -152,11 +152,10 @@ namespace CryptoClient.Forms
         }
         private void EnableControls()
         {
-
             inputAesIV.Enabled = true;
             inputAesKey.Enabled = true;
             btnAesDec.Enabled = true;
-            btnAesEnc.Enabled = true;
+            btnAesEnc.Enabled = true;   
             cbxAESPar.Enabled = true;
         }
         private void TimerElapsed(object sender, ElapsedEventArgs e)
@@ -180,7 +179,6 @@ namespace CryptoClient.Forms
 
                 }
             }));
-
         }
 
         private bool ValidateInputs(bool isEnc)
@@ -325,6 +323,8 @@ namespace CryptoClient.Forms
         }
 
         //------------ Dragging form -----------------------
+
+
         private bool isDragging;
         private Point offset;
         private void AESForm_MouseDown(object sender, MouseEventArgs e)
@@ -335,7 +335,6 @@ namespace CryptoClient.Forms
                 offset = new Point(e.X, e.Y);
             }
         }
-
         private void AESForm_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -343,7 +342,6 @@ namespace CryptoClient.Forms
                 isDragging = false;
             }
         }
-
         private void AESForm_MouseMove(object sender, MouseEventArgs e)
         {
             if (isDragging)
@@ -352,6 +350,8 @@ namespace CryptoClient.Forms
                 Location = new Point(currentScreenPos.X - offset.X, currentScreenPos.Y - offset.Y);
             }
         }
+
+
 
         // TREE VIEW
 
@@ -378,10 +378,8 @@ namespace CryptoClient.Forms
         private void PopulateTreeView(string rootDirectory)
         {
             DirectoryInfo directoryInfo = new DirectoryInfo(rootDirectory);
-
             if (!directoryInfo.Exists)
                 return;
-
             TreeNode rootNode = new TreeNode(directoryInfo.Name);
             rootNode.Tag = directoryInfo.FullName;
             PopulateTreeView(rootDirectory, rootNode);
@@ -399,7 +397,6 @@ namespace CryptoClient.Forms
                 parentNode.Nodes.Add(directoryNode);
                 PopulateTreeView(directory, directoryNode);
             }
-
             string[] files = Directory.GetFiles(dir);
             foreach (string file in files)
             {

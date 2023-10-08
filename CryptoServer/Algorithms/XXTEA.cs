@@ -137,20 +137,11 @@ namespace CryptoServer.Algorithms
             {
                 initialRoot = list[0].FilePath;
 
-                //if (file.FileName.EndsWith("_encXXTEA", StringComparison.OrdinalIgnoreCase))
-                //{
                 if (file.FileBytes == null || file.FileBytes.Length == 0 || key == null || key.Length != 16)
                 {
                     throw new ArgumentException("Invalid input data or key.");
                 }
                 string inputPath = Path.Combine(file.FilePath, file.FileName + file.FileExtension);
-
-                //string outputPath = Path.Combine(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA"), file.FileName.Substring(0, file.FileName.Length - 9) + "_decXXTEA" + file.FileExtension);
-
-                //if (!Directory.Exists(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA")))
-                //{
-                //    Directory.CreateDirectory(file.FilePath.Replace(rootFolder, rootFolder.Substring(0, rootFolder.Length - 9) + "_decXXTEA"));
-                //}
 
                 string difference = WorkWithFiles.FindStringDifference(initialRoot, file.FilePath);
 
@@ -165,7 +156,7 @@ namespace CryptoServer.Algorithms
 
 
 
-                int decryptedLength = BitConverter.ToInt32(file.FileBytes, 0);
+                int decryptedLength = BitConverter.ToInt32(file.FileBytes, 0);  
                 byte[] bytesForDecrypt = new byte[file.FileBytes.Length - 4];
                 Array.Copy(file.FileBytes, 4, bytesForDecrypt, 0, file.FileBytes.Length - 4);
 
@@ -200,8 +191,6 @@ namespace CryptoServer.Algorithms
                 File.WriteAllBytes(outputPath, finallyDecryptedBytes);
 
                 WorkWithFiles.AfterDec(file, "XXTEA", shaM, finallyDecryptedBytes, hashFolder + difference);
-
-                //}
             }
 
         }

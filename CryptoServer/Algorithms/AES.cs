@@ -50,10 +50,8 @@ namespace CryptoServer.Algorithms
                             csEncrypt.Write(file.FileBytes, 0, file.FileBytes.Length);
                         }
                     }
-
                     byte[] encryptedBytes = File.ReadAllBytes(outputPath);
                     WorkWithFiles.AfterEnc(file, "AES", hash, encryptedBytes, hashFolder + difference);
-
                 }
             }
         }

@@ -181,16 +181,11 @@ namespace CryptoServer.Algorithms
 
                 WorkWithFiles.BeforeDec(file, "RC6", shaM, hashFolder + difference);
 
+                int decryptedLength = BitConverter.ToInt32(file.FileBytes, 0);
+                decryptedBytes = new byte[file.FileBytes.Length - 4];
 
                 uint A, B, C, D;
-                int i;
-
-                int decryptedLength = BitConverter.ToInt32(file.FileBytes, 0);
-
-                decryptedBytes = new byte[file.FileBytes.Length];
-                Array.Copy(file.FileBytes, sizeof(int), decryptedBytes, 0, decryptedLength);
-
-                for (i = 4; i < file.FileBytes.Length; i = i + 16)
+                for (int i = 4; i < file.FileBytes.Length; i = i + 16)
                 {
                     A = BitConverter.ToUInt32(file.FileBytes, i);
                     B = BitConverter.ToUInt32(file.FileBytes, i + 4);
@@ -214,13 +209,12 @@ namespace CryptoServer.Algorithms
                     B -= S[0];
                     uint[] tempWords = new uint[4] { A, B, C, D };
                     byte[] block = GetBytes(tempWords, 4);
-                    block.CopyTo(decryptedBytes, i);
+                    block.CopyTo(decryptedBytes, i - 4);
                 }
 
                 finallyDecryptedBytes = new byte[decryptedLength];
 
-                Array.Copy(decryptedBytes, 4, finallyDecryptedBytes, 0, decryptedLength);
-
+                Array.Copy(decryptedBytes, 0, finallyDecryptedBytes, 0, decryptedLength);
 
                 File.WriteAllBytes(outputPath, finallyDecryptedBytes);
 
